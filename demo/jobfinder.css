@@ -38,5 +38,13 @@
 .jf-chip-yes{background:var(--ok-bg);color:var(--ok-fg)}
 .jf-chip-no{background:var(--bad-bg);color:var(--bad-fg)}
 
+.jf-group-label{font:9px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 6px;opacity:.8}
+.jf-opt{text-transform:none;letter-spacing:0;opacity:.7}
+.jf-link{display:inline-block;margin-top:10px;font:11px var(--mono);color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.jf-link:hover{color:#6b8d52}
+.jf-boards{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.jf-boards a{display:inline-block;border:1px solid var(--line);border-radius:4px;padding:7px 10px;font:10px var(--mono);color:var(--ink);text-decoration:none}
+.jf-boards a:hover{background:var(--green);border-color:var(--green);color:#17372e}
+
 @media(max-width:520px){.jf-row{grid-template-columns:1fr}.jf-band{display:none}}
 @media(prefers-reduced-motion:reduce){.jf-role{animation:none}}

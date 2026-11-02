@@ -39,4 +39,5 @@ Upload the `demo/` folder along with the other files when publishing to GitHub P
 - `demo/jobfinder-ui.js` / `demo/jobfinder.css` - profile controls and ranked results
 - `demo/theme.js` - dark-mode toggle shared by the sub pages
 - `demo/jobfinder.test.js` - tests; run with `node --test demo/jobfinder.test.js`
+Role links go to a live search (LinkedIn, Indeed, Reed) or the home page (other boards) of a real job board, never to the fictional listing. Job sources are defined in `demo/jobfinder-data.js`.
 The sub pages share page styling from `demo/complaint-demo.css`.

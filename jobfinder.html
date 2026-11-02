@@ -38,13 +38,16 @@
         <div class="jf-profile-head"><h2 class="cp-h">1 · Candidate profile</h2><button type="button" class="cp-reset" id="jf-reset">Reset</button></div>
 
         <div class="cp-label">Skills</div>
-        <div class="cp-presets" id="jf-skills" role="group" aria-label="Skills"></div>
+        <div id="jf-skills"></div>
 
         <div class="cp-label">Preferred locations</div>
         <div class="cp-presets" id="jf-locations" role="group" aria-label="Preferred locations"></div>
 
         <div class="cp-label">Sectors of interest</div>
         <div class="cp-presets" id="jf-sectors" role="group" aria-label="Sectors of interest"></div>
+
+        <div class="cp-label">Job sources <span class="jf-opt">(none selected = all)</span></div>
+        <div class="cp-presets" id="jf-sources" role="group" aria-label="Filter by job source"></div>
 
         <div class="jf-row">
           <label class="jf-field"><span class="cp-label">Work mode</span><select id="jf-mode"></select></label>
@@ -67,6 +70,11 @@
             <span class="jf-count" id="jf-count" aria-live="polite"></span>
           </div>
           <ol class="jf-list" id="jf-list"></ol>
+        </div>
+        <div class="cp-card">
+          <h2 class="cp-h">3 · Where to look for real roles</h2>
+          <p class="jf-hint">The roles above are fictional. Each result links to a live search for similar roles on a real board; these are the boards used.</p>
+          <ul class="jf-boards" id="jf-boards"></ul>
         </div>
       </div>
     </section>

@@ -10,11 +10,12 @@
 
   let profile = clone(D.exampleProfile);
   let weights = clone(D.defaultWeights);
+  let sourceFilter = [];
 
   // Toggle-chip groups (multi-select)
-  function chipGroup(containerId, options, key) {
+  function chipGroup(containerId, options, key, append) {
     const box = $(containerId);
-    box.replaceChildren();
+    if (!append) box.replaceChildren();
     options.forEach(name => {
       const b = el('button', 'cp-chip', name);
       b.type = 'button';
@@ -26,6 +27,50 @@
         render();
       });
       box.append(b);
+    });
+  }
+
+  function skillChip(name) {
+    const b = el('button', 'cp-chip', name);
+    b.type = 'button';
+    b.setAttribute('aria-pressed', String(profile.skills.indexOf(name) !== -1));
+    b.addEventListener('click', () => {
+      const i = profile.skills.indexOf(name);
+      if (i === -1) profile.skills.push(name); else profile.skills.splice(i, 1);
+      b.setAttribute('aria-pressed', String(i === -1));
+      render();
+    });
+    return b;
+  }
+
+  function buildSources() {
+    const box = $('jf-sources');
+    box.replaceChildren();
+    const used = Object.keys(D.sources).filter(id => D.roles.some(r => r.source === id));
+    used.forEach(id => {
+      const b = el('button', 'cp-chip', D.sources[id].label);
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(sourceFilter.indexOf(id) !== -1));
+      b.addEventListener('click', () => {
+        const i = sourceFilter.indexOf(id);
+        if (i === -1) sourceFilter.push(id); else sourceFilter.splice(i, 1);
+        b.setAttribute('aria-pressed', String(i === -1));
+        render();
+      });
+      box.append(b);
+    });
+  }
+
+  function buildBoards() {
+    const ul = $('jf-boards');
+    ul.replaceChildren();
+    Object.keys(D.sources).forEach(id => {
+      const src = D.sources[id];
+      const li = el('li');
+      const a = el('a', null, src.label + ' ↗');
+      a.href = src.home; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      li.append(a);
+      ul.append(li);
     });
   }
 
@@ -57,7 +102,17 @@
   }
 
   function buildControls() {
-    chipGroup('jf-skills', D.skills, 'skills');
+    const skillBox = $('jf-skills');
+    skillBox.replaceChildren();
+    D.skillGroups.forEach(g => {
+      skillBox.append(el('div', 'jf-group-label', g.label));
+      const row = el('div', 'cp-presets');
+      row.setAttribute('role', 'group');
+      row.setAttribute('aria-label', g.label + ' skills');
+      skillBox.append(row);
+      g.skills.forEach(name => row.append(skillChip(name)));
+    });
+    buildSources();
     chipGroup('jf-locations', D.locations, 'locations');
     chipGroup('jf-sectors', D.sectors, 'sectors');
     fillSelect('jf-mode', D.modes, 'workMode');
@@ -77,7 +132,7 @@
     const main = el('div', 'jf-role-main');
     main.append(el('h3', null, r.role.title));
     const levelLabel = D.levels.find(l => l.id === r.role.level).label;
-    main.append(el('div', 'jf-meta', `${r.role.company} · ${r.role.location} · ${r.role.mode} · £${r.role.salary}k · ${r.role.sector} · ${levelLabel}`));
+    main.append(el('div', 'jf-meta', `${r.role.company} · ${r.role.location} · ${r.role.mode} · £${r.role.salary}k · ${r.role.sector} · ${levelLabel} · via ${D.sources[r.role.source].label}`));
     head.append(score, main, el('div', 'jf-band', r.band));
     li.append(head);
 
@@ -100,6 +155,10 @@
     });
     det.append(parts);
     li.append(det);
+    const link = D.jobLink(r.role);
+    const a = el('a', 'jf-link', link.label + ' ↗');
+    a.href = link.href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    li.append(a);
     return li;
   }
 
@@ -108,7 +167,8 @@
     const norm = E.normaliseWeights(weights);
     E.COMPONENTS.forEach(c => { const out = $('jf-w-' + c.key); if (out) out.textContent = Math.round(norm[c.key]) + '%'; });
 
-    const ranked = E.rank(D.roles, profile, weights);
+    const pool = sourceFilter.length ? D.roles.filter(r => sourceFilter.indexOf(r.source) !== -1) : D.roles;
+    const ranked = E.rank(pool, profile, weights);
     // Preserve which breakdowns the visitor has open, keyed by role id
     const open = new Set([...list.querySelectorAll('li[data-id] details[open]')].map(d => d.closest('li').dataset.id));
     list.replaceChildren();
@@ -118,17 +178,19 @@
       if (open.has(r.role.id)) li.querySelector('details').open = true;
       list.append(li);
     });
-    $('jf-count').textContent = `${ranked.length} roles · best match ${ranked[0].total}/100`;
+    $('jf-count').textContent = ranked.length ? `${ranked.length} roles · best match ${ranked[0].total}/100` : 'No roles from the selected sources';
   }
 
   $('jf-salary').addEventListener('input', e => { profile.minSalary = Number(e.target.value); render(); });
   $('jf-reset').addEventListener('click', () => {
     profile = clone(D.exampleProfile);
     weights = clone(D.defaultWeights);
+    sourceFilter = [];
     buildControls();
     render();
   });
 
   buildControls();
+  buildBoards();
   render();
 })();

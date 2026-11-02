@@ -45,3 +45,25 @@ test('missing skills are reported', () => {
   const r = E.scoreRole(D.roles.find(r => r.id === 'r3'), profile({ skills: ['Excel'] }), D.defaultWeights);
   assert.deepStrictEqual(r.parts[0].missing, ['SQL', 'Power BI', 'Data analysis']);
 });
+
+test('data integrity: skills, sources and ids are consistent', () => {
+  const vocab = new Set(D.skills);
+  assert.strictEqual(vocab.size, D.skills.length, 'no duplicate skills');
+  assert.strictEqual(new Set(D.roles.map(r => r.id)).size, D.roles.length, 'unique role ids');
+  D.roles.forEach(r => {
+    r.skills.forEach(s => assert.ok(vocab.has(s), `${r.id}: unknown skill ${s}`));
+    assert.ok(D.sources[r.source], `${r.id}: unknown source ${r.source}`);
+    assert.ok(D.sectors.includes(r.sector) && D.levels.some(l => l.id === r.level), `${r.id}: bad sector/level`);
+  });
+  D.exampleProfile.skills.forEach(s => assert.ok(vocab.has(s)));
+});
+
+test('every role links to an https job-board URL', () => {
+  D.roles.forEach(r => {
+    const l = D.jobLink(r);
+    assert.ok(/^https:\/\//.test(l.href), `${r.id}: ${l.href}`);
+    assert.ok(l.label.length > 0);
+  });
+  assert.strictEqual(D.jobLink(D.roles.find(r => r.id === 'r1')).kind, 'search');
+  assert.strictEqual(D.jobLink(D.roles.find(r => r.id === 'r5')).kind, 'home');
+});
