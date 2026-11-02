@@ -25,3 +25,35 @@
 #guessed-page-frame{display:block;width:100%;height:1050px;border:0;background:#f6f2e9}
 .play-game-link{font:9px var(--mono);letter-spacing:0}
 @media(max-width:760px){.guessed-play-section .section-heading{align-items:flex-start;flex-direction:column;gap:12px}#guessed-page-frame{height:900px}}
+
+
+/* Additional portfolio interactions */
+.topbar-actions{display:flex;align-items:center;gap:18px}
+.theme-toggle,.surprise-btn{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:5px;padding:9px 11px;font:10px var(--mono);cursor:pointer;transition:.2s}
+.theme-toggle:hover,.surprise-btn:hover{border-color:#8da77b;background:#f0f5e9}
+.project-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.project-search{display:flex;align-items:center;gap:8px;background:white;border:1px solid var(--line);border-radius:5px;padding:0 11px;min-width:220px;flex:1;max-width:300px;color:#839087}
+.project-search span{font-size:20px}
+.project-search input{width:100%;min-width:0;border:0;outline:0;background:transparent;padding:10px 0;color:var(--ink);font:11px var(--sans)}
+.project-search:focus-within{border-color:#8da77b;box-shadow:0 0 0 3px #8da77b20}
+.search-status{font:9px var(--mono);color:#98a39a;margin:11px 0 0}
+.surprise-btn{white-space:nowrap}
+.project-card[hidden]{display:none!important}
+body.dark-mode{--bg:#111a17;--paper:#1b2822;--ink:#edf3ec;--muted:#a6b3a9;--line:#34443a;--deep:#b7d98c}
+body.dark-mode .sidebar{background:#0b1511}
+body.dark-mode main{color:var(--ink)}
+body.dark-mode .topbar,body.dark-mode .metrics,body.dark-mode .capabilities,body.dark-mode .about,body.dark-mode footer{border-color:var(--line)}
+body.dark-mode .crumb,body.dark-mode .intro,body.dark-mode .secondary-link,body.dark-mode .section-intro,body.dark-mode .about-copy p{color:#a9b8ad}
+body.dark-mode .project-card,body.dark-mode .capability,body.dark-mode .project-search,body.dark-mode .theme-toggle,body.dark-mode .surprise-btn,body.dark-mode .filter.active{background:#1b2822;color:var(--ink);border-color:var(--line)}
+body.dark-mode .card-content p,body.dark-mode .card-bottom,body.dark-mode .capability p{color:#a9b8ad}
+body.dark-mode .card-bottom{border-color:#34443a}
+body.dark-mode .tags span,body.dark-mode .chips i{background:#293a30;color:#c1d0c4}
+body.dark-mode .view-btn{background:#26372d;color:#dcebd4;border-color:#425348}
+body.dark-mode .project-dialog{background:#1b2822;color:#edf3ec;border-color:#34443a}
+body.dark-mode .project-dialog>p,body.dark-mode .dialog-section ul{color:#a9b8ad}
+body.dark-mode .project-dialog .chips i{background:#293a30;color:#c1d0c4}
+body.dark-mode .project-search input{color:#edf3ec}
+body.dark-mode .filter{color:#a9b8ad}
+body.dark-mode .filter:hover,body.dark-mode .theme-toggle:hover,body.dark-mode .surprise-btn:hover{background:#293a30}
+body.dark-mode .guessed-embed-shell{border-color:#34443a}
+@media(max-width:760px){.topbar-actions{gap:8px}.topbar-actions .updated{display:none}.project-search{max-width:none;flex-basis:100%}.project-tools{align-items:stretch}.filters{order:2}.surprise-btn{order:3;align-self:flex-start}}
