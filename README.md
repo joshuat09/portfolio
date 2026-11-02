@@ -18,11 +18,13 @@ A responsive static portfolio website built with HTML, CSS and vanilla JavaScrip
 - Project filters and click-to-open detail panels
 - Six project entries
 - Static front end with no framework or external API dependency
+
 ## Complaint-handling demo
-The `#complaint-demo` section is a rule-based **simulation** of the complaint agent (fictional data, no AI model, no network calls).
+The `complaints.html` sub page is a rule-based **simulation** of the complaint agent (fictional data, no AI model, no network calls).
 - `demo/complaint-data.js` - mock customers, orders, policy and preset scenarios
 - `demo/complaint-engine.js` - classifier, tool registry, safety gate and agent loop (no DOM code)
-- `demo/complaint-ui.js` - rendering and controls
+- `demo/complaint-ui.js` - rendering, controls and theme toggle
+- `demo/complaint-demo.css` - sub page styles
 - `demo/engine.test.js` - tests; run with `node --test demo/engine.test.js`
 
 Upload the `demo/` folder along with the other files when publishing to GitHub Pages.

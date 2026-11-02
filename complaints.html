@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive simulation of a bounded-autonomy AI complaint-handling agent with a tool registry, safety gate and human escalation.">
+  <title>Complaint-Handling Agent Demo — Joshua Tait</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="demo/complaint-demo.css">
+</head>
+<body>
+  <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
+  <div class="cp" role="main">
+    <header class="cp-top">
+      <a class="cp-back" href="index.html#projects">← Back to portfolio</a>
+      <div class="cp-top-actions">
+        <button class="theme-toggle palette-trigger" type="button" data-open-palette aria-label="Open command palette (Ctrl+K)">⌘K <span>Commands</span></button>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">◐ <span>Dark mode</span></button>
+      </div>
+    </header>
+
+    <section class="cp-hero">
+      <div class="eyebrow"><span class="eyebrow-line"></span> FLAGSHIP PROJECT · INTERACTIVE DEMO</div>
+      <h1>Complaint-handling agent<span>.</span></h1>
+      <p class="cp-lead">Watch a bounded-autonomy agent work through a customer complaint. It proposes tool calls, a registry validates them, and a safety gate decides what is allowed to run. Anything risky goes to a person.</p>
+      <ol class="cp-flow" aria-label="How the agent works">
+        <li>Complaint</li><li>Agent</li><li>Tool registry</li><li>Safety gate</li><li>Decision</li>
+      </ol>
+      <p class="cp-sim"><strong>This is a simulation.</strong> It mirrors the architecture of my Python prototype using fixed rules and fictional data. It runs entirely in your browser: no AI model, no network calls, nothing is sent anywhere.</p>
+    </section>
+
+    <section class="cp-app">
+      <div class="cp-card cp-input">
+        <h2 class="cp-h">1 · Complaint</h2>
+        <div class="cp-presets" id="cd-presets" role="group" aria-label="Example complaints"></div>
+        <label class="cp-label" for="cd-input">Or write your own</label>
+        <textarea id="cd-input" rows="5" maxlength="500" placeholder="Include an order number such as ORD-1001."></textarea>
+        <label class="cp-check"><input type="checkbox" id="cd-stress"> Stress test: the model suggests an unsafe action</label>
+        <div class="cp-actions">
+          <button type="button" class="primary-btn cp-run" id="cd-run">Run agent <span>↘</span></button>
+          <button type="button" class="cp-reset" id="cd-reset">Reset</button>
+        </div>
+        <details class="cp-data">
+          <summary>Sample orders</summary>
+          <div class="cp-table-wrap"><table id="cd-orders"><thead><tr><th>Order</th><th>Item</th><th>Value</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+        </details>
+      </div>
+
+      <div class="cp-results">
+        <div class="cp-card cp-outcome" id="cd-outcome" hidden>
+          <h2 class="cp-h">Decision</h2>
+          <div class="cp-badge" id="cd-badge"></div>
+          <p class="cp-summary" id="cd-summary"></p>
+          <ul class="cp-reasons" id="cd-reasons"></ul>
+          <div class="cp-label">Draft reply to customer</div>
+          <pre id="cd-reply"></pre>
+        </div>
+        <div class="cp-card">
+          <div class="cp-trace-head">
+            <h2 class="cp-h">2 · Agent trace</h2>
+            <label class="cp-check cp-tech"><input type="checkbox" id="cd-tech"> Technical details</label>
+          </div>
+          <ol class="cp-trace" id="cd-trace" aria-live="polite"><li class="cp-empty">Choose an example and run the agent to see each step.</li></ol>
+        </div>
+      </div>
+    </section>
+
+    <footer class="cp-foot">
+      <span>Design principle: the model suggests, deterministic controls decide. There is deliberately no refund tool, so money-moving cases always go to a person.</span>
+    </footer>
+  </div>
+
+  <script src="demo/complaint-data.js"></script>
+  <script src="demo/complaint-engine.js"></script>
+  <script src="demo/complaint-ui.js"></script>
+  <script src="palette.js"></script>
+</body>
+</html>

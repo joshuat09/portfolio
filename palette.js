@@ -27,8 +27,18 @@
     const cmds = [];
     const add = (group, label, hint, run) => cmds.push({ group, label, hint, run, key: (group + ' ' + label + ' ' + hint).toLowerCase() });
 
-    [['home', 'Dashboard'], ['projects', 'Projects'], ['complaint-demo', 'Complaint-handling demo'], ['play-guessed', 'Play GUESSED'], ['capabilities', 'Capabilities'], ['about', 'About']]
-      .forEach(([id, label]) => { if (document.getElementById(id)) add('Go to', label, 'section', () => go(id)); });
+    const onHome = !!document.getElementById('projects');
+    const href = u => () => { location.href = u; };
+
+    if (onHome) {
+      [['home', 'Dashboard'], ['projects', 'Projects'], ['play-guessed', 'Play GUESSED'], ['capabilities', 'Capabilities'], ['about', 'About']]
+        .forEach(([id, label]) => { if (document.getElementById(id)) add('Go to', label, 'section', () => go(id)); });
+      add('Go to', 'Complaint-handling demo', 'page agent', href('complaints.html'));
+    } else {
+      add('Go to', 'Back to portfolio', 'home', href('index.html'));
+      [['projects', 'Projects'], ['capabilities', 'Capabilities'], ['about', 'About']]
+        .forEach(([id, label]) => add('Go to', label, 'portfolio section', href('index.html#' + id)));
+    }
 
     document.querySelectorAll('.project-card').forEach(card => {
       const title = card.querySelector('h3')?.textContent.trim();
@@ -40,9 +50,12 @@
       if ($(`.filter[data-filter="${f}"]`)) add('Filter', `Show ${label}`, 'projects', () => setFilter(f));
     });
 
-    document.querySelectorAll('.demo-chip').forEach(chip => {
-      add('Demo', `Run example: ${chip.textContent}`, 'complaint agent', () => { go('complaint-demo'); chip.click(); });
-    });
+    if (window.ComplaintData) {
+      window.ComplaintData.scenarios.forEach(s => {
+        const chip = $(`.cp-chip[data-id="${s.id}"]`);
+        add('Demo', `Run example: ${s.label}`, 'complaint agent', chip ? () => chip.click() : href('complaints.html?example=' + s.id));
+      });
+    }
 
     if ($('#theme-toggle')) add('Action', 'Toggle dark mode', 'theme light', () => $('#theme-toggle').click());
     if ($('#surprise-project')) add('Action', 'Surprise me', 'random project', () => $('#surprise-project').click());
