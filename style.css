@@ -22,6 +22,6 @@
 .standalone-game-link{font:10px var(--mono);color:#496c55;text-decoration:none;white-space:nowrap}
 .standalone-game-link:hover{text-decoration:underline}
 .guessed-embed-shell{width:100%;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#f6f2e9;box-shadow:0 12px 35px #14231c0d}
-#guessed-page-frame{display:block;width:100%;height:820px;border:0;background:#f6f2e9}
+#guessed-page-frame{display:block;width:100%;height:1050px;border:0;background:#f6f2e9}
 .play-game-link{font:9px var(--mono);letter-spacing:0}
 @media(max-width:760px){.guessed-play-section .section-heading{align-items:flex-start;flex-direction:column;gap:12px}#guessed-page-frame{height:900px}}
