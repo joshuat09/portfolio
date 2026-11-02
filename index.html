@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A portfolio of AI, software, business and digital projects.">
+  <title>Joshua Tait — Projects & Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#home"><span class="brand-mark">JT</span><span>JOSHUA TAIT<small>PROJECT PORTFOLIO</small></span></a>
+      <div class="side-label">OVERVIEW</div>
+      <nav>
+        <a class="nav-link active" href="#home"><span>⌂</span> Dashboard</a>
+        <a class="nav-link" href="#projects"><span>▦</span> All projects <b>06</b></a>
+        <a class="nav-link" href="#capabilities"><span>◈</span> Capabilities</a>
+        <a class="nav-link" href="#about"><span>◎</span> About</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="availability"><i></i><span>Open to graduate opportunities</span></div>
+        <p>Business · Technology · AI</p>
+        <a class="text-link" href="mailto:YOUR_EMAIL@example.com">Get in touch ↗</a>
+      </div>
+    </aside>
+    <main id="home">
+      <header class="topbar"><span class="crumb">PORTFOLIO <span>/</span> DASHBOARD</span><span class="updated">INDEPENDENT PROJECTS & RESEARCH</span></header>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> BUSINESS MEETS TECHNOLOGY</div>
+          <h1>Building at the<br><em>intersection</em> of AI<br>and business.</h1>
+          <p class="intro">I'm Joshua, a Business Studies student at the University of Strathclyde exploring how artificial intelligence, software and digital thinking can solve real organisational problems.</p>
+          <div class="hero-actions"><a class="primary-btn" href="#projects">Explore my work <span>↘</span></a><a class="secondary-link" href="#about">More about me <span>→</span></a></div>
+        </div>
+        <div class="hero-graphic" aria-label="Abstract network illustration">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="core"><span>AI</span><small>IN PRACTICE</small></div>
+          <span class="node node-a">01<br><small>IDEAS</small></span><span class="node node-b">02<br><small>BUILD</small></span><span class="node node-c">03<br><small>TEST</small></span>
+          <span class="graphic-caption">FROM CONCEPT<br>TO APPLICATION</span>
+        </div>
+      </section>
+      <section class="metrics" aria-label="Portfolio overview">
+        <div><strong>06</strong><span>FEATURED PROJECTS</span></div><div><strong>AI +</strong><span>BUSINESS FOCUS</span></div><div><strong>LOCAL</strong><span>FIRST APPROACH</span></div><div><strong>BUILD</strong><span>LEARN · ITERATE</span></div>
+      </section>
+      <section class="section" id="projects">
+        <div class="section-heading"><div><div class="eyebrow">SELECTED WORK</div><h2>Projects & experiments<span>.</span></h2></div><div class="filters" role="group" aria-label="Filter projects"><button class="filter active" data-filter="all">All work</button><button class="filter" data-filter="ai">AI & automation</button><button class="filter" data-filter="software">Software</button><button class="filter" data-filter="research">Research</button></div></div>
+        <div class="project-grid" id="project-grid">
+          <article class="project-card featured" data-category="ai" tabindex="0" data-project="complaints">
+            <div class="card-top"><span class="project-number">01 / FLAGSHIP</span><span class="status status-progress">IN DEVELOPMENT</span></div><div class="project-visual visual-agent"><div class="workflow"><span>COMPLAINT</span><b>→</b><span>AI AGENT</span><b>→</b><span>DECISION</span></div><div class="decision-row"><i>RESOLVE</i><i>MORE INFO</i><i>HUMAN REVIEW</i></div><div class="visual-foot">CONTROLLED AUTONOMY / HUMAN OVERSIGHT</div></div>
+            <div class="card-content"><div class="tags"><span>AGENTIC AI</span><span>PYTHON</span><span>LLM EVALUATION</span></div><h3>Agentic Customer Complaint System</h3><p>A prototype exploring how an AI agent can interpret complaints, use defined tools and make bounded decisions — while escalating complex or high-risk cases to a human.</p><div class="card-bottom"><span>Decision workflows · Safety · Testing</span><button class="view-btn" aria-label="View project details">↗</button></div></div>
+          </article>
+          <article class="project-card" data-category="software" tabindex="0" data-project="guessed">
+            <div class="card-top"><span class="project-number">02 / WEB APP</span><span class="status status-live">PUBLISHED</span></div><div class="project-visual visual-game"><div class="game-title">GUESSED<span>_</span></div><div class="game-sub">A DAILY KNOWLEDGE GAME</div><div class="game-tiles"><i>?</i><i>?</i><i>?</i><i>?</i><i>?</i></div><div class="game-meta">DAILY CHALLENGE · #001</div></div>
+            <div class="card-content"><div class="tags"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div><h3>GUESSED — Daily Guessing Game</h3><p>A lightweight browser game inspired by daily puzzle formats, built with vanilla web technologies and designed for GitHub Pages.</p><div class="card-bottom"><span>125 questions · Five categories</span><a class="view-btn" href="https://joshuat09.github.io/guessed/" target="_blank" rel="noreferrer" aria-label="Open GUESSED">↗</a></div></div>
+          </article>
+          <article class="project-card" data-category="ai" tabindex="0" data-project="evaluation">
+            <div class="card-top"><span class="project-number">03 / GOVERNANCE</span><span class="status status-progress">ITERATIVE</span></div><div class="project-visual visual-eval"><div class="eval-head">AGENT EVALUATION <span>● LIVE TEST SUITE</span></div><div class="eval-line"><span>Supported decisions</span><b>✓</b></div><div class="eval-line"><span>Blocked actions</span><b>✓</b></div><div class="eval-line"><span>Unresolved cases</span><b>↗</b></div><div class="eval-footer">TEST · TRACE · RECONCILE</div></div>
+            <div class="card-content"><div class="tags"><span>PYTHON</span><span>PYTEST</span><span>SAFETY</span></div><h3>AI Evaluation, Safety & Governance</h3><p>A structured evaluation framework for testing agent decisions, safety gates, escalation behaviour and the difference between expected outcomes and actual system controls.</p><div class="card-bottom"><span>Scenario matrices · Taxonomies</span><button class="view-btn" aria-label="View project details">↗</button></div></div>
+          </article>
+          <article class="project-card" data-category="ai" tabindex="0" data-project="localai">
+            <div class="card-top"><span class="project-number">04 / INFRASTRUCTURE</span><span class="status status-progress">EXPLORATION</span></div><div class="project-visual visual-local"><div class="local-ring"><span>LOCAL<br>LLM</span></div><div class="local-label label-one">OLLAMA</div><div class="local-label label-two">QWEN</div><div class="local-label label-three">OPEN WEBUI</div><div class="local-caption">PRIVATE · SELF-HOSTED · EXPERIMENTAL</div></div>
+            <div class="card-content"><div class="tags"><span>OLLAMA</span><span>QWEN</span><span>OPEN WEBUI</span></div><h3>Local AI Infrastructure</h3><p>Setting up and experimenting with locally hosted language models, model selection, Open WebUI, and API connectivity without relying on paid inference APIs.</p><div class="card-bottom"><span>Local inference · Model testing</span><button class="view-btn" aria-label="View project details">↗</button></div></div>
+          </article>
+          <article class="project-card" data-category="software" tabindex="0" data-project="jobfinder">
+            <div class="card-top"><span class="project-number">05 / PRODUCTIVITY TOOL</span><span class="status status-progress">PROTOTYPE</span></div><div class="project-visual visual-jobs"><div class="job-score"><strong>84</strong><small>/ 100</small></div><div class="job-lines"><i></i><i></i><i></i></div><div class="job-caption">ROLE MATCH ANALYSIS</div><div class="job-pill">SKILLS + PREFERENCES</div></div>
+            <div class="card-content"><div class="tags"><span>PYTHON</span><span>SCORING</span><span>TESTING</span></div><h3>AI Graduate Job Finder</h3><p>A prototype concept for assessing graduate roles against an editable candidate profile, using transparent match scoring rather than opaque recommendations.</p><div class="card-bottom"><span>0–100 scoring · Editable profile</span><button class="view-btn" aria-label="View project details">↗</button></div></div>
+          </article>
+          <article class="project-card" data-category="research" tabindex="0" data-project="research">
+            <div class="card-top"><span class="project-number">06 / DISSERTATION</span><span class="status status-research">RESEARCH</span></div><div class="project-visual visual-research"><div class="research-quote">“</div><div class="research-title">THE FUTURE OF<br><em>AUTONOMOUS</em><br>BUSINESS PROCESSES</div><div class="research-rule"></div><div class="research-foot">AGENTIC AI / ORGANISATIONAL CAPABILITY</div></div>
+            <div class="card-content"><div class="tags"><span>BUSINESS RESEARCH</span><span>AGENTIC AI</span><span>STRATEGY</span></div><h3>Agentic AI & Autonomous Business</h3><p>Research into how agentic AI may transform business processes, and the organisational capabilities, governance and human oversight needed for effective implementation.</p><div class="card-bottom"><span>Business strategy · Socio-technical systems</span><button class="view-btn" aria-label="View project details">↗</button></div></div>
+          </article>
+        </div>
+      </section>
+      <section class="capabilities section" id="capabilities">
+        <div class="eyebrow">TOOLKIT</div><h2>Capabilities & technologies<span>.</span></h2>
+        <div class="capability-grid">
+          <div class="capability"><span class="cap-icon">✳</span><h3>AI & intelligent systems</h3><p>Agentic workflows, LLMs, prompt engineering, local inference, tool use, human-in-the-loop design.</p><div class="chips"><i>Ollama</i><i>Qwen</i><i>Open WebUI</i></div></div>
+          <div class="capability"><span class="cap-icon">⌘</span><h3>Development & testing</h3><p>Building functional prototypes, structured data workflows, debugging and repeatable evaluation.</p><div class="chips"><i>Python</i><i>pytest</i><i>JSON</i><i>Git</i></div></div>
+          <div class="capability"><span class="cap-icon">▤</span><h3>Web & digital</h3><p>Responsive front-end experiences and small browser-based products.</p><div class="chips"><i>HTML</i><i>CSS</i><i>JavaScript</i><i>GitHub Pages</i></div></div>
+          <div class="capability"><span class="cap-icon">⌁</span><h3>Business & analysis</h3><p>Business process analysis, research, strategic thinking, innovation and data-informed problem solving.</p><div class="chips"><i>Process optimisation</i><i>Research</i><i>Strategy</i></div></div>
+        </div>
+      </section>
+      <section class="about section" id="about">
+        <div><div class="eyebrow">A LITTLE ABOUT ME</div><h2>Curious about what<br>technology can <em>actually do.</em></h2></div>
+        <div class="about-copy"><p>I'm a Business Studies student at the University of Strathclyde with a particular interest in the practical application of AI in organisations. I enjoy taking a business problem, breaking it down and building or testing a technical solution.</p><p>This portfolio brings together independent builds, technical experiments and academic research. Projects are labelled by status so that prototypes and work in progress are not presented as finished products.</p><a class="primary-btn" href="mailto:YOUR_EMAIL@example.com">Contact me <span>↗</span></a></div>
+      </section>
+      <footer><span>© 2026 JOSHUA TAIT</span><span>BUILT TO SHOW THE WORK, NOT JUST TALK ABOUT IT.</span><a href="#home">BACK TO TOP ↑</a></footer>
+    </main>
+  </div>
+  <dialog id="project-dialog" class="project-dialog">
+    <button class="dialog-close" aria-label="Close details">×</button><div class="eyebrow" id="dialog-kicker">PROJECT DETAILS</div><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-section"><h3>What it demonstrates</h3><ul id="dialog-points"></ul></div><div class="dialog-section"><h3>Technology / focus</h3><div class="chips" id="dialog-tech"></div></div><p class="dialog-note">Project status and descriptions are intentionally conservative; update this panel as the work develops.</p>
+  </dialog>
+  <script src="script.js"></script>
+</body>
+</html>
