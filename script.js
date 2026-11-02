@@ -61,16 +61,55 @@ document.querySelectorAll(".project-card").forEach(card => {
   card.addEventListener("click", e => { if(e.target.closest("a")) return; openProject(card.dataset.project); });
   card.addEventListener("keydown", e => { if(e.key==="Enter" || e.key===" "){e.preventDefault();openProject(card.dataset.project);} });
 });
-document.querySelectorAll(".filter").forEach(button => {
+const filterButtons = [...document.querySelectorAll(".filter")];
+const searchInput = document.querySelector("#project-search");
+const searchStatus = document.querySelector("#search-status");
+const projectCards = [...document.querySelectorAll(".project-card")];
+
+function applyProjectFilters(){
+  const activeFilter = document.querySelector(".filter.active")?.dataset.filter || "all";
+  const query = (searchInput?.value || "").trim().toLowerCase();
+  let visible = 0;
+  projectCards.forEach(card => {
+    const matchesCategory = activeFilter === "all" || card.dataset.category === activeFilter;
+    const matchesSearch = !query || card.textContent.toLowerCase().includes(query);
+    card.hidden = !(matchesCategory && matchesSearch);
+    if(!card.hidden) visible++;
+  });
+  if(searchStatus) searchStatus.textContent = visible === 0 ? "No projects match that search." : `Showing ${visible} of ${projectCards.length} projects`;
+}
+filterButtons.forEach(button => {
   button.addEventListener("click", () => {
-    document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+    filterButtons.forEach(b=>b.classList.remove("active"));
     button.classList.add("active");
-    const filter=button.dataset.filter;
-    document.querySelectorAll(".project-card").forEach(card=>{
-      card.hidden = filter!=="all" && card.dataset.category!==filter;
-    });
+    applyProjectFilters();
   });
 });
+searchInput?.addEventListener("input", applyProjectFilters);
+
+document.querySelector("#surprise-project")?.addEventListener("click", () => {
+  const visibleCards = projectCards.filter(card => !card.hidden);
+  const pool = visibleCards.length ? visibleCards : projectCards;
+  const chosen = pool[Math.floor(Math.random() * pool.length)];
+  if(chosen) openProject(chosen.dataset.project);
+});
+
+const themeToggle = document.querySelector("#theme-toggle");
+themeToggle?.addEventListener("click", () => {
+  const enabled = document.body.classList.toggle("dark-mode");
+  themeToggle.setAttribute("aria-pressed", String(enabled));
+  themeToggle.setAttribute("aria-label", enabled ? "Switch to light mode" : "Switch to dark mode");
+  themeToggle.innerHTML = enabled ? "☀ <span>Light mode</span>" : "◐ <span>Dark mode</span>";
+  try { localStorage.setItem("portfolio-theme", enabled ? "dark" : "light"); } catch(e) {}
+});
+try {
+  if(localStorage.getItem("portfolio-theme") === "dark"){
+    document.body.classList.add("dark-mode");
+    themeToggle?.setAttribute("aria-pressed","true");
+    themeToggle?.setAttribute("aria-label","Switch to light mode");
+    if(themeToggle) themeToggle.innerHTML = "☀ <span>Light mode</span>";
+  }
+} catch(e) {}
 document.querySelectorAll(".nav-link").forEach(link => link.addEventListener("click",()=>{
   document.querySelectorAll(".nav-link").forEach(item=>item.classList.remove("active"));
   link.classList.add("active");
