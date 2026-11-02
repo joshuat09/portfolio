@@ -42,3 +42,6 @@ The sub pages share page styling from `demo/complaint-demo.css`.
 
 ## Local AI infrastructure diagram
 `diagrams/local-ai-infrastructure.html` is a standalone architecture diagram (generated with Archify) of the local setup: Ollama with `qwen3:4b`, the Python complaint agent, its safety screen, read-only tools and evaluation harness. It opens inside the project dialog when the Local AI Infrastructure card is clicked, and can be opened full size from there.
+
+## Showreel
+`showreel.html` is a ~55 second motion showreel of the projects with a soundtrack synthesised live in the browser (Web Audio, no audio files). Click play for sound; Space pauses, M mutes, R replays and F toggles fullscreen. To make a video file, record the page with a screen recorder (for example Windows Game Bar, Win+Alt+R).
