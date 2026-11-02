@@ -55,6 +55,11 @@ function openProject(key){
   p.points.forEach(point => { const li=document.createElement("li"); li.textContent=point; list.append(li); });
   const tech = document.querySelector("#dialog-tech"); tech.replaceChildren();
   p.tech.forEach(item => { const tag=document.createElement("i"); tag.textContent=item; tech.append(tag); });
+  const gameSection = document.querySelector("#game-embed-section");
+  const gameFrame = document.querySelector("#guessed-frame");
+  gameSection.hidden = key !== "guessed";
+  if(key === "guessed" && !gameFrame.src) gameFrame.src = "https://joshuat09.github.io/guessed/";
+  dialog.classList.toggle("has-game", key === "guessed");
   dialog.showModal();
 }
 document.querySelectorAll(".project-card").forEach(card => {
