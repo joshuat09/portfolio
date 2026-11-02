@@ -55,6 +55,8 @@ function openProject(key){
   p.points.forEach(point => { const li=document.createElement("li"); li.textContent=point; list.append(li); });
   const tech = document.querySelector("#dialog-tech"); tech.replaceChildren();
   p.tech.forEach(item => { const tag=document.createElement("i"); tag.textContent=item; tech.append(tag); });
+  const demoLink = document.querySelector("#dialog-demo-link");
+  if(demoLink) demoLink.hidden = key !== "complaints";
   dialog.showModal();
 }
 document.querySelectorAll(".project-card").forEach(card => {

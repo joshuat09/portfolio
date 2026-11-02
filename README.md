@@ -18,3 +18,14 @@ A responsive static portfolio website built with HTML, CSS and vanilla JavaScrip
 - Project filters and click-to-open detail panels
 - Six project entries
 - Static front end with no framework or external API dependency
+## Complaint-handling demo
+The `#complaint-demo` section is a rule-based **simulation** of the complaint agent (fictional data, no AI model, no network calls).
+- `demo/complaint-data.js` - mock customers, orders, policy and preset scenarios
+- `demo/complaint-engine.js` - classifier, tool registry, safety gate and agent loop (no DOM code)
+- `demo/complaint-ui.js` - rendering and controls
+- `demo/engine.test.js` - tests; run with `node --test demo/engine.test.js`
+
+Upload the `demo/` folder along with the other files when publishing to GitHub Pages.
+
+## Command palette
+`palette.js` adds a Ctrl/Cmd+K palette (also the "⌘K" button in the top bar) for jumping to sections, opening projects, applying filters, running demo examples, toggling dark mode and searching. It only drives existing page controls.

@@ -18,6 +18,7 @@
       <nav>
         <a class="nav-link active" href="#home"><span>⌂</span> Dashboard</a>
         <a class="nav-link" href="#projects"><span>▦</span> All projects <b>06</b></a>
+        <a class="nav-link" href="#complaint-demo"><span>⌬</span> Complaint demo</a>
         <a class="nav-link" href="#capabilities"><span>◈</span> Capabilities</a>
         <a class="nav-link" href="#about"><span>◎</span> About</a>
       </nav>
@@ -28,7 +29,7 @@
       </div>
     </aside>
     <main id="home">
-      <header class="topbar"><span class="crumb">PORTFOLIO <span>/</span> DASHBOARD</span><div class="topbar-actions"><span class="updated">INDEPENDENT PROJECTS & RESEARCH</span><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">◐ <span>Dark mode</span></button></div></header>
+      <header class="topbar"><span class="crumb">PORTFOLIO <span>/</span> DASHBOARD</span><div class="topbar-actions"><span class="updated">INDEPENDENT PROJECTS & RESEARCH</span><button class="theme-toggle palette-trigger" type="button" data-open-palette aria-label="Open command palette (Ctrl+K)">⌘K <span>Commands</span></button><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">◐ <span>Dark mode</span></button></div></header>
       <section class="hero">
         <div class="hero-copy">
           <div class="eyebrow"><span class="eyebrow-line"></span> BUSINESS MEETS TECHNOLOGY</div>
@@ -51,7 +52,7 @@
         <div class="project-grid" id="project-grid">
           <article class="project-card featured" data-category="ai" tabindex="0" data-project="complaints">
             <div class="card-top"><span class="project-number">01 / FLAGSHIP</span><span class="status status-progress">IN DEVELOPMENT</span></div><div class="project-visual visual-agent"><div class="workflow"><span>COMPLAINT</span><b>→</b><span>AI AGENT</span><b>→</b><span>DECISION</span></div><div class="decision-row"><i>RESOLVE</i><i>MORE INFO</i><i>HUMAN REVIEW</i></div><div class="visual-foot">CONTROLLED AUTONOMY / HUMAN OVERSIGHT</div></div>
-            <div class="card-content"><div class="tags"><span>AGENTIC AI</span><span>PYTHON</span><span>LLM EVALUATION</span></div><h3>Agentic Customer Complaint System</h3><p>A prototype exploring how an AI agent can interpret complaints, use defined tools and make bounded decisions — while escalating complex or high-risk cases to a human.</p><div class="card-bottom"><span>Decision workflows · Safety · Testing</span><button class="view-btn" aria-label="View project details">↗</button></div></div>
+            <div class="card-content"><div class="tags"><span>AGENTIC AI</span><span>PYTHON</span><span>LLM EVALUATION</span></div><h3>Agentic Customer Complaint System</h3><p>A prototype exploring how an AI agent can interpret complaints, use defined tools and make bounded decisions — while escalating complex or high-risk cases to a human.</p><div class="card-bottom"><span>Decision workflows · Safety · Testing</span><span class="card-actions"><a class="card-demo-link" href="#complaint-demo">TRY DEMO ↘</a><button class="view-btn" aria-label="View project details">↗</button></span></div></div>
           </article>
           <article class="project-card" data-category="software" tabindex="0" data-project="guessed">
             <div class="card-top"><span class="project-number">02 / WEB APP</span><span class="status status-live">PUBLISHED</span></div><div class="project-visual visual-game"><div class="game-title">GUESSED<span>_</span></div><div class="game-sub">A DAILY KNOWLEDGE GAME</div><div class="game-tiles"><i>?</i><i>?</i><i>?</i><i>?</i><i>?</i></div><div class="game-meta">DAILY CHALLENGE · #001</div></div>
@@ -79,6 +80,34 @@
         <div class="section-heading"><div><div class="eyebrow">INTERACTIVE PROJECT</div><h2>Play GUESSED<span>.</span></h2><p class="section-intro">Try the daily challenge or choose a category — right here in the portfolio.</p></div><a class="standalone-game-link" href="https://joshuat09.github.io/guessed/" target="_blank" rel="noreferrer">Open in a new tab ↗</a></div>
         <div class="guessed-embed-shell"><iframe id="guessed-page-frame" title="Play the GUESSED daily guessing game" src="https://joshuat09.github.io/guessed/" loading="lazy" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
       </section>
+      <section class="section complaint-demo-section" id="complaint-demo">
+        <div class="section-heading"><div><div class="eyebrow">INTERACTIVE PROJECT</div><h2>Complaint-handling agent demo<span>.</span></h2><p class="section-intro">Watch a bounded-autonomy agent handle a complaint: it proposes tool calls, a registry validates them, and a safety gate decides what may run.</p></div></div>
+        <p class="demo-disclaimer"><strong>This is a simulation.</strong> It mirrors the architecture of the Python prototype using fixed rules and fictional data. It runs entirely in your browser: no AI model, no network calls, nothing is sent anywhere.</p>
+        <div class="demo-grid">
+          <div class="demo-panel">
+            <div class="demo-label">1 · CHOOSE OR WRITE A COMPLAINT</div>
+            <div class="demo-presets" id="cd-presets" role="group" aria-label="Example complaints"></div>
+            <label class="demo-label" for="cd-input">COMPLAINT TEXT</label>
+            <textarea id="cd-input" rows="5" maxlength="500" placeholder="Type a complaint, or pick an example above. Include an order number such as ORD-1001."></textarea>
+            <label class="demo-check"><input type="checkbox" id="cd-stress"> Stress test: simulate the model suggesting an unsafe action</label>
+            <div class="demo-actions"><button type="button" class="primary-btn demo-run" id="cd-run">Run agent <span>↘</span></button><button type="button" class="demo-reset" id="cd-reset">Reset</button></div>
+            <details class="demo-data"><summary>Sample orders you can reference</summary><div class="demo-table-wrap"><table id="cd-orders"><thead><tr><th>Order</th><th>Item</th><th>Value</th><th>Status</th></tr></thead><tbody></tbody></table></div></details>
+          </div>
+          <div class="demo-panel">
+            <div class="demo-label">2 · AGENT TRACE</div>
+            <ol class="demo-trace" id="cd-trace" aria-live="polite"><li class="demo-empty">Run the agent to see each step.</li></ol>
+            <div class="demo-outcome" id="cd-outcome" hidden>
+              <div class="demo-label">3 · DECISION</div>
+              <div class="demo-badge" id="cd-badge"></div>
+              <p id="cd-summary"></p>
+              <ul id="cd-reasons"></ul>
+              <div class="demo-label">DRAFT CUSTOMER REPLY</div>
+              <pre id="cd-reply"></pre>
+            </div>
+          </div>
+        </div>
+        <p class="demo-note">Design principle: the language model (here, simple rules) can suggest, but deterministic controls decide. There is deliberately no refund tool; money-moving cases always go to a person.</p>
+      </section>
       <section class="capabilities section" id="capabilities">
         <div class="eyebrow">TOOLKIT</div><h2>Capabilities & technologies<span>.</span></h2>
         <div class="capability-grid">
@@ -96,8 +125,12 @@
     </main>
   </div>
   <dialog id="project-dialog" class="project-dialog">
-    <button class="dialog-close" aria-label="Close details">×</button><div class="eyebrow" id="dialog-kicker">PROJECT DETAILS</div><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-section"><h3>What it demonstrates</h3><ul id="dialog-points"></ul></div><div class="dialog-section"><h3>Technology / focus</h3><div class="chips" id="dialog-tech"></div></div><p class="dialog-note">Project status and descriptions are intentionally conservative; update this panel as the work develops.</p>
+    <button class="dialog-close" aria-label="Close details">×</button><div class="eyebrow" id="dialog-kicker">PROJECT DETAILS</div><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-section"><h3>What it demonstrates</h3><ul id="dialog-points"></ul></div><div class="dialog-section"><h3>Technology / focus</h3><div class="chips" id="dialog-tech"></div></div><a class="dialog-demo-link" id="dialog-demo-link" href="#complaint-demo" hidden>Try the interactive demo ↘</a><p class="dialog-note">Project status and descriptions are intentionally conservative; update this panel as the work develops.</p>
   </dialog>
   <script src="script.js"></script>
+  <script src="demo/complaint-data.js"></script>
+  <script src="demo/complaint-engine.js"></script>
+  <script src="demo/complaint-ui.js"></script>
+  <script src="palette.js"></script>
 </body>
 </html>
