@@ -1,0 +1,49 @@
+/* AI readiness scorecard. Page chrome comes from complaint-demo.css (.cp-*). */
+.rd-group{margin:0 0 22px}
+.rd-group h3{font:600 14px var(--display);letter-spacing:-.02em;margin:0}
+.rd-lens{font:9px/1.5 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:3px 0 12px}
+.rd-q{margin:0 0 14px}
+.rd-q-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:12px;line-height:1.5}
+.rd-q-head label{font-weight:600}
+.rd-q-head output{font:600 12px var(--mono);color:var(--ink);min-width:14px;text-align:right}
+.rd-q input[type=range]{width:100%;margin:6px 0 2px;accent-color:#6b8d52}
+.rd-ends{display:flex;justify-content:space-between;gap:12px;font:9px/1.4 var(--mono);color:var(--muted)}
+.rd-ends span:last-child{text-align:right}
+.rd-input .cp-actions{margin-top:6px;gap:18px;flex-wrap:wrap}
+
+.rd-reco{border-left:3px solid var(--line)}
+.rd-badge{display:inline-block;font:600 10px var(--mono);letter-spacing:.1em;padding:6px 10px;border-radius:3px;margin:2px 0 12px}
+.rd-badge-human{background:var(--bad-bg);color:var(--bad-fg)}
+.rd-badge-assist{background:var(--warn-bg);color:var(--warn-fg)}
+.rd-badge-rules,.rd-badge-agent{background:var(--ok-bg);color:var(--ok-fg)}
+.rd-title{font:600 28px/1.1 var(--display);letter-spacing:-.04em;margin:0 0 8px}
+.rd-summary{font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 14px}
+.rd-gates{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:8px}
+.rd-gates li{font-size:12px;line-height:1.6;padding:9px 12px;border-left:3px solid var(--bad-fg);background:var(--soft);border-radius:0 5px 5px 0}
+.rd-gates li::before{content:"Safety gate: ";font:600 10px var(--mono);letter-spacing:.06em;color:var(--bad-fg);text-transform:uppercase}
+
+.rd-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rd-opt{border:1px solid var(--line);border-radius:7px;padding:12px 14px;min-width:0}
+.rd-opt strong{display:block;font:600 13px var(--display);margin:6px 0 4px}
+.rd-opt p{margin:0;font-size:11px;line-height:1.6;color:var(--muted)}
+.rd-opt-status{font:600 9px var(--mono);letter-spacing:.1em}
+.rd-opt-recommended{border-color:#83a55e;background:var(--soft)}
+.rd-opt-recommended .rd-opt-status{color:var(--ok-fg)}
+.rd-opt-possible .rd-opt-status{color:var(--warn-fg)}
+.rd-opt-not-advised{opacity:.62}
+.rd-opt-not-advised .rd-opt-status{color:var(--bad-fg)}
+
+.rd-meter{margin:0 0 16px}
+.rd-meter-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+.rd-meter-top b{font:500 11px var(--mono);color:var(--muted)}
+.rd-bar{height:8px;border-radius:4px;background:var(--soft);overflow:hidden}
+.rd-bar i{display:block;height:100%;background:#83a55e;border-radius:4px;transition:width .35s ease}
+.rd-bar i.rd-fill-risk{background:#d1944a}
+.rd-hint{font:9px var(--mono);letter-spacing:.04em;color:var(--muted);margin-top:5px}
+.rd-rules{margin-top:6px}
+.rd-bullets{margin:0 0 18px;padding-left:18px;font-size:12px;line-height:1.8;color:var(--muted)}
+.rd-bullets b{color:var(--ink)}
+.rd-link{display:inline-block;font:11px var(--mono);color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.rd-link:hover{color:#6b8d52}
+@media(prefers-reduced-motion:reduce){.rd-bar i{transition:none}}
+@media(max-width:520px){.rd-options{grid-template-columns:1fr}.rd-title{font-size:24px}}

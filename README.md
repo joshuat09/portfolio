@@ -48,3 +48,10 @@ The sub pages share page styling from `demo/complaint-demo.css`.
 
 ## Cursor trail
 `cursor.js` adds an "aurora" cursor on the home page, demos and showreel: two silky physics ribbons that shift between lime, mint and coral, ember sparks at speed, click ripples, and a magnetic ring that snaps onto buttons and links. It is an original implementation inspired by the ribbon, gooey and magnetic cursors found in open-source portfolios, and is skipped for touch devices and reduced-motion users. Toggle it from the Ctrl+K palette ("Toggle cursor trail"); the choice is remembered in localStorage.
+
+## AI readiness scorecard
+`readiness.html` applies ideas from my dissertation (resource-based view, socio-technical systems, agency theory) to a business process. Ten answers produce four scores (rule fit, agent fit, risk, readiness), two safety gates, and a recommendation of the *least* autonomy that works: human-led, AI-assisted, rule-based automation or a bounded agent. It also lists guardrails, readiness gaps and which single answer changes would flip the result. It is a thinking aid, not validated research, and the shareable link keeps answers in the URL only.
+- `demo/readiness-data.js` - questions, example processes and advice
+- `demo/readiness-engine.js` - scoring, gates and recommendation
+- `demo/readiness-ui.js` / `demo/readiness.css` - form and results
+- `demo/readiness.test.js` - tests; run with `node --test demo/readiness.test.js`

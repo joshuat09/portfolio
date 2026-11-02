@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An interactive scorecard that recommends how much autonomy an AI system should have for a business process, based on risk, fit and organisational readiness.">
+  <title>AI Readiness Scorecard — Joshua Tait</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="demo/complaint-demo.css">
+  <link rel="stylesheet" href="demo/readiness.css">
+</head>
+<body>
+  <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
+  <div class="cp" role="main">
+    <header class="cp-top">
+      <a class="cp-back" href="index.html#projects">← Back to portfolio</a>
+      <div class="cp-top-actions">
+        <button class="theme-toggle palette-trigger" type="button" data-open-palette aria-label="Open command palette (Ctrl+K)">⌘K <span>Commands</span></button>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">◐ <span>Dark mode</span></button>
+      </div>
+    </header>
+
+    <section class="cp-hero">
+      <div class="eyebrow"><span class="eyebrow-line"></span> DISSERTATION IN PRACTICE · INTERACTIVE TOOL</div>
+      <h1>AI readiness scorecard<span>.</span></h1>
+      <p class="cp-lead">Should a business process be handled by people, simple rules, AI assistance or an agent? Describe the process in ten answers and the scorecard recommends the least autonomy that does the job, and shows its reasoning.</p>
+      <ol class="cp-flow" aria-label="How the scorecard works">
+        <li>Process</li><li>Risk</li><li>Readiness</li><li>Safety gates</li><li>Recommendation</li>
+      </ol>
+      <p class="cp-sim"><strong>A thinking aid, not research.</strong> It applies ideas from my dissertation (the resource-based view, socio-technical systems and agency theory) to a few simple rules. The thresholds are my own judgement and are all shown below, so use it to start a discussion, not to make a decision. Nothing you enter leaves your browser.</p>
+    </section>
+
+    <section class="cp-app">
+      <div class="cp-card cp-input rd-input">
+        <h2 class="cp-h">1 · Describe the process</h2>
+        <div class="cp-label">Start from an example</div>
+        <div class="cp-presets" id="rd-presets" role="group" aria-label="Example processes"></div>
+        <label class="cp-field"><span class="cp-label">Process name (optional)</span><input type="text" id="rd-name" maxlength="60" placeholder="e.g. Customer refund requests" autocomplete="off"></label>
+        <div id="rd-questions"></div>
+        <div class="cp-actions"><button type="button" class="cp-reset" id="rd-reset">Reset</button><button type="button" class="cp-reset" id="rd-share">Copy link to this scorecard</button></div>
+      </div>
+
+      <div class="cp-results">
+        <div class="cp-card rd-reco" id="rd-reco" aria-live="polite">
+          <div class="cp-label" id="rd-for"></div>
+          <div class="rd-badge" id="rd-badge"></div>
+          <h2 class="rd-title" id="rd-title"></h2>
+          <p class="rd-summary" id="rd-summary"></p>
+          <ul class="rd-gates" id="rd-gates"></ul>
+          <div class="cp-label">All four options</div>
+          <div class="rd-options" id="rd-options"></div>
+        </div>
+
+        <div class="cp-card">
+          <h2 class="cp-h">2 · Why: the numbers</h2>
+          <div id="rd-meters"></div>
+          <details class="cp-data rd-rules">
+            <summary>The rules behind the scores</summary>
+            <ul class="rd-bullets">
+              <li><b>Rule fit</b> = half "steps are predictable" + half "inputs are uniform".</li>
+              <li><b>Agent fit</b> = 60% "inputs are messy" + 40% "volume is high".</li>
+              <li><b>Risk</b> = 50% impact + 30% irreversibility + 20% accountability.</li>
+              <li><b>Readiness</b> = 30% data + 25% skills + 30% governance + 15% people.</li>
+              <li><b>Rules</b> are recommended when rule fit is 65+ and risk is under 75.</li>
+              <li><b>An agent</b> needs agent fit 50+, readiness 55+, governance 3+ and risk under 65.</li>
+              <li><b>Gates:</b> serious and hard-to-undo harm, or strict accountability with weak governance, cap autonomy at "AI-assisted".</li>
+              <li>The least autonomous option that passes is the one recommended.</li>
+            </ul>
+          </details>
+        </div>
+
+        <div class="cp-card">
+          <h2 class="cp-h">3 · What to do next</h2>
+          <div class="cp-label">Guardrails to put in place</div>
+          <ul class="rd-bullets" id="rd-guardrails"></ul>
+          <div class="cp-label">Readiness gaps</div>
+          <ul class="rd-bullets" id="rd-gaps"></ul>
+          <div class="cp-label">What would change this answer</div>
+          <ul class="rd-bullets" id="rd-flips"></ul>
+          <a class="rd-link" id="rd-demo" href="complaints.html" hidden>See a bounded agent in practice: the complaint-handling demo ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="cp-foot">
+      <span>Design principle: autonomy should be earned. Use the least that does the job, and make the reasoning visible so people can challenge it.</span>
+    </footer>
+  </div>
+
+  <script src="demo/theme.js"></script>
+  <script src="demo/readiness-data.js"></script>
+  <script src="demo/readiness-engine.js"></script>
+  <script src="demo/readiness-ui.js"></script>
+  <script src="cursor.js"></script>
+  <script src="palette.js"></script>
+</body>
+</html>
