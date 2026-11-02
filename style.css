@@ -14,3 +14,14 @@
 .game-embed-heading a:hover{text-decoration:underline}
 #guessed-frame{display:block;width:100%;height:min(720px,70vh);min-height:560px;border:1px solid var(--line);border-radius:7px;background:#f6f2e9}
 @media(max-width:600px){.project-dialog.has-game{padding:22px 16px}.game-embed-heading{align-items:start;flex-direction:column}.game-embed-heading h3{font-size:19px}#guessed-frame{height:72vh;min-height:520px}}
+
+/* GUESSED is playable directly on the portfolio page */
+.guessed-play-section{scroll-margin-top:28px}
+.guessed-play-section .section-heading{align-items:end}
+.guessed-play-section .section-intro{font-size:12px;line-height:1.7;color:#718078;margin:10px 0 0}
+.standalone-game-link{font:10px var(--mono);color:#496c55;text-decoration:none;white-space:nowrap}
+.standalone-game-link:hover{text-decoration:underline}
+.guessed-embed-shell{width:100%;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#f6f2e9;box-shadow:0 12px 35px #14231c0d}
+#guessed-page-frame{display:block;width:100%;height:820px;border:0;background:#f6f2e9}
+.play-game-link{font:9px var(--mono);letter-spacing:0}
+@media(max-width:760px){.guessed-play-section .section-heading{align-items:flex-start;flex-direction:column;gap:12px}#guessed-page-frame{height:900px}}
