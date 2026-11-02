@@ -47,3 +47,6 @@ The sub pages share page styling from `demo/complaint-demo.css`.
 - `demo/eval-engine.js` - contract, scenario generation, reconciliation and invariants
 - `demo/eval-ui.js` / `demo/eval.css` - matrix, detail panel and invariants
 - `demo/eval.test.js` - tests; run with `node --test demo/eval.test.js`
+
+## Local AI infrastructure diagram
+`diagrams/local-ai-infrastructure.html` is a standalone architecture diagram (generated with Archify) of the local setup: Ollama with `qwen3:4b`, the Python complaint agent, its safety screen, read-only tools and evaluation harness. It opens inside the project dialog when the Local AI Infrastructure card is clicked, and can be opened full size from there.

@@ -58,6 +58,18 @@ function openProject(key){
   const demoLink = document.querySelector("#dialog-demo-link");
   const demoPages = { complaints:"complaints.html", jobfinder:"jobfinder.html", evaluation:"evaluation.html" };
   if(demoLink){ demoLink.hidden = !demoPages[key]; if(demoPages[key]) demoLink.href = demoPages[key]; }
+  const diagrams = { localai:"diagrams/local-ai-infrastructure.html" };
+  const diagramBox = document.querySelector("#dialog-diagram");
+  if(diagramBox){
+    const src = diagrams[key];
+    diagramBox.hidden = !src;
+    dialog.classList.toggle("has-diagram", !!src);
+    if(src){
+      const frame = document.querySelector("#dialog-diagram-frame");
+      if(frame.getAttribute("src") !== src) frame.setAttribute("src", src);
+      document.querySelector("#dialog-diagram-link").href = src;
+    }
+  }
   dialog.showModal();
 }
 document.querySelectorAll(".project-card").forEach(card => {
