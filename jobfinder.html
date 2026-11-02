@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive prototype of a transparent graduate job-matching score: edit a profile and see exactly why each role scores the way it does.">
+  <title>Graduate Job Finder Demo — Joshua Tait</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="demo/complaint-demo.css">
+  <link rel="stylesheet" href="demo/jobfinder.css">
+</head>
+<body>
+  <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
+  <div class="cp" role="main">
+    <header class="cp-top">
+      <a class="cp-back" href="index.html#projects">← Back to portfolio</a>
+      <div class="cp-top-actions">
+        <button class="theme-toggle palette-trigger" type="button" data-open-palette aria-label="Open command palette (Ctrl+K)">⌘K <span>Commands</span></button>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">◐ <span>Dark mode</span></button>
+      </div>
+    </header>
+
+    <section class="cp-hero">
+      <div class="eyebrow"><span class="eyebrow-line"></span> PROTOTYPE · INTERACTIVE DEMO</div>
+      <h1>Graduate job finder<span>.</span></h1>
+      <p class="cp-lead">Most job recommenders hide why a role was suggested. This prototype shows its working: edit a candidate profile and every role gets a 0–100 score you can trace back to skills, location, salary, sector and level.</p>
+      <ol class="cp-flow" aria-label="How the score works">
+        <li>Profile</li><li>Weights</li><li>Component scores</li><li>0–100 match</li>
+      </ol>
+      <p class="cp-sim"><strong>This is a prototype demo.</strong> The roles and companies are fictional and the scoring uses fixed rules. It runs entirely in your browser: no AI model, no network calls, nothing is stored or sent anywhere.</p>
+    </section>
+
+    <section class="cp-app">
+      <div class="cp-card cp-input jf-profile">
+        <div class="jf-profile-head"><h2 class="cp-h">1 · Candidate profile</h2><button type="button" class="cp-reset" id="jf-reset">Reset</button></div>
+
+        <div class="cp-label">Skills</div>
+        <div class="cp-presets" id="jf-skills" role="group" aria-label="Skills"></div>
+
+        <div class="cp-label">Preferred locations</div>
+        <div class="cp-presets" id="jf-locations" role="group" aria-label="Preferred locations"></div>
+
+        <div class="cp-label">Sectors of interest</div>
+        <div class="cp-presets" id="jf-sectors" role="group" aria-label="Sectors of interest"></div>
+
+        <div class="jf-row">
+          <label class="jf-field"><span class="cp-label">Work mode</span><select id="jf-mode"></select></label>
+          <label class="jf-field"><span class="cp-label">Target level</span><select id="jf-level"></select></label>
+        </div>
+
+        <label class="jf-field"><span class="cp-label">Minimum salary: <b id="jf-salary-out">£28k</b></span><input type="range" id="jf-salary" min="20" max="45" step="1" value="28"></label>
+
+        <details class="cp-data jf-weights">
+          <summary>Scoring weights</summary>
+          <p class="jf-hint">Drag to change what matters most. Weights are rescaled to add up to 100.</p>
+          <div id="jf-weight-list"></div>
+        </details>
+      </div>
+
+      <div class="cp-results">
+        <div class="cp-card">
+          <div class="cp-trace-head">
+            <h2 class="cp-h">2 · Ranked roles</h2>
+            <span class="jf-count" id="jf-count" aria-live="polite"></span>
+          </div>
+          <ol class="jf-list" id="jf-list"></ol>
+        </div>
+      </div>
+    </section>
+
+    <footer class="cp-foot">
+      <span>Design principle: a recommendation should come with its reasons. Each score is a weighted sum of five simple, inspectable components, with nothing hidden.</span>
+    </footer>
+  </div>
+
+  <script src="demo/theme.js"></script>
+  <script src="demo/jobfinder-data.js"></script>
+  <script src="demo/jobfinder-engine.js"></script>
+  <script src="demo/jobfinder-ui.js"></script>
+  <script src="palette.js"></script>
+</body>
+</html>

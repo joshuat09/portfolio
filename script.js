@@ -56,7 +56,8 @@ function openProject(key){
   const tech = document.querySelector("#dialog-tech"); tech.replaceChildren();
   p.tech.forEach(item => { const tag=document.createElement("i"); tag.textContent=item; tech.append(tag); });
   const demoLink = document.querySelector("#dialog-demo-link");
-  if(demoLink) demoLink.hidden = key !== "complaints";
+  const demoPages = { complaints:"complaints.html", jobfinder:"jobfinder.html" };
+  if(demoLink){ demoLink.hidden = !demoPages[key]; if(demoPages[key]) demoLink.href = demoPages[key]; }
   dialog.showModal();
 }
 document.querySelectorAll(".project-card").forEach(card => {

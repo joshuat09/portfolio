@@ -31,3 +31,12 @@ Upload the `demo/` folder along with the other files when publishing to GitHub P
 
 ## Command palette
 `palette.js` adds a Ctrl/Cmd+K palette (also the "⌘K" button in the top bar) for jumping to sections, opening projects, applying filters, running demo examples, toggling dark mode and searching. It only drives existing page controls.
+
+## Graduate job finder demo
+`jobfinder.html` is an interactive prototype of a transparent 0-100 role-match score using fictional roles (no AI model, no network calls).
+- `demo/jobfinder-data.js` - fictional roles, vocabularies and the example profile
+- `demo/jobfinder-engine.js` - scoring (skills, location/mode, salary, sector, level) with per-component reasons
+- `demo/jobfinder-ui.js` / `demo/jobfinder.css` - profile controls and ranked results
+- `demo/theme.js` - dark-mode toggle shared by the sub pages
+- `demo/jobfinder.test.js` - tests; run with `node --test demo/jobfinder.test.js`
+The sub pages share page styling from `demo/complaint-demo.css`.

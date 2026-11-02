@@ -83,22 +83,6 @@
   $('cd-tech').addEventListener('change', e => trace.classList.toggle('cp-show-tech', e.target.checked));
   input.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) run(); });
 
-  // Theme toggle (shares the saved preference with the portfolio home page)
-  const themeToggle = $('theme-toggle');
-  const applyTheme = on => {
-    document.body.classList.toggle('dark-mode', on);
-    if (!themeToggle) return;
-    themeToggle.setAttribute('aria-pressed', String(on));
-    themeToggle.setAttribute('aria-label', on ? 'Switch to light mode' : 'Switch to dark mode');
-    themeToggle.innerHTML = on ? '☀ <span>Light mode</span>' : '◐ <span>Dark mode</span>';
-  };
-  try { applyTheme(localStorage.getItem('portfolio-theme') === 'dark'); } catch (e) {}
-  if (themeToggle) themeToggle.addEventListener('click', () => {
-    const on = !document.body.classList.contains('dark-mode');
-    applyTheme(on);
-    try { localStorage.setItem('portfolio-theme', on ? 'dark' : 'light'); } catch (e) {}
-  });
-
   // Deep link from the portfolio / palette: complaints.html?example=legal
   const wanted = new URLSearchParams(location.search).get('example');
   const match = D.scenarios.find(s => s.id === wanted);

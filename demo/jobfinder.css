@@ -1,0 +1,42 @@
+/* Job finder additions. Page chrome comes from complaint-demo.css (.cp-*). */
+.jf-profile-head{display:flex;align-items:baseline;justify-content:space-between}
+.jf-profile .cp-label{margin-top:2px}
+.jf-profile .cp-presets{margin-bottom:16px}
+.jf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.jf-field{display:block;margin-bottom:16px}
+.jf-field select{width:100%;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:6px;padding:9px 10px;font:12px var(--sans)}
+.jf-field input[type=range],.jf-weight input[type=range]{width:100%;accent-color:#6b8d52}
+.jf-field b{color:var(--ink)}
+.jf-hint{font-size:11px;line-height:1.6;color:var(--muted);margin:10px 0}
+.jf-weight{display:block;margin-bottom:12px}
+.jf-weight span{display:flex;justify-content:space-between;font:10px var(--mono);letter-spacing:.04em;color:var(--muted);margin-bottom:4px}
+.jf-weight b{color:var(--ink);font-weight:500}
+.jf-count{font:10px var(--mono);color:var(--muted);margin-bottom:14px}
+
+.jf-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.jf-role{border:1px solid var(--line);border-radius:7px;padding:14px 16px;animation:cpIn .2s ease}
+.jf-role:first-child{border-color:#83a55e}
+.jf-role-head{display:flex;align-items:center;gap:14px}
+.jf-score{--pct:0;flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--ring,#83a55e) calc(var(--pct)*1%),var(--soft) 0)}
+.jf-score::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--paper)}
+.jf-score span{position:relative;font:600 15px var(--display)}
+.jf-band-strong{--ring:#6b9f4a}.jf-band-good{--ring:#9ab85a}.jf-band-partial{--ring:#d1a94a}.jf-band-weak{--ring:#c98a6f}
+.jf-role-main{min-width:0;flex:1}
+.jf-role-main h3{font:600 15px var(--display);letter-spacing:-.02em;margin:0 0 3px}
+.jf-meta{font:10px/1.6 var(--mono);color:var(--muted)}
+.jf-band{flex:none;font:600 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.jf-role details{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+.jf-role summary{cursor:pointer;font:10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.jf-parts{display:grid;gap:12px;margin:12px 0 0;padding:0;list-style:none}
+.jf-part-top{display:flex;justify-content:space-between;font-size:12px;font-weight:600}
+.jf-part-top span:last-child{font:11px var(--mono);font-weight:400;color:var(--muted)}
+.jf-bar{height:6px;border-radius:3px;background:var(--soft);margin:5px 0 4px;overflow:hidden}
+.jf-bar i{display:block;height:100%;background:#83a55e;border-radius:3px}
+.jf-reason{font-size:11px;line-height:1.6;color:var(--muted)}
+.jf-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.jf-chips i{font:9px var(--mono);font-style:normal;padding:4px 6px;border-radius:3px}
+.jf-chip-yes{background:var(--ok-bg);color:var(--ok-fg)}
+.jf-chip-no{background:var(--bad-bg);color:var(--bad-fg)}
+
+@media(max-width:520px){.jf-row{grid-template-columns:1fr}.jf-band{display:none}}
+@media(prefers-reduced-motion:reduce){.jf-role{animation:none}}

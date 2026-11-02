@@ -34,8 +34,11 @@
       [['home', 'Dashboard'], ['projects', 'Projects'], ['play-guessed', 'Play GUESSED'], ['capabilities', 'Capabilities'], ['about', 'About']]
         .forEach(([id, label]) => { if (document.getElementById(id)) add('Go to', label, 'section', () => go(id)); });
       add('Go to', 'Complaint-handling demo', 'page agent', href('complaints.html'));
+      add('Go to', 'Graduate job finder demo', 'page jobs scoring', href('jobfinder.html'));
     } else {
       add('Go to', 'Back to portfolio', 'home', href('index.html'));
+      if (!/complaints\.html/.test(location.pathname)) add('Go to', 'Complaint-handling demo', 'page agent', href('complaints.html'));
+      if (!/jobfinder\.html/.test(location.pathname)) add('Go to', 'Graduate job finder demo', 'page jobs scoring', href('jobfinder.html'));
       [['projects', 'Projects'], ['capabilities', 'Capabilities'], ['about', 'About']]
         .forEach(([id, label]) => add('Go to', label, 'portfolio section', href('index.html#' + id)));
     }
