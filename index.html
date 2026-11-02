@@ -55,7 +55,7 @@
           </article>
           <article class="project-card" data-category="software" tabindex="0" data-project="guessed">
             <div class="card-top"><span class="project-number">02 / WEB APP</span><span class="status status-live">PUBLISHED</span></div><div class="project-visual visual-game"><div class="game-title">GUESSED<span>_</span></div><div class="game-sub">A DAILY KNOWLEDGE GAME</div><div class="game-tiles"><i>?</i><i>?</i><i>?</i><i>?</i><i>?</i></div><div class="game-meta">DAILY CHALLENGE · #001</div></div>
-            <div class="card-content"><div class="tags"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div><h3>GUESSED — Daily Guessing Game</h3><p>A lightweight browser game inspired by daily puzzle formats, built with vanilla web technologies and designed for GitHub Pages.</p><div class="card-bottom"><span>125 questions · Five categories</span><a class="view-btn" href="https://joshuat09.github.io/guessed/" target="_blank" rel="noreferrer" aria-label="Open GUESSED">↗</a></div></div>
+            <div class="card-content"><div class="tags"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div><h3>GUESSED — Daily Guessing Game</h3><p>A lightweight browser game inspired by daily puzzle formats, built with vanilla web technologies and designed for GitHub Pages.</p><div class="card-bottom"><span>125 questions · Five categories</span><a class="view-btn play-game-link" href="#play-guessed" aria-label="Play GUESSED on this page">PLAY ↘</a></div></div>
           </article>
           <article class="project-card" data-category="ai" tabindex="0" data-project="evaluation">
             <div class="card-top"><span class="project-number">03 / GOVERNANCE</span><span class="status status-progress">ITERATIVE</span></div><div class="project-visual visual-eval"><div class="eval-head">AGENT EVALUATION <span>● LIVE TEST SUITE</span></div><div class="eval-line"><span>Supported decisions</span><b>✓</b></div><div class="eval-line"><span>Blocked actions</span><b>✓</b></div><div class="eval-line"><span>Unresolved cases</span><b>↗</b></div><div class="eval-footer">TEST · TRACE · RECONCILE</div></div>
@@ -75,6 +75,10 @@
           </article>
         </div>
       </section>
+      <section class="section guessed-play-section" id="play-guessed">
+        <div class="section-heading"><div><div class="eyebrow">INTERACTIVE PROJECT</div><h2>Play GUESSED<span>.</span></h2><p class="section-intro">Try the daily challenge or choose a category — right here in the portfolio.</p></div><a class="standalone-game-link" href="https://joshuat09.github.io/guessed/" target="_blank" rel="noreferrer">Open in a new tab ↗</a></div>
+        <div class="guessed-embed-shell"><iframe id="guessed-page-frame" title="Play the GUESSED daily guessing game" src="https://joshuat09.github.io/guessed/" loading="lazy" allow="clipboard-write" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+      </section>
       <section class="capabilities section" id="capabilities">
         <div class="eyebrow">TOOLKIT</div><h2>Capabilities & technologies<span>.</span></h2>
         <div class="capability-grid">
@@ -92,7 +96,7 @@
     </main>
   </div>
   <dialog id="project-dialog" class="project-dialog">
-    <button class="dialog-close" aria-label="Close details">×</button><div class="eyebrow" id="dialog-kicker">PROJECT DETAILS</div><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-section"><h3>What it demonstrates</h3><ul id="dialog-points"></ul></div><div class="dialog-section"><h3>Technology / focus</h3><div class="chips" id="dialog-tech"></div></div><section id="game-embed-section" class="game-embed-section" hidden><div class="game-embed-heading"><div><div class="eyebrow">PLAY THE PROJECT</div><h3>Try GUESSED here<span>.</span></h3></div><a href="https://joshuat09.github.io/guessed/" target="_blank" rel="noreferrer">Open full game ↗</a></div><iframe id="guessed-frame" title="Play the GUESSED daily guessing game" src="https://joshuat09.github.io/guessed/" loading="lazy" allow="clipboard-write"></iframe></section><p class="dialog-note">Project status and descriptions are intentionally conservative; update this panel as the work develops.</p>
+    <button class="dialog-close" aria-label="Close details">×</button><div class="eyebrow" id="dialog-kicker">PROJECT DETAILS</div><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-section"><h3>What it demonstrates</h3><ul id="dialog-points"></ul></div><div class="dialog-section"><h3>Technology / focus</h3><div class="chips" id="dialog-tech"></div></div><p class="dialog-note">Project status and descriptions are intentionally conservative; update this panel as the work develops.</p>
   </dialog>
   <script src="script.js"></script>
 </body>
