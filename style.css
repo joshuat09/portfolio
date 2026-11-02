@@ -57,3 +57,155 @@ body.dark-mode .filter{color:#a9b8ad}
 body.dark-mode .filter:hover,body.dark-mode .theme-toggle:hover,body.dark-mode .surprise-btn:hover{background:#293a30}
 body.dark-mode .guessed-embed-shell{border-color:#34443a}
 @media(max-width:760px){.topbar-actions{gap:8px}.topbar-actions .updated{display:none}.project-search{max-width:none;flex-basis:100%}.project-tools{align-items:stretch}.filters{order:2}.surprise-btn{order:3;align-self:flex-start}}
+
+
+/* Refined dark theme: forest, charcoal, warm ivory and soft sage */
+body.dark-mode{
+  --bg:#101915;
+  --paper:#1b2922;
+  --ink:#edf2e8;
+  --muted:#aab9aa;
+  --line:#34483b;
+  --green:#c8ed83;
+  --deep:#c8ed83;
+  background:var(--bg);
+  color:var(--ink);
+  color-scheme:dark;
+}
+body.dark-mode .sidebar{
+  background:#0a130f;
+  border-right:1px solid #26392e;
+}
+body.dark-mode .brand-mark{
+  background:#c8ed83;
+  color:#14231b;
+}
+body.dark-mode .nav-link{color:#a9b9ac}
+body.dark-mode .nav-link.active,
+body.dark-mode .nav-link:hover{background:#20372b;color:#f4f7ee}
+body.dark-mode .nav-link b,
+body.dark-mode .side-label{color:#819987}
+body.dark-mode .topbar{border-color:var(--line)}
+body.dark-mode .crumb{color:#c2cec2}
+body.dark-mode .crumb span{color:#718678}
+body.dark-mode .updated,
+body.dark-mode .search-status,
+body.dark-mode .project-number,
+body.dark-mode .metrics span{color:#91a395}
+body.dark-mode .eyebrow{color:#a7b9a8}
+body.dark-mode .eyebrow-line{background:#c8ed83}
+body.dark-mode .hero h1,
+body.dark-mode .section h2,
+body.dark-mode .about h2,
+body.dark-mode .card-content h3,
+body.dark-mode .capability h3,
+body.dark-mode .metrics strong{color:#f0f3e9}
+body.dark-mode .hero h1 em,
+body.dark-mode .about h2 em,
+body.dark-mode .section h2 span{color:#c8ed83}
+body.dark-mode .intro,
+body.dark-mode .secondary-link,
+body.dark-mode .about-copy p,
+body.dark-mode .guessed-play-section .section-intro{color:#b1beb2}
+body.dark-mode .primary-btn{
+  background:#c8ed83;
+  color:#17251c;
+}
+body.dark-mode .primary-btn:hover{background:#d8f5a0}
+body.dark-mode .primary-btn span{color:#29432e}
+body.dark-mode .orbit{border-color:#304638}
+body.dark-mode .core{
+  background:#c8ed83;
+  color:#14251b;
+  box-shadow:0 0 0 12px #1d3025,0 0 0 13px #3a5540;
+}
+body.dark-mode .core small{color:#3b5739}
+body.dark-mode .node{
+  background:#1d2c24;
+  border-color:#3b5042;
+  color:#edf2e8;
+  box-shadow:0 8px 25px #00000030;
+}
+body.dark-mode .node small{color:#9daf9f}
+body.dark-mode .metrics div{border-color:var(--line)}
+body.dark-mode .filter{color:#aab9ac}
+body.dark-mode .filter.active,
+body.dark-mode .filter:hover{
+  background:#2a4032;
+  border-color:#526b55;
+  color:#eff4e9;
+}
+body.dark-mode .project-search{
+  background:#1b2922;
+  border-color:#405747;
+  color:#a8b9aa;
+}
+body.dark-mode .project-search input{color:#edf2e8}
+body.dark-mode .project-search input::placeholder{color:#829587}
+body.dark-mode .project-search:focus-within{
+  border-color:#a6ce75;
+  box-shadow:0 0 0 3px #a6ce7520;
+}
+body.dark-mode .theme-toggle,
+body.dark-mode .surprise-btn{
+  background:#1b2922;
+  border-color:#405747;
+  color:#eaf1e6;
+}
+body.dark-mode .theme-toggle:hover,
+body.dark-mode .surprise-btn:hover{
+  background:#2a4032;
+  border-color:#78965f;
+}
+body.dark-mode .project-card,
+body.dark-mode .capability{
+  background:#1a2821;
+  border-color:#34483b;
+}
+body.dark-mode .project-card:hover{border-color:#78965f}
+body.dark-mode .status-progress{background:#34452d;color:#c8ed83}
+body.dark-mode .status-live{background:#203f35;color:#9bd9b7}
+body.dark-mode .status-research{background:#403a2b;color:#e4c58a}
+body.dark-mode .tags span,
+body.dark-mode .chips i{
+  background:#293b30;
+  color:#c3d1c2;
+}
+body.dark-mode .card-content p,
+body.dark-mode .capability p{color:#aab9ac}
+body.dark-mode .card-bottom{border-color:#34483b;color:#91a395}
+body.dark-mode .view-btn{
+  background:#26392d;
+  color:#d9edc5;
+  border-color:#465d49;
+}
+body.dark-mode .view-btn:hover{
+  background:#c8ed83;
+  border-color:#c8ed83;
+  color:#17251c;
+}
+body.dark-mode .capabilities,
+body.dark-mode .about,
+body.dark-mode footer,
+body.dark-mode .guessed-play-section{border-color:var(--line)}
+body.dark-mode .cap-icon{color:#c8ed83}
+body.dark-mode footer{color:#8fa194}
+body.dark-mode footer a,
+body.dark-mode .standalone-game-link{color:#c8ed83}
+body.dark-mode .project-dialog{
+  background:#1a2821;
+  color:#edf2e8;
+  border-color:#405747;
+  box-shadow:0 25px 100px #00000080;
+}
+body.dark-mode .project-dialog>p,
+body.dark-mode .dialog-section ul{color:#b1beb2}
+body.dark-mode .dialog-section{border-color:#34483b}
+body.dark-mode .dialog-close{color:#b1beb2}
+body.dark-mode .project-dialog .chips i{background:#293b30;color:#c3d1c2}
+body.dark-mode .guessed-embed-shell{
+  background:#1b2922;
+  border-color:#405747;
+  box-shadow:0 12px 35px #00000030;
+}
+body.dark-mode #guessed-page-frame{border-color:#405747}
