@@ -1,230 +1,246 @@
 /*
- * Rule-based simulation of a bounded-autonomy complaint agent.
- * The "agent" proposes tool calls; a tool registry validates them and a deterministic
- * safety gate decides whether terminal actions may run. No network, no LLM.
+ * Browser port of the Python complaint agent's control flow (agent/core.py, agent/safety.py, tools/).
+ * Ported from the real code: the intake safety screen, the four read-only tools and their validation,
+ * the bounded loop (8 model calls), escalation on every failure path, and the escalation record.
+ * Not ported: the language model. A scripted stand-in chooses each step instead of qwen3:4b.
  */
 (function (root) {
   'use strict';
 
   const D = root.ComplaintData || (typeof require === 'function' ? require('./complaint-data.js') : null);
-  const MAX_CALLS = 8;
 
-  const INTENTS = {
-    late_delivery: { label: 'Late delivery', words: ['late', 'delayed', 'hasn\'t arrived', 'hasnt arrived', 'not arrived', 'never arrived', 'turned up', 'still waiting', 'where is', 'missing parcel', 'overdue'] },
-    damaged_item: { label: 'Damaged or faulty item', words: ['damaged', 'broken', 'smashed', 'cracked', 'faulty', 'defective', 'stopped working', 'not working', 'arrived broken'] },
-    wrong_item: { label: 'Wrong item', words: ['wrong item', 'wrong product', 'incorrect item', 'not what i ordered', 'different item'] },
-    billing_error: { label: 'Billing error', words: ['charged twice', 'double charged', 'overcharged', 'billing', 'charged me', 'wrong amount', 'direct debit'] },
-    poor_service: { label: 'Poor service', words: ['rude', 'terrible service', 'service is terrible', 'nobody helps', 'nobody ever helps', 'unhelpful', 'ignored', 'no one replied'] }
+  /* ---- Deterministic intake screening (agent/safety.py) ---- */
+  function assessComplaint(text, opts) {
+    const o = opts || {};
+    const t = text.toLowerCase();
+    const has = list => list.some(term => t.indexOf(term) !== -1);
+    const flags = [];
+    if (o.requestedAmount != null && o.requestedAmount >= D.safety.highValueThreshold) flags.push('high_value');
+    if (has(D.safety.moneyTransferTerms)) flags.push('money_transfer_request');
+    if (has(D.safety.suspiciousTerms)) flags.push('suspicious_request');
+    if (o.outsidePolicy || has(D.safety.outOfPolicyTerms)) flags.push('outside_policy');
+    if (o.ambiguous) flags.push('ambiguous');
+    return { flags, escalate: flags.length > 0 };
+  }
+
+  /* ---- Read-only tools (tools/*.py) and validation (_execute_tool) ---- */
+  function lookup(table, id, kind) {
+    const rec = table[id];
+    return rec
+      ? Object.assign({}, rec, { found: true, record: rec, error: null })
+      : { found: false, record: null, error: { code: 'not_found', message: `${kind} '${id}' was not found.` } };
+  }
+  const TOOLS = {
+    get_customer: { arg: 'customer_id', run: a => lookup(D.customers, a.customer_id, 'Customer') },
+    get_order: { arg: 'order_id', run: a => lookup(D.orders, a.order_id, 'Order') },
+    get_policy: { arg: 'policy_id', run: a => lookup(D.policies, a.policy_id, 'Policy') },
+    list_policies: { arg: null, run: () => Object.keys(D.policies).map(k => D.policies[k]) }
   };
-  const REFUND_WORDS = ['refund', 'money back', 'reimburse', 'chargeback'];
-  const LEGAL_WORDS = ['solicitor', 'lawyer', 'legal action', 'sue ', 'court', 'trading standards', 'small claims', 'ombudsman'];
-  const VULNERABLE_WORDS = ['can\'t afford', 'cannot afford', 'struggling', 'vulnerable', 'disabled', 'disability', 'bereavement', 'passed away', 'mental health', 'in hospital', 'elderly'];
-  const NEGATIVE_WORDS = ['terrible', 'awful', 'angry', 'furious', 'frustrated', 'disgusted', 'useless', 'worst', 'unacceptable', 'ridiculous'];
 
-  const count = (text, words) => words.reduce((n, w) => n + (text.includes(w) ? 1 : 0), 0);
+  function ToolValidationError(message) { this.message = message; this.name = 'ToolValidationError'; }
 
-  function interpret(text) {
-    const t = ' ' + text.toLowerCase() + ' ';
-    let intent = 'unclear', best = 0;
-    Object.keys(INTENTS).forEach(key => {
-      const score = count(t, INTENTS[key].words);
-      if (score > best) { best = score; intent = key; }
+  function executeTool(call) {
+    const spec = TOOLS[call.name];
+    if (!spec) throw new ToolValidationError('Unknown tool: ' + call.name);
+    const expected = spec.arg ? [spec.arg] : [];
+    const keys = Object.keys(call.arguments);
+    if (keys.length !== expected.length || keys.some(k => expected.indexOf(k) === -1)) {
+      throw new ToolValidationError(`Invalid arguments for ${call.name}; expected ${JSON.stringify(expected)}`);
+    }
+    if (spec.arg) {
+      const v = call.arguments[spec.arg];
+      if (typeof v !== 'string' || !v.trim()) throw new ToolValidationError(`${spec.arg} must be a non-empty string`);
+    }
+    return spec.run(call.arguments);
+  }
+
+  /* ---- Stand-in for the language model: scripted next-step rules ---- */
+  function extractIds(text) {
+    const ord = text.match(/\bORD-\d{4}\b/i);
+    let orderId = ord ? ord[0].toUpperCase() : null;
+    if (!orderId) {
+      const m = text.match(/\border(?:\s+number)?(?:\s+is)?\s+#?(\d{3,6})\b/i);
+      if (m) orderId = m[1];
+    }
+    const cust = text.match(/\bCUST-\d{4}\b/i);
+    return { orderId, customerId: cust ? cust[0].toUpperCase() : null };
+  }
+
+  function standInModel(text, toolCalls, ids) {
+    const t = text.toLowerCase();
+    const done = name => toolCalls.some(c => c.tool === name);
+    const call = (name, args) => ({ kind: 'tool_call', name, args });
+    const orderCall = toolCalls.filter(c => c.tool === 'get_order')[0];
+    const order = orderCall && orderCall.result.found ? orderCall.result.record : null;
+
+    if (!ids.orderId && !ids.customerId) {
+      return { kind: 'final', finalKind: 'clarify', text: 'Sorry about the problem. I can\'t see an order or customer number in your message. Could you send your order number so I can look into it?' };
+    }
+    if (ids.orderId && !orderCall) return call('get_order', { order_id: ids.orderId });
+    if (ids.customerId && !done('get_customer')) return call('get_customer', { customer_id: ids.customerId });
+    if (!ids.orderId) {
+      return { kind: 'final', finalKind: 'clarify', text: 'Thanks, I found your account. Which order is this about? Please send the order number.' };
+    }
+    if (!order) {
+      return { kind: 'final', finalKind: 'not_found', text: `I couldn't find an order with the number ${ids.orderId}. Could you check it and send it again?` };
+    }
+
+    const damaged = /damaged|broken|faulty|cracked|smashed/.test(t);
+    const missingPart = /\bmissing\b/.test(t);
+    const replacement = /replacement/.test(t);
+    const refund = /refund|money back/.test(t);
+    const wrongItem = /instead|wrong item|supposed to contain/.test(t);
+    const notArrived = /not arrived|hasn't arrived|has not arrived|cannot find the parcel|can't find the parcel/.test(t);
+    const claimsDelivered = /delivered/.test(t);
+
+    if (claimsDelivered && order.status !== 'delivered') {
+      return { kind: 'escalate', reason: `The customer says the order was delivered, but the record shows "${order.status}". A human should investigate the conflict.` };
+    }
+    if (notArrived && order.status === 'delivered') {
+      return { kind: 'escalate', reason: 'The customer says the order has not arrived, but the record shows "delivered". A human should investigate.' };
+    }
+    if (notArrived && order.status === 'in_transit') {
+      return { kind: 'final', finalKind: 'answer', text: `Order ${order.order_id} (${order.item}) is recorded as in transit. I can't see more detail than that yet.` };
+    }
+
+    const problem = damaged || missingPart || replacement || refund || wrongItem;
+    if (!problem) {
+      return { kind: 'final', finalKind: 'answer', text: `Order ${order.order_id} (${order.item}) is currently ${order.status.replace('_', ' ')}.` };
+    }
+
+    const policyId = (damaged || missingPart || replacement) ? (order.policy_id || 'REP-01') : refund ? 'REF-01' : 'RET-01';
+    if (!done('get_policy')) return call('get_policy', { policy_id: policyId });
+    if (wrongItem) {
+      return { kind: 'escalate', reason: `The customer reports a different item from the record (${order.item}). Policy ${policyId} says to confirm details with a human before promising anything.` };
+    }
+    return { kind: 'escalate', reason: `Policy ${policyId} requires a human to verify eligibility before any replacement or refund is promised. This prototype cannot place replacement orders or issue refunds.` };
+  }
+
+  // Scripted failure behaviours, mirroring the failure paths the Python tests cover.
+  function modelStep(mode, text, toolCalls, ids, iteration) {
+    if (mode === 'malformed') throw new Error('Provider returned a malformed model response');
+    if (mode === 'unsafe_tool' && iteration === 1) return { kind: 'tool_call', name: 'issue_refund', args: { order_id: ids.orderId || 'unknown', amount: 250 } };
+    if (mode === 'never_finishes') return { kind: 'tool_call', name: 'list_policies', args: {} };
+    return standInModel(text, toolCalls, ids);
+  }
+
+  /* ---- Escalation record (_build_escalation_record) ---- */
+  function buildRecord(complaint, toolCalls, reason, source, flags, iteration) {
+    const ids = { customer_id: {}, order_id: {}, policy_id: {} };
+    const evidence = [{ label: 'Customer complaint', verified: false, note: 'unverified' }];
+    toolCalls.forEach(c => {
+      const r = c.result;
+      if (!r || r.found !== true || !r.record) {
+        if (r && r.found === false) evidence.push({ label: `${c.tool} for ${Object.keys(c.arguments).map(k => c.arguments[k])[0]}: not found`, verified: false, note: 'lookup' });
+        return;
+      }
+      const rec = r.record;
+      if (c.tool === 'get_order' && rec.order_id === c.arguments.order_id) {
+        ids.order_id[rec.order_id] = ['get_order'];
+        if (rec.customer_id) ids.customer_id[rec.customer_id] = (ids.customer_id[rec.customer_id] || []).concat('get_order');
+        evidence.push({ label: `Order record ${rec.order_id}: ${rec.item}, £${rec.amount.toFixed(2)}, ${rec.status}`, verified: true, note: 'get_order' });
+      } else if (c.tool === 'get_customer' && rec.customer_id === c.arguments.customer_id) {
+        ids.customer_id[rec.customer_id] = (ids.customer_id[rec.customer_id] || []).concat('get_customer');
+        evidence.push({ label: `Customer record ${rec.customer_id}: ${rec.name}, ${rec.tier}`, verified: true, note: 'get_customer' });
+      } else if (c.tool === 'get_policy' && rec.policy_id === c.arguments.policy_id) {
+        ids.policy_id[rec.policy_id] = ['get_policy'];
+        evidence.push({ label: `Policy record ${rec.policy_id}: ${rec.topic}`, verified: true, note: 'get_policy' });
+      }
     });
-    const idMatch = text.match(/\bORD-\d{4}\b/i);
-    const negative = count(t, NEGATIVE_WORDS);
+    const only = obj => { const k = Object.keys(obj); return k.length === 1 ? k[0] : null; };
     return {
-      intent,
-      intentLabel: intent === 'unclear' ? 'Unclear' : INTENTS[intent].label,
-      orderId: idMatch ? idMatch[0].toUpperCase() : null,
-      wantsRefund: count(t, REFUND_WORDS) > 0,
-      sentiment: negative >= 2 ? 'very negative' : negative === 1 ? 'negative' : 'neutral',
-      flags: { legal: count(t, LEGAL_WORDS) > 0, vulnerable: count(t, VULNERABLE_WORDS) > 0 }
+      status: 'pending_human_review', reason, reasonSource: source,
+      customerId: only(ids.customer_id), orderId: only(ids.order_id), policyId: only(ids.policy_id),
+      safetyFlags: flags || [], iteration, evidence
     };
   }
 
-  /* ---- Tool registry: name -> argument schema + implementation ---- */
-  const TOOLS = {
-    lookup_order: {
-      args: { order_id: 'string' },
-      run: a => {
-        const o = D.orders[a.order_id];
-        return o ? { found: true, order: o } : { found: false };
-      }
-    },
-    lookup_customer: {
-      args: { customer_id: 'string' },
-      run: a => {
-        const c = D.customers[a.customer_id];
-        return c ? { found: true, customer: c } : { found: false };
-      }
-    },
-    check_policy: {
-      args: { intent: 'string', order_id: 'string', wants_refund: 'boolean' },
-      run: a => checkPolicy(a)
-    },
-    request_missing_info: { args: { fields: 'array' }, run: a => ({ requested: a.fields }) },
-    escalate_to_human: {
-      args: { reason: 'string', priority: 'string' },
-      run: a => ({ ticket: 'ESC-' + (1000 + hash(a.reason) % 9000), queue: a.priority === 'high' ? 'Priority review' : 'Standard review' })
-    },
-    resolve_case: { args: { action: 'string', order_id: 'string' }, run: a => ({ status: 'done', action: a.action }) }
-  };
-  const TERMINAL = ['request_missing_info', 'escalate_to_human', 'resolve_case'];
-
-  function hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
-
-  function checkPolicy(a) {
-    const o = D.orders[a.order_id];
-    const P = D.policy;
-    if (a.intent === 'billing_error') return { remedy: 'billing_review', note: 'Billing corrections are financial actions and need a human.' };
-    if (a.intent === 'poor_service') return { remedy: 'service_review', note: 'Complaints about service quality need a human to respond.' };
-    if (a.intent === 'unclear') return { remedy: 'unclear', note: 'No recognisable issue in the message.' };
-    const delivered = o.status === 'delivered';
-    const age = delivered ? o.deliveredDaysAgo : 0;
-    if (a.wants_refund) {
-      return delivered && age <= P.returnWindowDays
-        ? { remedy: 'refund_review', note: `Delivered ${age}d ago, inside the ${P.returnWindowDays}-day window. Refunds need human approval.` }
-        : { remedy: 'decline_review', note: `Delivered ${age}d ago, outside the ${P.returnWindowDays}-day window. Declining a refund needs human sign-off.` };
-    }
-    if (a.intent === 'late_delivery') {
-      if (delivered) return { remedy: 'delivery_dispute_review', note: 'System shows delivered; a lost-parcel investigation needs a human.' };
-      return { remedy: 'tracking_update', note: `Due ${o.dueDaysAgo}d ago and still in transit with ${o.carrier}.` };
-    }
-    if (a.intent === 'damaged_item' || a.intent === 'wrong_item') {
-      return delivered && age <= P.returnWindowDays
-        ? { remedy: 'replacement', note: `Delivered ${age}d ago, inside the return window.` }
-        : { remedy: 'decline_review', note: `Outside the ${P.returnWindowDays}-day window.` };
-    }
-    return { remedy: 'unclear', note: 'No matching policy.' };
-  }
-
-  function validateCall(call) {
-    const tool = TOOLS[call.name];
-    if (!tool) return { ok: false, error: `Unknown tool "${call.name}" - not in the registry of ${Object.keys(TOOLS).length} tools.` };
-    const expected = Object.keys(tool.args);
-    for (const key of expected) {
-      const v = call.args[key];
-      const type = tool.args[key];
-      const good = type === 'array' ? Array.isArray(v) : typeof v === type;
-      if (!good) return { ok: false, error: `Argument "${key}" must be ${type}.` };
-    }
-    const extra = Object.keys(call.args).filter(k => !(k in tool.args));
-    if (extra.length) return { ok: false, error: `Unexpected argument "${extra[0]}".` };
-    return { ok: true };
-  }
-
-  /* ---- Deterministic safety gate for terminal actions ---- */
-  function gate(call, s) {
-    if (call.name !== 'resolve_case') return { allow: true };
-    if (s.flags.legal) return { allow: false, rule: 'G1', message: 'Legal language detected. Automated resolution is not permitted.', priority: 'high' };
-    if (s.flags.vulnerable) return { allow: false, rule: 'G2', message: 'Customer may be vulnerable. A human must handle this case.', priority: 'high' };
-    if (D.policy.allowedResolveActions.indexOf(call.args.action) === -1) return { allow: false, rule: 'G3', message: `Action "${call.args.action}" is not on the allowed list.`, priority: 'normal' };
-    if (call.args.action === 'arrange_replacement' && s.order.value > D.policy.autoReplacementMaxValue) {
-      return { allow: false, rule: 'G4', message: `Replacement value £${s.order.value.toFixed(2)} exceeds the £${D.policy.autoReplacementMaxValue} automatic limit.`, priority: 'normal' };
-    }
-    return { allow: true };
-  }
-
-  /* ---- The "agent": proposes the next call from what it knows so far ---- */
-  function nextCall(s) {
-    const i = s.interp;
-    if (s.stress && !s.injected) {
-      s.injected = true;
-      return { name: 'issue_refund', args: { order_id: i.orderId || 'unknown', amount: s.order ? s.order.value : 0 } };
-    }
-    if (s.gateBlock) {
-      const b = s.gateBlock; s.gateBlock = null;
-      return { name: 'escalate_to_human', args: { reason: `[${b.rule}] ${b.message}`, priority: b.priority } };
-    }
-    if (i.orderId && !s.orderChecked) { s.orderChecked = true; return { name: 'lookup_order', args: { order_id: i.orderId } }; }
-    if (s.order && !s.customerChecked) { s.customerChecked = true; return { name: 'lookup_customer', args: { customer_id: s.order.customerId } }; }
-    if (!s.order) {
-      if (s.flags.legal || s.flags.vulnerable) return { name: 'escalate_to_human', args: { reason: 'Sensitive message with no verifiable order.', priority: 'high' } };
-      const fields = i.orderId ? ['valid_order_number'] : (i.intent === 'unclear' || i.intent === 'poor_service' ? ['order_number', 'issue_description'] : ['order_number']);
-      return { name: 'request_missing_info', args: { fields } };
-    }
-    if (!s.policy) return { name: 'check_policy', args: { intent: i.intent, order_id: s.order.id, wants_refund: i.wantsRefund } };
-    const remedy = s.policy.remedy;
-    const resolveWith = action => ({ name: 'resolve_case', args: { action, order_id: s.order.id } });
-    if (remedy === 'tracking_update') return resolveWith('send_tracking_update');
-    if (remedy === 'replacement') return resolveWith('arrange_replacement');
-    const priority = (s.flags.legal || s.flags.vulnerable) ? 'high' : 'normal';
-    return { name: 'escalate_to_human', args: { reason: s.policy.note, priority } };
-  }
-
-  const money = n => '£' + n.toFixed(2);
   const short = obj => JSON.stringify(obj);
 
   function run(text, opts) {
-    const interp = interpret(text);
-    const s = { interp, flags: Object.assign({}, interp.flags), stress: !!(opts && opts.stress), steps: [], calls: 0, done: false };
-    const add = (kind, status, title, detail) => s.steps.push({ kind, status, title, detail: detail || '' });
+    const o = opts || {};
+    const mode = o.mode || 'normal';
+    const steps = [];
+    const add = (kind, status, title, detail) => steps.push({ kind, status, title, detail: detail || '' });
+    const state = { toolCalls: [], iterations: 0, decisions: [], flags: [] };
+    let outcome = null;
 
-    add('interpret', 'info', 'Interpreted complaint',
-      `Intent: ${interp.intentLabel} · Order: ${interp.orderId || 'none found'} · Sentiment: ${interp.sentiment}` +
-      (interp.wantsRefund ? ' · Customer asks for a refund' : '') +
-      (interp.flags.legal ? ' · LEGAL language' : '') + (interp.flags.vulnerable ? ' · VULNERABILITY cues' : ''));
+    const escalate = (reason, source, flags) => {
+      const record = buildRecord(text, state.toolCalls, reason, source, flags, state.iterations);
+      outcome = {
+        type: 'human', label: 'HUMAN REVIEW', record,
+        summary: `Escalated as ${record.status}.`,
+        reasons: [reason]
+      };
+    };
 
-    let final = null;
-    while (!s.done) {
-      if (s.calls >= MAX_CALLS) {
-        add('gate', 'blocked', 'Iteration limit reached', `Stopped after ${MAX_CALLS} tool calls and escalated.`);
-        final = { name: 'escalate_to_human', args: { reason: 'Iteration limit reached.', priority: 'normal' }, result: TOOLS.escalate_to_human.run({ reason: 'Iteration limit reached.', priority: 'normal' }) };
-        break;
-      }
-      const call = nextCall(s);
-      s.calls++;
-      add('propose', 'info', `Agent proposes ${call.name}`, short(call.args));
+    add('complaint', 'info', 'Complaint received', text);
+    const assessment = assessComplaint(text, o);
+    state.flags = assessment.flags;
+    add('safety', assessment.escalate ? 'blocked' : 'ok', 'Intake safety screen',
+      assessment.escalate ? 'Flags: ' + assessment.flags.join(', ') + '. Escalating before any model call.' : 'No risk flags raised.');
 
-      const v = validateCall(call);
-      if (!v.ok) { add('registry', 'blocked', 'Rejected by tool registry', v.error); continue; }
+    if (assessment.escalate) {
+      state.decisions.push('safety_escalation');
+      escalate('Safety screening flagged: ' + assessment.flags.join(', '), 'safety_screen', assessment.flags);
+    } else {
+      const ids = extractIds(text);
+      for (let i = 1; i <= D.maxIterations && !outcome; i++) {
+        state.iterations = i;
+        add('model', 'info', `Model call ${i}`, mode === 'normal' ? 'A scripted stand-in picks the next step (the real project uses qwen3:4b).' : 'Simulated failure: ' + D.modes.filter(m => m.id === mode)[0].label + '.');
 
-      if (TERMINAL.indexOf(call.name) !== -1) {
-        const g = gate(call, s);
-        if (!g.allow) {
-          add('gate', 'blocked', `Safety gate blocked (${g.rule})`, g.message);
-          s.gateBlock = g;
-          continue;
+        let resp;
+        try { resp = modelStep(mode, text, state.toolCalls, ids, i); }
+        catch (e) {
+          add('model', 'blocked', 'Model output rejected', e.message);
+          state.decisions.push('provider_or_output_failure');
+          escalate('The model could not safely process this case.', 'agent', []);
+          break;
         }
-        add('gate', 'ok', 'Safety gate passed', 'No rule prevents this action.');
+
+        if (resp.kind === 'final') {
+          state.decisions.push('resolution');
+          const summaries = { answer: 'The model answered from a verified record.', clarify: 'The model asked the customer for missing information.', not_found: 'The model reported that no matching record was found.' };
+          outcome = { type: 'final', label: 'FINAL RESPONSE', summary: summaries[resp.finalKind], reply: resp.text, reasons: [] };
+          add('model', 'info', 'Model returns a final response', resp.text);
+          break;
+        }
+        if (resp.kind === 'escalate') {
+          add('model', 'info', 'Model escalates', resp.reason);
+          state.decisions.push('model_escalation');
+          escalate(resp.reason, 'model_response', []);
+          break;
+        }
+
+        add('model', 'info', `Model proposes ${resp.name}`, short(resp.args));
+        let result;
+        try { result = executeTool({ name: resp.name, arguments: resp.args }); }
+        catch (e) {
+          if (!(e instanceof ToolValidationError)) throw e;
+          state.toolCalls.push({ tool: resp.name, arguments: resp.args, result: { error: e.message } });
+          add('tool', 'blocked', 'Rejected: tool validation failed', e.message);
+          state.decisions.push('invalid_tool_request');
+          escalate('The requested tool action could not be validated.', 'agent', []);
+          break;
+        }
+        state.toolCalls.push({ tool: resp.name, arguments: resp.args, result });
+        const notFound = result && !Array.isArray(result) && result.found === false;
+        add('tool', notFound ? 'info' : 'ok', `${resp.name} ${notFound ? 'found nothing' : 'succeeded'}`,
+          short(Array.isArray(result) ? result.map(p => p.policy_id) : (notFound ? result.error : result.record)));
       }
 
-      const result = TOOLS[call.name].run(call.args);
-      add('tool', 'ok', `${call.name} returned`, short(result));
-      if (call.name === 'lookup_order' && result.found) s.order = result.order;
-      if (call.name === 'lookup_customer' && result.found) { s.customer = result.customer; if (result.customer.vulnerable) { s.flags.vulnerable = true; add('interpret', 'info', 'Customer record flagged', 'Account carries a vulnerability marker.'); } }
-      if (call.name === 'check_policy') s.policy = result;
-      if (TERMINAL.indexOf(call.name) !== -1) { s.done = true; final = { name: call.name, args: call.args, result }; }
+      if (!outcome) {
+        add('safety', 'blocked', 'Iteration limit reached', `Stopped after ${D.maxIterations} model calls.`);
+        state.decisions.push('iteration_limit');
+        escalate('The agent reached its maximum number of model iterations.', 'agent', []);
+      }
     }
 
-    const outcome = buildOutcome(final, s);
-    add('decision', outcome.type === 'resolve' ? 'ok' : 'info', 'Decision: ' + outcome.label, outcome.summary);
-    return { interp, steps: s.steps, outcome };
+    add('decision', outcome.type === 'final' ? 'ok' : 'info', 'Decision: ' + outcome.label, outcome.summary);
+    return { steps, outcome, state: { iterations: state.iterations, decisions: state.decisions, flags: state.flags, observedTools: state.toolCalls.map(c => c.tool) } };
   }
 
-  function buildOutcome(final, s) {
-    const name = s.customer ? s.customer.name.split(' ')[0] : null;
-    const hi = name ? `Hi ${name},` : 'Hello,';
-    const o = s.order;
-    if (final.name === 'resolve_case') {
-      const a = final.args.action;
-      const body = a === 'send_tracking_update'
-        ? `I'm sorry your ${o.item} (${o.id}) is ${o.dueDaysAgo} days past its due date. It is still with ${o.carrier}; I've requested a fresh delivery estimate and we'll email you as soon as it moves.`
-        : `I'm sorry your ${o.item} (${o.id}) wasn't right. A replacement has been arranged and you'll get a dispatch email with tracking shortly.`;
-      return { type: 'resolve', label: 'RESOLVE', summary: `Automated action "${a}" approved by the safety gate.`, reply: `${hi}\n\n${body}\n\nKind regards,\nCustomer Care`, reasons: [s.policy.note, 'Within automatic limits and no risk flags.'] };
-    }
-    if (final.name === 'request_missing_info') {
-      const asks = { order_number: 'your order number (e.g. ORD-1234)', valid_order_number: 'a valid order number - we couldn\'t find the one you gave', issue_description: 'a short description of what went wrong' };
-      const list = final.args.fields.map(f => '- ' + (asks[f] || f)).join('\n');
-      return { type: 'more_info', label: 'MORE INFO', summary: 'Not enough verified information to act safely.', reply: `${hi}\n\nThanks for getting in touch, and sorry for the trouble. To look into this, could you send us:\n${list}\n\nKind regards,\nCustomer Care`, reasons: ['No verifiable order on file for this message.'] };
-    }
-    const ticket = final.result.ticket;
-    const reasons = [final.args.reason];
-    if (o) reasons.push(`Order ${o.id}: ${o.item}, ${money(o.value)}.`);
-    return { type: 'human', label: 'HUMAN REVIEW', summary: `Escalated to ${final.result.queue} as ${ticket}.`, reply: `${hi}\n\nThank you for your message - I'm sorry for the problem. I've passed your case to a colleague who will review it personally. Your reference is ${ticket}, so you won't need to repeat yourself.\n\nKind regards,\nCustomer Care`, reasons };
-  }
-
-  const api = { run, interpret, validateCall, gate, MAX_CALLS, toolNames: Object.keys(TOOLS) };
+  const api = { run, assessComplaint, executeTool, ToolValidationError, extractIds, toolNames: Object.keys(TOOLS), MAX_ITERATIONS: D.maxIterations };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.ComplaintEngine = api;
 })(typeof window !== 'undefined' ? window : globalThis);

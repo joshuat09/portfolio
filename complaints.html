@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Interactive simulation of a bounded-autonomy AI complaint-handling agent with a tool registry, safety gate and human escalation.">
+  <meta name="description" content="Interactive browser port of a bounded-autonomy AI complaint-handling agent: deterministic safety screen, validated read-only tools and human escalation.">
   <title>Complaint-Handling Agent Demo — Joshua Tait</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,27 +25,39 @@
     <section class="cp-hero">
       <div class="eyebrow"><span class="eyebrow-line"></span> FLAGSHIP PROJECT · INTERACTIVE DEMO</div>
       <h1>Complaint-handling agent<span>.</span></h1>
-      <p class="cp-lead">Watch a bounded-autonomy agent work through a customer complaint. It proposes tool calls, a registry validates them, and a safety gate decides what is allowed to run. Anything risky goes to a person.</p>
+      <p class="cp-lead">A complaint first passes a deterministic safety screen. If it is clear, a model chooses read-only lookups, every call is validated, and the loop is capped at eight model calls. Anything risky, unclear or broken goes to a human.</p>
       <ol class="cp-flow" aria-label="How the agent works">
-        <li>Complaint</li><li>Agent</li><li>Tool registry</li><li>Safety gate</li><li>Decision</li>
+        <li>Complaint</li><li>Safety screen</li><li>Model</li><li>Tool validation</li><li>Outcome</li>
       </ol>
-      <p class="cp-sim"><strong>This is a simulation.</strong> It mirrors the architecture of my Python prototype using fixed rules and fictional data. It runs entirely in your browser: no AI model, no network calls, nothing is sent anywhere.</p>
+      <p class="cp-sim"><strong>A browser port, not the full system.</strong> The safety screen, the four read-only tools, the synthetic data, the iteration limit and every escalation path are ported from my Python agent. The language model (qwen3:4b in the real project) is replaced by scripted rules, so no AI runs here and nothing is sent anywhere.</p>
     </section>
 
     <section class="cp-app">
       <div class="cp-card cp-input">
         <h2 class="cp-h">1 · Complaint</h2>
-        <div class="cp-presets" id="cd-presets" role="group" aria-label="Example complaints"></div>
+        <div class="cp-label">The project's 10 evaluation cases</div>
+        <div class="cp-presets" id="cd-presets" role="group" aria-label="Evaluation cases"></div>
         <label class="cp-label" for="cd-input">Or write your own</label>
-        <textarea id="cd-input" rows="5" maxlength="500" placeholder="Include an order number such as ORD-1001."></textarea>
-        <label class="cp-check"><input type="checkbox" id="cd-stress"> Stress test: the model suggests an unsafe action</label>
+        <textarea id="cd-input" rows="5" maxlength="500" placeholder="Try an order such as ORD-2001, ORD-2002 or 1001."></textarea>
+
+        <fieldset class="cp-trusted">
+          <legend>Trusted inputs</legend>
+          <p class="cp-hint">Supplied by the system, not read from the complaint text. The real evaluation harness passes them the same way.</p>
+          <label class="cp-field"><span>Requested amount (£)</span><input type="number" id="cd-amount" min="0" step="0.01" placeholder="none"></label>
+          <label class="cp-check"><input type="checkbox" id="cd-ambiguous"> Marked ambiguous</label>
+          <label class="cp-check"><input type="checkbox" id="cd-outside"> Marked outside policy</label>
+        </fieldset>
+
+        <label class="cp-field"><span class="cp-label">Model behaviour</span><select id="cd-mode"></select></label>
+
         <div class="cp-actions">
           <button type="button" class="primary-btn cp-run" id="cd-run">Run agent <span>↘</span></button>
           <button type="button" class="cp-reset" id="cd-reset">Reset</button>
         </div>
         <details class="cp-data">
-          <summary>Sample orders</summary>
-          <div class="cp-table-wrap"><table id="cd-orders"><thead><tr><th>Order</th><th>Item</th><th>Value</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+          <summary>Synthetic data</summary>
+          <div class="cp-table-wrap"><table id="cd-orders"><thead><tr><th>Order</th><th>Customer</th><th>Item</th><th>Amount</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+          <div class="cp-table-wrap"><table id="cd-policies"><thead><tr><th>Policy</th><th>Topic</th></tr></thead><tbody></tbody></table></div>
         </details>
       </div>
 
@@ -55,7 +67,7 @@
           <div class="cp-badge" id="cd-badge"></div>
           <p class="cp-summary" id="cd-summary"></p>
           <ul class="cp-reasons" id="cd-reasons"></ul>
-          <div class="cp-label">Draft reply to customer</div>
+          <div class="cp-label" id="cd-detail-label"></div>
           <pre id="cd-reply"></pre>
         </div>
         <div class="cp-card">
@@ -63,13 +75,13 @@
             <h2 class="cp-h">2 · Agent trace</h2>
             <label class="cp-check cp-tech"><input type="checkbox" id="cd-tech"> Technical details</label>
           </div>
-          <ol class="cp-trace" id="cd-trace" aria-live="polite"><li class="cp-empty">Choose an example and run the agent to see each step.</li></ol>
+          <ol class="cp-trace" id="cd-trace" aria-live="polite"><li class="cp-empty">Choose a case and run the agent to see each step.</li></ol>
         </div>
       </div>
     </section>
 
     <footer class="cp-foot">
-      <span>Design principle: the model suggests, deterministic controls decide. There is deliberately no refund tool, so money-moving cases always go to a person.</span>
+      <span>Design principle: the model suggests, deterministic code decides. The tools are read-only, there is no refund or payment tool, and every failure path ends in human review.</span>
     </footer>
   </div>
 

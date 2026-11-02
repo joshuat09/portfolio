@@ -20,14 +20,12 @@ A responsive static portfolio website built with HTML, CSS and vanilla JavaScrip
 - Static front end with no framework or external API dependency
 
 ## Complaint-handling demo
-The `complaints.html` sub page is a rule-based **simulation** of the complaint agent (fictional data, no AI model, no network calls).
-- `demo/complaint-data.js` - mock customers, orders, policy and preset scenarios
-- `demo/complaint-engine.js` - classifier, tool registry, safety gate and agent loop (no DOM code)
-- `demo/complaint-ui.js` - rendering, controls and theme toggle
+`complaints.html` is a browser port of the control flow of my Python complaint agent (`customer-complaint-agent`). Ported from the real code: the intake safety screen (high value, money transfer, suspicious and out-of-policy flags), the four read-only tools and their validation, the synthetic data, the 8-call loop limit and every escalation path. The language model is replaced by scripted rules, so no AI runs in the browser and nothing is sent anywhere.
+- `demo/complaint-data.js` - synthetic data, safety phrases and the 10 evaluation cases from the Python project
+- `demo/complaint-engine.js` - safety screen, tool registry, loop and escalation record
+- `demo/complaint-ui.js` - rendering and controls
 - `demo/complaint-demo.css` - sub page styles
 - `demo/engine.test.js` - tests; run with `node --test demo/engine.test.js`
-
-Upload the `demo/` folder along with the other files when publishing to GitHub Pages.
 
 ## Command palette
 `palette.js` adds a Ctrl/Cmd+K palette (also the "⌘K" button in the top bar) for jumping to sections, opening projects, applying filters, running demo examples, toggling dark mode and searching. It only drives existing page controls.
@@ -43,10 +41,10 @@ Role links go to a live search (LinkedIn, Indeed, Reed) or the home page (other 
 The sub pages share page styling from `demo/complaint-demo.css`.
 
 ## AI evaluation explorer
-`evaluation.html` runs the complaint-agent simulation against 30 generated scenarios (5 intents x 6 conditions) and reconciles a written contract (expected outcome and gate result) with what the agent actually did, plus six safety invariants. It evaluates the simulation, not the Python code.
-- `demo/eval-engine.js` - contract, scenario generation, reconciliation and invariants
-- `demo/eval-ui.js` / `demo/eval.css` - matrix, detail panel and invariants
-- `demo/eval.test.js` - tests; run with `node --test demo/eval.test.js`
+`evaluation.html` shows real output from the Python evaluation work: five decision intents, an evidence contract and 19 synthetic scenarios reconciled against a deterministic gate (11 correct, 0 incorrect, 8 unscored because the contract leaves them unresolved). It is offline diagnostics that use no language model.
+- `demo/eval-data.js` - generated from the Python project's scenario-matrix report, matrix, taxonomy and workflow contract
+- `demo/eval-ui.js` / `demo/eval.css` - list, detail panel and notes
+- `demo/eval.test.js` - checks the totals against the report; run with `node --test demo/eval.test.js`
 
 ## Local AI infrastructure diagram
 `diagrams/local-ai-infrastructure.html` is a standalone architecture diagram (generated with Archify) of the local setup: Ollama with `qwen3:4b`, the Python complaint agent, its safety screen, read-only tools and evaluation harness. It opens inside the project dialog when the Local AI Infrastructure card is clicked, and can be opened full size from there.

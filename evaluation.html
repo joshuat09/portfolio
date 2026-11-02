@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Interactive evaluation of an AI complaint agent: a scenario matrix reconciling expected outcomes against actual safety-gate results, with safety invariants.">
+  <meta name="description" content="Explore the real results of an AI governance evaluation: decision intents, an evidence contract and 19 synthetic scenarios reconciled against a safety gate.">
   <title>AI Evaluation Explorer — Joshua Tait</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,11 +26,11 @@
     <section class="cp-hero">
       <div class="eyebrow"><span class="eyebrow-line"></span> AI GOVERNANCE · INTERACTIVE DEMO</div>
       <h1>Evaluation explorer<span>.</span></h1>
-      <p class="cp-lead">How do you know an AI agent behaves safely? Write down what should happen, run the agent against every scenario, and reconcile what was expected with what the controls actually did. This page does that live, in your browser, for the complaint agent.</p>
+      <p class="cp-lead">How do you decide what an AI agent may do on its own? My evaluation defines five decision intents, the evidence each one needs and a workflow contract, then checks 19 synthetic scenarios against them. Explore what the gate allowed, blocked and left unknown.</p>
       <ol class="cp-flow" aria-label="How the evaluation works">
-        <li>Contract</li><li>30 scenarios</li><li>Run agent</li><li>Reconcile</li><li>Invariants</li>
+        <li>Intent taxonomy</li><li>Workflow contract</li><li>19 scenarios</li><li>Gate decision</li><li>Reconcile</li>
       </ol>
-      <p class="cp-sim"><strong>This evaluates the simulation.</strong> The scenarios are generated from five complaint intents and six conditions, and the expected outcomes come from a written contract that is separate from the agent's code. It mirrors the approach of my Python evaluation work and runs entirely in your browser.</p>
+      <p class="cp-sim"><strong>Real output, not a simulation.</strong> These results come from my Python evaluation work: offline, synthetic diagnostics that use no language model. The page also shows what the evaluation deliberately leaves unresolved.</p>
     </section>
 
     <section class="ev-tiles" id="ev-tiles" aria-label="Summary"></section>
@@ -38,41 +38,41 @@
     <section class="ev-main">
       <div class="cp-card">
         <div class="cp-trace-head">
-          <h2 class="cp-h">Scenario matrix</h2>
-          <div class="ev-filters" id="ev-filters" role="group" aria-label="Highlight by result"></div>
+          <h2 class="cp-h">Scenarios by decision intent</h2>
+          <div class="ev-filters" id="ev-filters" role="group" aria-label="Filter scenarios"></div>
         </div>
-        <div class="ev-matrix-wrap"><table class="ev-matrix" id="ev-matrix"></table></div>
-        <p class="ev-legend" id="ev-legend"></p>
+        <div id="ev-list"></div>
       </div>
 
       <div class="cp-card ev-detail" id="ev-detail" aria-live="polite"></div>
     </section>
 
-    <section class="cp-card ev-invariants">
-      <h2 class="cp-h">Safety invariants</h2>
-      <p class="ev-sub">Rules that must hold across every scenario, checked on every page load.</p>
-      <ul class="ev-inv-list" id="ev-invariants"></ul>
+    <section class="cp-card ev-block">
+      <h2 class="cp-h">Documented unknowns</h2>
+      <p class="ev-sub">What the evaluation says it cannot yet decide. These come straight from its report.</p>
+      <ul class="ev-bullets" id="ev-limits"></ul>
+      <div class="cp-label">Contract inconsistencies the evaluation detected</div>
+      <div class="ev-chips" id="ev-issues"></div>
     </section>
 
-    <section class="cp-card ev-about">
+    <section class="cp-card ev-block ev-about">
       <h2 class="cp-h">How to read this</h2>
       <dl>
-        <dt>Expected outcome</dt><dd><b>Supported</b>: automation may resolve it. <b>Blocked</b>: automation must not act, so a human decides. <b>Unresolved</b>: not enough verified information to act.</dd>
-        <dt>Actual gate result</dt><dd><b>Allow</b>: the safety gate let a resolution through. <b>Block</b>: the gate stopped a proposed resolution. <b>Unknown</b>: the case never reached the gate.</dd>
-        <dt>Safe divergence</dt><dd>The outcome is right but the route differs from the contract. Here, billing, refund and service complaints are human-only by policy, so they are routed to a person before the gate is ever consulted. The contract expects the gate to block them, which is a useful gap to surface and decide on.</dd>
-        <dt>Unsafe</dt><dd>The agent acted where the contract requires a human. The target is always zero.</dd>
+        <dt>Expected classification</dt><dd>What the contract says should happen. <b>Supported</b>: the agent may act within scope. <b>Blocked</b>: it must not. <b>Unresolved</b>: the contract leaves it open, so the scenario is not scored right or wrong.</dd>
+        <dt>Gate outcome</dt><dd>What the deterministic gate actually decided. <b>Allow</b>, <b>block</b>, or <b>unknown</b> when the evidence is too weak to decide either way.</dd>
+        <dt>Evidence states</dt><dd id="ev-states"></dd>
+        <dt>Evidence categories</dt><dd id="ev-cats"></dd>
       </dl>
     </section>
 
     <footer class="cp-foot">
-      <span>Design principle: evaluate against a written contract, not against the agent's own behaviour. Where the two disagree, the disagreement is the finding.</span>
+      <span id="ev-source">Design principle: write down what should happen, then check what the controls actually did. Where the two disagree, or the contract is silent, that is the finding.</span>
     </footer>
   </div>
 
   <script src="demo/theme.js"></script>
   <script src="demo/complaint-data.js"></script>
-  <script src="demo/complaint-engine.js"></script>
-  <script src="demo/eval-engine.js"></script>
+  <script src="demo/eval-data.js"></script>
   <script src="demo/eval-ui.js"></script>
   <script src="palette.js"></script>
 </body>
