@@ -235,3 +235,31 @@ body.dark-mode .dialog-demo-link{color:#c8ed83}
 /* ===== Project dialog diagram ===== */
 .project-dialog.has-diagram{width:min(1100px,calc(100% - 32px))}
 .dialog-diagram iframe{display:block;width:100%;height:min(62vh,560px);border:1px solid var(--line);border-radius:6px;margin-top:10px;background:#fff}
+
+/* ===== Home page tidy ===== */
+.nav-link span{width:20px;flex:none;text-align:center}
+.sidebar .side-label{margin-bottom:12px}
+.sidebar .side-label-2{margin-top:30px}
+.hero-actions{flex-wrap:wrap;gap:14px 18px}
+.ghost-btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:5px;padding:13px 16px;font-size:11px;font-weight:600;color:var(--ink);text-decoration:none;transition:.2s}
+.ghost-btn span{color:#6b8d52;font-size:10px}
+.ghost-btn:hover{background:var(--paper);border-color:#a9b8a6;transform:translateY(-2px)}
+body.dark-mode .ghost-btn span{color:var(--green)}
+
+/* project cards: equal heights with footers on one line */
+.project-card{display:flex;flex-direction:column}
+.project-card[hidden]{display:none}
+.card-content{flex:1;display:flex;flex-direction:column}
+.card-content p{margin-bottom:15px}
+.card-bottom{margin-top:auto}
+.card-bottom>span:first-child{min-width:0}
+
+/* projects toolbar: heading, then one tidy row, then the result count */
+@media(min-width:761px){
+  #projects .section-heading{display:block;margin-bottom:18px}
+  #projects .project-tools{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:22px}
+  #projects .project-search{flex:0 1 300px;min-width:220px;max-width:none}
+  #projects .filters{flex:1 1 auto}
+  #projects .surprise-btn{margin-left:auto}
+  #projects .search-status{margin:12px 0 0}
+}
