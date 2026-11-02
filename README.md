@@ -40,11 +40,5 @@ A responsive static portfolio website built with HTML, CSS and vanilla JavaScrip
 Role links go to a live search (LinkedIn, Indeed, Reed) or the home page (other boards) of a real job board, never to the fictional listing. Job sources are defined in `demo/jobfinder-data.js`.
 The sub pages share page styling from `demo/complaint-demo.css`.
 
-## AI evaluation explorer
-`evaluation.html` shows real output from the Python evaluation work: five decision intents, an evidence contract and 19 synthetic scenarios reconciled against a deterministic gate (11 correct, 0 incorrect, 8 unscored because the contract leaves them unresolved). It is offline diagnostics that use no language model.
-- `demo/eval-data.js` - generated from the Python project's scenario-matrix report, matrix, taxonomy and workflow contract
-- `demo/eval-ui.js` / `demo/eval.css` - list, detail panel and notes
-- `demo/eval.test.js` - checks the totals against the report; run with `node --test demo/eval.test.js`
-
 ## Local AI infrastructure diagram
 `diagrams/local-ai-infrastructure.html` is a standalone architecture diagram (generated with Archify) of the local setup: Ollama with `qwen3:4b`, the Python complaint agent, its safety screen, read-only tools and evaluation harness. It opens inside the project dialog when the Local AI Infrastructure card is clicked, and can be opened full size from there.

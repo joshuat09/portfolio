@@ -30,7 +30,7 @@
     const onHome = !!document.getElementById('projects');
     const href = u => () => { location.href = u; };
 
-    const pages = [['complaints.html', 'Complaint-handling demo', 'page agent'], ['evaluation.html', 'AI evaluation explorer', 'page governance safety testing'], ['jobfinder.html', 'Graduate job finder demo', 'page jobs scoring']];
+    const pages = [['complaints.html', 'Complaint-handling demo', 'page agent'], ['jobfinder.html', 'Graduate job finder demo', 'page jobs scoring']];
     if (onHome) {
       [['home', 'Dashboard'], ['projects', 'Projects'], ['play-guessed', 'Play GUESSED'], ['capabilities', 'Capabilities'], ['about', 'About']]
         .forEach(([id, label]) => { if (document.getElementById(id)) add('Go to', label, 'section', () => go(id)); });

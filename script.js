@@ -56,7 +56,7 @@ function openProject(key){
   const tech = document.querySelector("#dialog-tech"); tech.replaceChildren();
   p.tech.forEach(item => { const tag=document.createElement("i"); tag.textContent=item; tech.append(tag); });
   const demoLink = document.querySelector("#dialog-demo-link");
-  const demoPages = { complaints:"complaints.html", jobfinder:"jobfinder.html", evaluation:"evaluation.html" };
+  const demoPages = { complaints:"complaints.html", jobfinder:"jobfinder.html" };
   if(demoLink){ demoLink.hidden = !demoPages[key]; if(demoPages[key]) demoLink.href = demoPages[key]; }
   const diagrams = { localai:"diagrams/local-ai-infrastructure.html" };
   const diagramBox = document.querySelector("#dialog-diagram");
