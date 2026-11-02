@@ -44,4 +44,7 @@ The sub pages share page styling from `demo/complaint-demo.css`.
 `diagrams/local-ai-infrastructure.html` is a standalone architecture diagram (generated with Archify) of the local setup: Ollama with `qwen3:4b`, the Python complaint agent, its safety screen, read-only tools and evaluation harness. It opens inside the project dialog when the Local AI Infrastructure card is clicked, and can be opened full size from there.
 
 ## Showreel
-`showreel.html` is a ~55 second motion showreel of the projects with a soundtrack synthesised live in the browser (Web Audio, no audio files). Click play for sound; Space pauses, M mutes, R replays and F toggles fullscreen. To make a video file, record the page with a screen recorder (for example Windows Game Bar, Win+Alt+R).
+`showreel.html` is a ~55 second motion showreel of the projects with a soundtrack synthesised live in the browser (Web Audio, no audio files). Click play for sound; Space pauses, M mutes, R replays and F toggles fullscreen. A playback bar (drag or click to jump anywhere, chapter markers for each scene) and a back button appear when you move the mouse; the left and right arrow keys seek 5 seconds. To make a video file, record the page with a screen recorder (for example Windows Game Bar, Win+Alt+R).
+
+## Cursor trail
+`cursor.js` adds a glowing particle-network trail that follows the pointer on every page (it is skipped for touch devices and reduced-motion users). Toggle it from the Ctrl+K palette ("Toggle cursor trail"); the choice is remembered in localStorage.

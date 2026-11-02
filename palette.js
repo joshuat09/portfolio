@@ -60,6 +60,7 @@
     }
 
     if ($('#theme-toggle')) add('Action', 'Toggle dark mode', 'theme light', () => $('#theme-toggle').click());
+    if (window.CursorFX && window.CursorFX.supported) add('Action', 'Toggle cursor trail', 'mouse animation effect particles', () => window.CursorFX.toggle());
     if ($('#surprise-project')) add('Action', 'Surprise me', 'random project', () => $('#surprise-project').click());
     return cmds;
   }

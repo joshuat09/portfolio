@@ -169,15 +169,31 @@
     #card button:hover{filter:brightness(1.08)}
     #card .keys{margin-top:22px;font:11px var(--mono);letter-spacing:.1em;color:var(--muted)}
     #card a{color:var(--acc);font:12px var(--mono);letter-spacing:.06em;display:inline-block;margin-top:14px}
+    /* playback controls */
+    #backBtn{position:fixed;left:18px;top:16px;z-index:120;font:12px var(--mono);letter-spacing:.1em;color:var(--ink);text-decoration:none;padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:#0b1411d9;backdrop-filter:blur(6px);opacity:.7;transition:opacity .25s,background .25s}
+    #backBtn:hover,#backBtn:focus-visible,.ui-on #backBtn{opacity:1}
+    #backBtn:hover{background:var(--acc);color:#17372e}
+    #ctl{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);width:min(920px,calc(100% - 32px));z-index:120;display:flex;align-items:center;gap:14px;padding:8px 16px;border:1px solid var(--line);border-radius:14px;background:#0b1411e6;backdrop-filter:blur(8px);opacity:0;transition:opacity .3s}
+    .ui-on #ctl,#ctl:focus-within{opacity:1}
+    #ctl button{font:11px var(--mono);letter-spacing:.1em;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:6px;padding:8px 12px;cursor:pointer;min-width:74px}
+    #ctl button:hover,#ctl button:focus-visible{background:var(--acc);color:#17372e;border-color:var(--acc)}
+    #tm{font:11px var(--mono);letter-spacing:.08em;color:var(--muted);min-width:88px;text-align:center}
+    #seek{position:relative;flex:1;height:30px;display:flex;align-items:center;cursor:pointer;touch-action:none}
+    #seek:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+    #seekTrack{position:relative;width:100%;height:6px;border-radius:3px;background:#20352c}
+    #seekFill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:3px;background:var(--acc)}
+    #knob{position:absolute;top:50%;left:0;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;box-shadow:0 0 12px var(--acc)}
+    .mk{position:absolute;top:-4px;width:2px;height:14px;margin-left:-1px;background:#4b6a5a;border-radius:1px}
+    #thin{position:fixed;left:0;bottom:0;height:3px;width:0;background:var(--acc);z-index:119}
+    @media(max-width:640px){#tm{display:none}#ctl button{min-width:0;padding:8px}}
     @media(prefers-reduced-motion:reduce){.on .w,.on .r,.on .p,.on .sl{animation-duration:.01s}.rings i{animation:none!important}}
   </style>
 </head>
-<body>
+<body data-cursor="dark">
   <div id="viewport">
     <div id="stage">
       <div class="chrome"><div class="left"><b>JT</b>JOSHUA TAIT · SHOWREEL 2026</div><div id="chapter"></div></div>
-      <div class="counter" id="counter">01 / 10</div>
-      <div class="progress"><i id="prog"></i></div>
+      <div class="counter" id="counter" style="bottom:30px">01 / 10</div>
 
       <section class="scene s1" data-chapter="INTRO">
         <div class="rings"><i></i><i></i><i></i></div>
@@ -284,12 +300,22 @@
           <h2 id="cardTitle">Joshua Tait<br><em>in motion.</em></h2>
           <p id="cardText">A short tour of the projects: an AI complaint agent, local AI infrastructure, a transparent job finder and more. Sound on for the full effect. The music is synthesized live in your browser.</p>
           <button id="playBtn" type="button">▶ Play with sound</button>
-          <div class="keys">SPACE PAUSE · M MUTE · R REPLAY · F FULLSCREEN</div>
+          <div class="keys">SPACE PAUSE · ← → SEEK 5 S · M MUTE · R REPLAY · F FULLSCREEN</div>
           <a href="index.html">← Back to portfolio</a>
         </div>
       </div>
     </div>
   </div>
+
+<a id="backBtn" href="index.html">← Back to portfolio</a>
+  <div id="ctl">
+    <button id="pp" type="button" aria-label="Play or pause">PLAY</button>
+    <span id="tm">0:00 / 0:00</span>
+    <div id="seek" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="seekTrack"><i id="seekFill"></i><b id="knob"></b></div></div>
+    <button id="mt" type="button" aria-label="Mute or unmute">SOUND</button>
+    <button id="fs" type="button" aria-label="Toggle fullscreen">FULL</button>
+  </div>
+  <i id="thin"></i>
 
 <script>
 (function () {
@@ -304,8 +330,8 @@
 
   const $ = s => document.querySelector(s);
   const stage = $('#stage'), scenes = [...document.querySelectorAll('.scene')], fx = $('#fx'), card = $('#card');
-  let ctx = null, master = null, padBus = null, delay = null, noiseBuf = null;
-  let T0 = 0, current = -1, running = false, paused = false, muted = false, nextStep = 0, stepIdx = 0, timer = null, rafId = 0, fired = {};
+  let ctx = null, comp = null, master = null, padBus = null, delay = null, noiseBuf = null;
+  let T0 = 0, current = -1, running = false, paused = false, muted = false, nextStep = 0, stepIdx = 0, timer = null, rafId = 0, fired = {}, scrubT = null;
 
   /* ---------- fit to window ---------- */
   function fit() { const s = Math.min(innerWidth / 1280, innerHeight / 720); stage.style.transform = `scale(${s})`; }
@@ -320,18 +346,31 @@
   const ROOT = [45, 41, 48, 43];
   const SCENE_BAR_START = []; SCENE_BARS.reduce((b, n) => { SCENE_BAR_START.push(b); return b + n; }, 0);
 
+  function buildBus() {
+    const b = {};
+    b.master = ctx.createGain(); b.master.gain.value = muted ? .0001 : .9; b.master.connect(comp);
+    b.padBus = ctx.createGain(); b.padBus.connect(b.master);
+    b.delay = ctx.createDelay(1); b.delay.delayTime.value = SPB * .75;
+    const fb = ctx.createGain(); fb.gain.value = .32; const dl = ctx.createBiquadFilter(); dl.type = 'lowpass'; dl.frequency.value = 2400;
+    b.delay.connect(dl); dl.connect(fb); fb.connect(b.delay); dl.connect(b.master);
+    return b;
+  }
+  function useBus(b) { master = b.master; padBus = b.padBus; delay = b.delay; }
   function initAudio() {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return;
     ctx = new AC();
-    const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 4;
-    master = ctx.createGain(); master.gain.value = .9; master.connect(comp); comp.connect(ctx.destination);
-    padBus = ctx.createGain(); padBus.connect(master);
-    delay = ctx.createDelay(1); delay.delayTime.value = SPB * .75;
-    const fb = ctx.createGain(); fb.gain.value = .32; const dl = ctx.createBiquadFilter(); dl.type = 'lowpass'; dl.frequency.value = 2400;
-    delay.connect(dl); dl.connect(fb); fb.connect(delay); dl.connect(master);
+    comp = ctx.createDynamicsCompressor(); comp.threshold.value = -14; comp.ratio.value = 4; comp.connect(ctx.destination);
     noiseBuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
     const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    useBus(buildBus());
+  }
+  // Seeking cuts the old bus (ringing pads, echoes) and starts a fresh one so nothing overlaps.
+  function swapBus() {
+    const old = master, now = ctx.currentTime;
+    old.gain.cancelScheduledValues(now); old.gain.setValueAtTime(old.gain.value, now); old.gain.linearRampToValueAtTime(.0001, now + .04);
+    setTimeout(() => { try { old.disconnect(); } catch (e) {} }, 900);
+    useBus(buildBus());
   }
   const env = (g, t, a, peak, dec) => { g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + dec); };
   const noise = (t, dur) => { const s = ctx.createBufferSource(); s.buffer = noiseBuf; s.loop = true; s.start(t); s.stop(t + dur); return s; };
@@ -465,7 +504,7 @@
       $('#ring').style.setProperty('--p', n); $('#score').textContent = n;
       document.querySelectorAll('.s6 .bar').forEach((b, k) => { const q = ease((lt - 1.2 - k * .25) / .9); b.querySelector('.t i').style.width = (q * +b.querySelector('i').dataset.w) + '%'; const sp = b.querySelector('[data-pts]'); const tot = +sp.dataset.pts; sp.textContent = `${Math.round(tot * q)} / ${tot}`; });
     }
-    if (i === 6) document.querySelectorAll('#tiles .tile').forEach((tile, k) => { const on = lt > 1.2 + k * .25; const d = tile.firstChild; if (on && !tile.classList.contains('flip')) { tile.classList.add('flip'); if (tile.dataset.alt) tile.classList.add('alt'); d.textContent = d.dataset.ch; } });
+    if (i === 6) document.querySelectorAll('#tiles .tile').forEach((tile, k) => { const on = lt > 1.2 + k * .25; const d = tile.firstChild; tile.classList.toggle('flip', on); tile.classList.toggle('alt', on && !!tile.dataset.alt); d.textContent = on ? d.dataset.ch : '?'; });
     if (i === 7) {
       $('#palin').textContent = '> ' + typed('complaint', lt, 1.4, 9);
       const rows = document.querySelectorAll('.s8 .row'); rows.forEach((r, k) => r.classList.toggle('sel', lt > 2.7 && k === 0));
@@ -500,60 +539,130 @@
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
   /* ---------- main loop ---------- */
+  const fmt = n => { n = Math.max(0, Math.round(n)); return Math.floor(n / 60) + ':' + String(n % 60).padStart(2, '0'); };
+  const sceneAt = t => { let k = 0; STARTS.forEach((st, i) => { if (t >= st) k = i; }); return k; };
   function clock() { return ctx ? ctx.currentTime - T0 : 0; }
+
+  // Show the exact visual state for time t (used by seeking): scene, CSS animations and time-driven content.
+  function showSceneAt(t) {
+    const idx = sceneAt(t);
+    if (idx !== current) activate(idx);
+    const lt = t - STARTS[idx];
+    scenes[idx].getAnimations({ subtree: true }).forEach(a => { try { a.currentTime = lt * 1000; } catch (e) {} });
+    tick(t);
+  }
+
+  const seekEl = $('#seek');
+  STARTS.slice(1).forEach(st => { const m = document.createElement('i'); m.className = 'mk'; m.style.left = (st / TOTAL * 100) + '%'; $('#seekTrack').append(m); });
+  function updateUI(t) {
+    const pct = Math.min(100, Math.max(0, t / TOTAL * 100));
+    $('#seekFill').style.width = pct + '%'; $('#knob').style.left = pct + '%'; $('#thin').style.width = pct + '%';
+    $('#tm').textContent = fmt(t) + ' / ' + fmt(TOTAL);
+    seekEl.setAttribute('aria-valuenow', Math.round(pct));
+    $('#pp').textContent = running && !paused ? 'PAUSE' : 'PLAY';
+    $('#mt').textContent = muted ? 'MUTED' : 'SOUND';
+  }
+
   function frame() {
     if (!running) return;
-    const t = clock();
-    // pulse on the beat
+    const scrubbing = scrubT != null;
+    const t = scrubbing ? scrubT : clock();
     stage.style.setProperty('--pulse', (1 - ((Math.max(t, 0) / SPB) % 1)).toFixed(3));
-    // transitions: start 0.45 s before each boundary so the cut lands under the cover
-    for (let b = 1; b < STARTS.length; b++) {
-      const lead = 0.45, bt = STARTS[b];
-      if (!fired[b] && t >= bt - lead) { fired[b] = true; transition(TRANS[b - 1], lead * 1000 * .9, () => activate(b)); }
+    if (!scrubbing) {
+      // start each transition 0.45 s before its boundary so the cut lands under the cover
+      for (let b = 1; b < STARTS.length; b++) {
+        const lead = 0.45, bt = STARTS[b];
+        if (!fired[b] && t >= bt - lead) { fired[b] = true; transition(TRANS[b - 1], lead * 1000 * .9, () => activate(b)); }
+      }
     }
     tick(t);
-    $('#prog').style.width = Math.min(100, t / TOTAL * 100) + '%';
-    if (t >= TOTAL + 1.2) { finish(); return; }
+    updateUI(t);
+    if (!scrubbing && t >= TOTAL + 1.2) { finish(); return; }
     rafId = requestAnimationFrame(frame);
   }
 
-  function start() {
+  // start(from) plays from any point; keepPaused keeps the paused state when scrubbing.
+  function start(from, keepPaused) {
+    from = Math.min(Math.max(from || 0, 0), TOTAL - .05);
     if (!ctx) initAudio();
-    if (ctx.state === 'suspended') ctx.resume();
     clearInterval(timer); cancelAnimationFrame(rafId); clearFx();
-    master.gain.cancelScheduledValues(ctx.currentTime); master.gain.setValueAtTime(muted ? 0 : .9, ctx.currentTime);
-    padBus.gain.setValueAtTime(1, ctx.currentTime);
-    fired = {}; current = -1; paused = false; stage.classList.remove('paused');
-    document.querySelectorAll('#tiles .tile').forEach(t => { t.className = 'tile'; t.firstChild.textContent = '?'; });
-    T0 = ctx.currentTime + .15; nextStep = T0; stepIdx = 0; running = true;
-    activate(0);
+    swapBus();
+    if (!keepPaused) { paused = false; stage.classList.remove('paused'); }
+    if (!paused && ctx.state === 'suspended') ctx.resume();
+    scrubT = null;
+    const idx = sceneAt(from); fired = {}; for (let b = 1; b <= idx; b++) fired[b] = true;
+    T0 = ctx.currentTime + .15 - from;
+    stepIdx = Math.floor(from / (SPB / 4)); nextStep = T0 + stepIdx * (SPB / 4);
+    if (from > 0 && from % BAR > .3) pad(ctx.currentTime + .16, CH[Math.floor(from / BAR) % 4]);
+    running = true; current = -1; showSceneAt(from);
     card.classList.add('hide');
     timer = setInterval(scheduler, 25); scheduler();
     rafId = requestAnimationFrame(frame);
+    wake();
   }
   function finish() {
-    running = false; clearInterval(timer);
+    running = false; clearInterval(timer); updateUI(TOTAL);
     $('#cardTitle').innerHTML = 'Thanks for<br><em>watching.</em>';
-    $('#cardText').textContent = 'Replay it, or head back to the portfolio to try the demos yourself.';
+    $('#cardText').textContent = 'Replay it, scrub back to any scene, or head back to the portfolio to try the demos yourself.';
     $('#playBtn').textContent = '↻ Replay';
     card.classList.remove('hide');
+    $('#pp').textContent = 'PLAY';
+    wake();
   }
   function togglePause() {
     if (!running) return;
     paused = !paused; stage.classList.toggle('paused', paused);
     if (paused) ctx.suspend(); else ctx.resume();
+    updateUI(clock()); wake();
   }
-  function toggleMute() { muted = !muted; if (master) master.gain.setTargetAtTime(muted ? 0 : .9, ctx.currentTime, .05); }
+  const now = () => (running ? (scrubT != null ? scrubT : clock()) : 0);
+  function toggleMute() { muted = !muted; if (master) master.gain.setTargetAtTime(muted ? .0001 : .9, ctx.currentTime, .05); updateUI(now()); }
+  function toggleFs() { if (document.fullscreenElement) document.exitFullscreen(); else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
 
-  $('#playBtn').addEventListener('click', start);
-  addEventListener('keydown', e => {
-    if (e.key === ' ') { e.preventDefault(); if (!running) start(); else togglePause(); }
-    else if (e.key === 'm' || e.key === 'M') toggleMute();
-    else if (e.key === 'r' || e.key === 'R') start();
-    else if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); }
+  /* ---------- controls ---------- */
+  let hideT = 0, dragging = false;
+  function wake() {
+    document.body.classList.add('ui-on'); clearTimeout(hideT);
+    hideT = setTimeout(() => { if (running && !paused && !dragging) document.body.classList.remove('ui-on'); }, 2800);
+  }
+  ['pointermove', 'pointerdown', 'keydown', 'touchstart'].forEach(ev => addEventListener(ev, wake, { passive: true }));
+
+  const posToTime = e => { const r = seekEl.getBoundingClientRect(); return Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1) * TOTAL; };
+  seekEl.addEventListener('pointerdown', e => {
+    try { seekEl.setPointerCapture(e.pointerId); } catch (err) {}
+    dragging = true;
+    if (!ctx) initAudio();
+    if (ctx.state === 'suspended' && !paused) ctx.resume();
+    const t = posToTime(e);
+    if (!running) { running = true; card.classList.add('hide'); cancelAnimationFrame(rafId); rafId = requestAnimationFrame(frame); }
+    scrubT = t;
+    if (master) master.gain.setTargetAtTime(.0001, ctx.currentTime, .02);   // quiet while dragging
+    showSceneAt(t);
   });
-  window.__showreel = { start, STARTS, TOTAL, activate, tick };   // for testing
+  seekEl.addEventListener('pointermove', e => { const t = posToTime(e); seekEl.title = fmt(t); if (dragging) { scrubT = t; showSceneAt(t); } });
+  const endDrag = e => { if (!dragging) return; dragging = false; start(posToTime(e), paused); };
+  seekEl.addEventListener('pointerup', endDrag);
+  seekEl.addEventListener('pointercancel', endDrag);
+
+  $('#pp').addEventListener('click', () => { if (!running) start(0); else togglePause(); });
+  $('#mt').addEventListener('click', toggleMute);
+  $('#fs').addEventListener('click', toggleFs);
+  $('#playBtn').addEventListener('click', () => start(0));
+
+  const seekBy = d => start(Math.min(Math.max(now() + d, 0), TOTAL - .1), paused);
+  addEventListener('keydown', e => {
+    const onButton = e.target && e.target.closest && e.target.closest('button, a');
+    if (e.key === ' ') { if (onButton) return; e.preventDefault(); if (!running) start(0); else togglePause(); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); if (running) seekBy(5); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); if (running) seekBy(-5); else start(0); }
+    else if (e.key === 'm' || e.key === 'M') toggleMute();
+    else if (e.key === 'r' || e.key === 'R') start(0);
+    else if (e.key === 'f' || e.key === 'F') toggleFs();
+  });
+  updateUI(0); wake();
+  window.__showreel = { start, STARTS, TOTAL, activate, tick, showSceneAt, clock, sceneAt, frame };   // for testing
 })();
 </script>
+<script src="cursor.js"></script>
 </body>
 </html>
