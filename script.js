@@ -1,0 +1,77 @@
+const projects = {
+  complaints: {
+    kicker:"01 / AGENTIC AI · IN DEVELOPMENT",
+    title:"Agentic Customer Complaint System",
+    description:"A Python prototype investigating bounded autonomy in customer-service complaint handling. The agent interprets a complaint, consults structured customer, order and policy data, and selects from controlled workflow actions. High-risk or complex cases are routed to human review.",
+    points:["Separates language-model reasoning from deterministic safety controls and tool execution.","Uses a constrained tool registry and validates tool names and arguments.","Supports resolve, request-missing-information and human-escalation outcomes.","Includes iteration limits, execution traces and tests for provider, tool and malformed-response failures.","Designed to avoid direct financial-action tools; sensitive decisions remain subject to human oversight."],
+    tech:["Python","Local LLMs","Ollama","Qwen","JSON","pytest","Human oversight"]
+  },
+  guessed: {
+    kicker:"02 / WEB PRODUCT · PUBLISHED",
+    title:"GUESSED — Daily Guessing Game",
+    description:"A browser-based daily guessing game built as a lightweight static website. The project uses vanilla HTML, CSS and JavaScript and is hosted on GitHub Pages.",
+    points:["Daily puzzle format with a numbered sequence of challenges.","125 questions organised across PRICE, SCALE, HUMAN, CROWD and TIME categories.","No backend or external dependencies required for the core game.","Public project URL: joshuat09.github.io/guessed/."],
+    tech:["HTML","CSS","JavaScript","GitHub Pages","Vanilla web development"]
+  },
+  evaluation: {
+    kicker:"03 / AI GOVERNANCE · ITERATIVE",
+    title:"AI Evaluation, Safety & Governance",
+    description:"A structured testing and reporting workstream for the complaint agent. It focuses on whether agent behaviour matches explicit workflow expectations and whether safety gates correctly allow, block or leave decisions unresolved.",
+    points:["Defines complaint intents, workflow contracts and scenario matrices.","Distinguishes expected outcomes (supported, blocked, unresolved) from actual gate results (allow, block, unknown).","Uses pytest to validate contracts, taxonomy alignment and reconciliation logic.","Keeps historical evaluation reports separate from experimental report generation."],
+    tech:["Python","pytest","JSON","Evaluation design","Safety taxonomy","Scenario testing"]
+  },
+  localai: {
+    kicker:"04 / LOCAL INFRASTRUCTURE · EXPLORATION",
+    title:"Local AI Infrastructure",
+    description:"Hands-on experimentation with locally hosted language models and interfaces, with an emphasis on running models without depending on paid inference APIs.",
+    points:["Installed and tested Ollama and local model workflows.","Explored Qwen model variants for coding and complaint-handling tasks.","Set up Open WebUI and investigated local API connectivity and custom prompts.","Compared hardware constraints and model suitability for local inference."],
+    tech:["Ollama","Qwen","Open WebUI","Local inference","API integration","Prompt engineering"]
+  },
+  jobfinder: {
+    kicker:"05 / PRODUCTIVITY TOOL · PROTOTYPE",
+    title:"AI Graduate Job Finder",
+    description:"A prototype concept for making graduate-role matching more transparent. It uses an editable candidate profile and a scoring approach to explain how closely a role aligns with a user's preferences and skills.",
+    points:["Uses a transparent 0–100 matching score rather than an unexplained recommendation.","Supports an editable profile and role criteria.","Includes a Python testing approach and an Ollama integration scaffold.","Explores how AI can support job discovery without hiding the basis of recommendations."],
+    tech:["Python","Scoring model","pytest","Ollama scaffold","Structured data"]
+  },
+  research: {
+    kicker:"06 / ACADEMIC RESEARCH · DISSERTATION",
+    title:"Agentic AI & Autonomous Business Processes",
+    description:"Academic research examining how agentic artificial intelligence could change autonomous business processes and what organisational capabilities are needed for effective implementation.",
+    points:["Explores the distinction between conventional automation and agentic systems.","Uses organisational and technology perspectives including the resource-based view and socio-technical systems.","Connects the research question to a practical customer-complaint prototype.","Considers governance, risk, human oversight and organisational readiness."],
+    tech:["Business research","Resource-based view","Socio-technical systems","Agency theory","AI strategy"]
+  }
+};
+const dialog = document.querySelector("#project-dialog");
+const closeDialog = () => dialog.close();
+document.querySelector(".dialog-close").addEventListener("click", closeDialog);
+dialog.addEventListener("click", e => { if(e.target === dialog) closeDialog(); });
+function openProject(key){
+  const p = projects[key]; if(!p) return;
+  document.querySelector("#dialog-kicker").textContent = p.kicker;
+  document.querySelector("#dialog-title").textContent = p.title;
+  document.querySelector("#dialog-description").textContent = p.description;
+  const list = document.querySelector("#dialog-points"); list.replaceChildren();
+  p.points.forEach(point => { const li=document.createElement("li"); li.textContent=point; list.append(li); });
+  const tech = document.querySelector("#dialog-tech"); tech.replaceChildren();
+  p.tech.forEach(item => { const tag=document.createElement("i"); tag.textContent=item; tech.append(tag); });
+  dialog.showModal();
+}
+document.querySelectorAll(".project-card").forEach(card => {
+  card.addEventListener("click", e => { if(e.target.closest("a")) return; openProject(card.dataset.project); });
+  card.addEventListener("keydown", e => { if(e.key==="Enter" || e.key===" "){e.preventDefault();openProject(card.dataset.project);} });
+});
+document.querySelectorAll(".filter").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+    button.classList.add("active");
+    const filter=button.dataset.filter;
+    document.querySelectorAll(".project-card").forEach(card=>{
+      card.hidden = filter!=="all" && card.dataset.category!==filter;
+    });
+  });
+});
+document.querySelectorAll(".nav-link").forEach(link => link.addEventListener("click",()=>{
+  document.querySelectorAll(".nav-link").forEach(item=>item.classList.remove("active"));
+  link.classList.add("active");
+}));
