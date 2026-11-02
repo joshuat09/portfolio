@@ -41,3 +41,9 @@ Upload the `demo/` folder along with the other files when publishing to GitHub P
 - `demo/jobfinder.test.js` - tests; run with `node --test demo/jobfinder.test.js`
 Role links go to a live search (LinkedIn, Indeed, Reed) or the home page (other boards) of a real job board, never to the fictional listing. Job sources are defined in `demo/jobfinder-data.js`.
 The sub pages share page styling from `demo/complaint-demo.css`.
+
+## AI evaluation explorer
+`evaluation.html` runs the complaint-agent simulation against 30 generated scenarios (5 intents x 6 conditions) and reconciles a written contract (expected outcome and gate result) with what the agent actually did, plus six safety invariants. It evaluates the simulation, not the Python code.
+- `demo/eval-engine.js` - contract, scenario generation, reconciliation and invariants
+- `demo/eval-ui.js` / `demo/eval.css` - matrix, detail panel and invariants
+- `demo/eval.test.js` - tests; run with `node --test demo/eval.test.js`

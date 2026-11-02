@@ -30,15 +30,14 @@
     const onHome = !!document.getElementById('projects');
     const href = u => () => { location.href = u; };
 
+    const pages = [['complaints.html', 'Complaint-handling demo', 'page agent'], ['evaluation.html', 'AI evaluation explorer', 'page governance safety testing'], ['jobfinder.html', 'Graduate job finder demo', 'page jobs scoring']];
     if (onHome) {
       [['home', 'Dashboard'], ['projects', 'Projects'], ['play-guessed', 'Play GUESSED'], ['capabilities', 'Capabilities'], ['about', 'About']]
         .forEach(([id, label]) => { if (document.getElementById(id)) add('Go to', label, 'section', () => go(id)); });
-      add('Go to', 'Complaint-handling demo', 'page agent', href('complaints.html'));
-      add('Go to', 'Graduate job finder demo', 'page jobs scoring', href('jobfinder.html'));
+      pages.forEach(([url, label, hint]) => add('Go to', label, hint, href(url)));
     } else {
       add('Go to', 'Back to portfolio', 'home', href('index.html'));
-      if (!/complaints\.html/.test(location.pathname)) add('Go to', 'Complaint-handling demo', 'page agent', href('complaints.html'));
-      if (!/jobfinder\.html/.test(location.pathname)) add('Go to', 'Graduate job finder demo', 'page jobs scoring', href('jobfinder.html'));
+      pages.forEach(([url, label, hint]) => { if (location.pathname.indexOf(url) === -1) add('Go to', label, hint, href(url)); });
       [['projects', 'Projects'], ['capabilities', 'Capabilities'], ['about', 'About']]
         .forEach(([id, label]) => add('Go to', label, 'portfolio section', href('index.html#' + id)));
     }
