@@ -66,3 +66,18 @@ The sub pages share page styling from `demo/complaint-demo.css`.
 - Moving between pages uses cross-document view transitions (`@view-transition`) in Chrome, Edge and Safari 18.2+; other browsers navigate normally.
 - `site-config.js` holds the GoatCounter site code (analytics) and the Web3Forms access key (contact form). Both are empty, so neither service runs until a value is added. With no key, the contact form stays hidden and the email link remains.
 
+
+## Local model leaderboard
+
+`leaderboard.html` compares small Ollama models on the complaint agent's ten evaluation cases: correct escalations, malformed responses, speed and size. The page reads `data/model-benchmark.json`; until that file exists it shows a "results are on the way" state, and it never invents numbers.
+
+The data comes from `scripts/benchmark_models.py` in the (private) complaint-agent project, run on a local machine:
+
+```
+python scripts/benchmark_models.py --list
+python scripts/benchmark_models.py --models <name> <name> --repeats 3
+```
+
+Copy the resulting `data/model_benchmark.json` to `data/model-benchmark.json` in this site. Models without Ollama tool-calling support are listed as skipped rather than hidden. `--dry-run` writes scripted sample data that the page labels "SAMPLE DATA"; do not publish that file.
+
+Tests: `node --test demo/leaderboard.test.js`
