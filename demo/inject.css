@@ -1,0 +1,44 @@
+/* Prompt-injection lab. Page chrome comes from complaint-demo.css (.cp-*). */
+.ij-scene{margin:0 0 14px;font-size:12px;line-height:1.7;color:var(--muted)}
+.ij-scene b{color:var(--ink)}
+#ij-text{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);font:13px/1.6 var(--sans);resize:vertical}
+#ij-text:focus{outline:2px solid #8da77b;outline-offset:1px}
+.ij-h2{margin-top:26px}
+.ij-layers{display:grid;gap:8px;margin-bottom:10px}
+.ij-layer{display:flex;gap:10px;align-items:flex-start;padding:10px 11px;border:1px solid var(--line);border-radius:6px;cursor:pointer;background:var(--paper)}
+.ij-layer:hover{border-color:#a9b8a6}
+.ij-layer input{margin:3px 0 0;accent-color:#6b8d52;flex:none}
+.ij-layer-body{display:grid;gap:3px;min-width:0}
+.ij-layer-head{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+.ij-layer-head b{font:600 12px var(--display)}
+.ij-layer small{font-size:11px;line-height:1.6;color:var(--muted)}
+.ij-tag{font:8px var(--mono);font-style:normal;letter-spacing:.06em;text-transform:uppercase;padding:3px 5px;border-radius:3px}
+.ij-tag-ported{background:var(--ok-bg);color:var(--ok-fg)}
+.ij-tag-demo{background:var(--soft);color:var(--muted)}
+
+.ij-verdict .cp-label{margin-bottom:8px}
+.ij-badge{display:inline-block;padding:6px 10px;border-radius:4px;font:600 10px var(--mono);letter-spacing:.08em}
+.ij-good{background:var(--ok-bg);color:var(--ok-fg)}
+.ij-bad{background:var(--bad-bg);color:var(--bad-fg)}
+.ij-title{font:600 22px/1.25 var(--display);letter-spacing:-.03em;margin:12px 0 6px}
+.ij-summary{font-size:13px;line-height:1.75;color:var(--muted);margin:0}
+.ij-score{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:16px;padding-top:12px;border-top:1px solid var(--line);font:10px var(--mono);color:var(--muted)}
+.ij-step-off .cp-step-icon{background:var(--warn-bg);color:var(--warn-fg);border-color:transparent}
+.ij-step-off strong{color:var(--warn-fg)}
+
+.ij-block{margin-top:18px}
+.ij-sub{font-size:12px;line-height:1.7;color:var(--muted);margin:0 0 14px}
+.ij-bullets{margin:0;padding-left:18px;font-size:12px;line-height:1.9;color:var(--muted)}
+.ij-bullets b{color:var(--ink)}
+.ij-matrix{border-collapse:collapse;width:100%;font-size:12px}
+.ij-matrix th,.ij-matrix td{padding:9px 8px;border-top:1px solid var(--line);text-align:center;white-space:nowrap}
+.ij-matrix thead th{border-top:0;font:9px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:400;white-space:normal;min-width:68px}
+.ij-matrix tbody th{text-align:left;font-weight:500}
+.ij-matrix button{all:unset;cursor:pointer;color:var(--ink)}
+.ij-matrix button:hover,.ij-matrix button:focus-visible{text-decoration:underline}
+.ij-yes{background:var(--ok-bg);color:var(--ok-fg);font-weight:600}
+.ij-no{color:var(--muted)}
+td.ij-no:last-child{color:var(--bad-fg)}
+.ij-all{border-left:2px solid var(--line)}
+.ij-row-active th{box-shadow:inset 3px 0 0 #83a55e;padding-left:12px}
+@media(max-width:860px){.ij-matrix{font-size:11px}}

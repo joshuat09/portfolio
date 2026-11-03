@@ -30,7 +30,7 @@
     const onHome = !!document.getElementById('projects');
     const href = u => () => { location.href = u; };
 
-    const pages = [['case-studies.html', 'Case studies', 'page write-ups problem approach result'], ['complaints.html', 'Complaint-handling demo', 'page agent'], ['jobfinder.html', 'Graduate job finder demo', 'page jobs scoring'], ['readiness.html', 'AI readiness scorecard', 'page dissertation research autonomy risk'], ['leaderboard.html', 'Local model leaderboard', 'page benchmark ollama models speed accuracy'], ['cv.html', 'CV', 'curriculum vitae resume experience education'], ['showreel.html', 'Watch the showreel', 'page video music intro']];
+    const pages = [['case-studies.html', 'Case studies', 'page write-ups problem approach result'], ['complaints.html', 'Complaint-handling demo', 'page agent'], ['jobfinder.html', 'Graduate job finder demo', 'page jobs scoring'], ['readiness.html', 'AI readiness scorecard', 'page dissertation research autonomy risk'], ['injection.html', 'Prompt-injection lab', 'page security attack defence agent safety jailbreak'], ['leaderboard.html', 'Local model leaderboard', 'page benchmark ollama models speed accuracy'], ['cv.html', 'CV', 'curriculum vitae resume experience education'], ['showreel.html', 'Watch the showreel', 'page video music intro']];
     if (onHome) {
       [['home', 'Dashboard'], ['projects', 'Projects'], ['play-guessed', 'Play GUESSED'], ['capabilities', 'Capabilities'], ['about', 'About']]
         .forEach(([id, label]) => { if (document.getElementById(id)) add('Go to', label, 'section', () => go(id)); });

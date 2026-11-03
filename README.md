@@ -81,3 +81,9 @@ python scripts/benchmark_models.py --models <name> <name> --repeats 3
 Copy the resulting `data/model_benchmark.json` to `data/model-benchmark.json` in this site. Models without Ollama tool-calling support are listed as skipped rather than hidden. `--dry-run` writes scripted sample data that the page labels "SAMPLE DATA"; do not publish that file.
 
 Tests: `node --test demo/leaderboard.test.js`
+
+## Prompt-injection lab
+
+`injection.html` lets visitors write an attack against a simulated complaints agent and switch six defence layers on and off. Three layers are ported from the complaint agent (intake safety screen, tool allow-list and validation, iteration limit) and three are added for the page and labelled as such (phrase filter, ownership check, reply guard). The model is a deliberately gullible scripted stand-in, not an LLM, and the page says so. A table shows which single layer stops each of eleven attacks.
+
+Tests: `node --test demo/inject.test.js`

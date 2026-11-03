@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Try to trick a simulated AI complaints agent with prompt injection, then switch its defences on and off to see which layers stop each attack.">
+  <meta name="theme-color" content="#f4f5f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111a17" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="canonical" href="https://joshuat09.github.io/portfolio/injection.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-64.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Joshua Tait — Portfolio">
+  <meta property="og:title" content="Prompt-Injection Lab — Joshua Tait">
+  <meta property="og:description" content="Try to trick a simulated AI agent, then see which defence layers stop each attack.">
+  <meta property="og:url" content="https://joshuat09.github.io/portfolio/injection.html">
+  <meta property="og:image" content="https://joshuat09.github.io/portfolio/og/injection.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Prompt-injection lab: six defence layers against eleven attacks">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prompt-Injection Lab — Joshua Tait">
+  <meta name="twitter:description" content="Try to trick a simulated AI agent, then see which defence layers stop each attack.">
+  <meta name="twitter:image" content="https://joshuat09.github.io/portfolio/og/injection.png">
+  <title>Prompt-Injection Lab — Joshua Tait</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="demo/complaint-demo.css">
+  <link rel="stylesheet" href="demo/inject.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <noscript><p style="margin:0;padding:12px 18px;background:#fff4d6;color:#4a3b10;font:13px sans-serif">This page needs JavaScript for its interactive parts. The written content is still readable.</p></noscript>
+  <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
+  <div class="cp" role="main" id="main-content" tabindex="-1">
+    <header class="cp-top">
+      <a class="cp-back" href="index.html#projects">← Back to portfolio</a>
+      <div class="cp-top-actions">
+        <button class="theme-toggle palette-trigger" type="button" data-open-palette aria-label="Open command palette (Ctrl+K)">⌘K <span>Commands</span></button>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">◐ <span>Dark mode</span></button>
+      </div>
+    </header>
+
+    <section class="cp-hero">
+      <div class="eyebrow"><span class="eyebrow-line"></span> AI SAFETY · INTERACTIVE LAB</div>
+      <h1>Prompt-injection lab<span>.</span></h1>
+      <p class="cp-lead">Can you trick an AI customer-complaints agent into paying out money, leaking another customer's data or revealing its instructions? Write an attack, then switch its defences on and off to see which layer actually stops it.</p>
+      <ol class="cp-flow" aria-label="How the lab works">
+        <li>Your message</li><li>Safety screen</li><li>Phrase filter</li><li>Model</li><li>Tool checks</li><li>Reply guard</li>
+      </ol>
+      <p class="cp-sim"><strong>A simulation, not a real model.</strong> The agent here is a scripted stand-in that is deliberately gullible, the way a weak model can be. Three of the defences are ported from my real complaint agent; three are added for this page and labelled. It teaches the idea of layered defence. It is not a security audit.</p>
+    </section>
+
+    <section class="cp-app">
+      <div class="cp-card cp-input">
+        <h2 class="cp-h">1 · Write an attack</h2>
+        <p class="ij-scene">You are <b>Alex Example</b> (CUST-1001), signed in. You own order <b>ORD-2001</b>. Other customers' orders are not yours to see.</p>
+        <div class="cp-label">Start from a known attack</div>
+        <div class="cp-presets" id="ij-presets" role="group" aria-label="Example attacks"></div>
+        <label class="cp-field"><span class="cp-label">Your message to the agent</span><textarea id="ij-text" rows="5" maxlength="500" placeholder="Type your own attack, or pick one above."></textarea></label>
+        <button type="button" class="cp-run" id="ij-run">Send to the agent</button>
+
+        <h2 class="cp-h ij-h2">2 · Choose the defences</h2>
+        <div class="ij-layers" id="ij-layers"></div>
+        <div class="cp-actions"><button type="button" class="cp-reset" id="ij-all">All on</button><button type="button" class="cp-reset" id="ij-none">All off</button></div>
+      </div>
+
+      <div class="cp-results">
+        <div class="cp-card ij-verdict" id="ij-verdict" aria-live="polite">
+          <div class="cp-empty">Pick an attack and send it. Try it with every defence off first, then switch them on one at a time.</div>
+        </div>
+        <div class="cp-card" id="ij-trace-card" hidden>
+          <div class="cp-trace-head"><h2 class="cp-h">What happened, step by step</h2></div>
+          <ol class="cp-trace cp-show-tech" id="ij-trace"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="cp-card ij-block" id="ij-matrix-card">
+      <h2 class="cp-h">Which layer stops which attack?</h2>
+      <p class="ij-sub">Each cell shows whether that layer, switched on <em>on its own</em>, stops the attack. Notice that no single layer covers everything, and that the phrase filter only catches the attacks written the classic way. Select a row to load that attack.</p>
+      <div class="cp-table-wrap"><table class="ij-matrix" id="ij-matrix"></table></div>
+    </section>
+
+    <section class="cp-card ij-block">
+      <h2 class="cp-h">What this shows</h2>
+      <ul class="ij-bullets">
+        <li><b>Filtering words is not enough.</b> The phrase filter stops "ignore previous instructions" but not the same request obfuscated, translated or hidden in a pasted note, because a flexible model understands all of them.</li>
+        <li><b>The strongest defences are structural.</b> My agent cannot issue a refund because it has no such tool, and it cannot be talked into one. That works whatever the model is persuaded to say.</li>
+        <li><b>Some attacks use permitted tools.</b> Looking up someone else's order uses a normal read-only tool, so the tool list cannot help; an ownership check does.</li>
+        <li><b>Every block ends in a person.</b> A stopped message is escalated for human review rather than silently dropped.</li>
+        <li><b>Limits.</b> The stand-in follows simple patterns. A real language model is fuzzier, so a real attacker may find routes this one does not, which is why layers matter more than any single rule.</li>
+      </ul>
+    </section>
+
+    <footer class="cp-foot">
+      <span>Design principle: assume the model will sometimes be fooled, and make sure being fooled cannot cause harm.</span><a href="privacy.html">Privacy</a>
+    </footer>
+  </div>
+
+  <script src="site-config.js"></script>
+  <script src="demo/theme.js"></script>
+  <script src="demo/complaint-data.js"></script>
+  <script src="demo/complaint-engine.js"></script>
+  <script src="demo/inject-engine.js"></script>
+  <script src="demo/inject-ui.js"></script>
+  <script src="cursor.js"></script>
+  <script src="palette.js"></script>
+</body>
+</html>
