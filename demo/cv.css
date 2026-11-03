@@ -1,0 +1,42 @@
+/* CV page. Chrome comes from complaint-demo.css (.cp-*); this adds the CV layout and a clean A4 print version. */
+.cv-actions{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0}
+.cv-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 15px;border-radius:5px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:600 11px var(--mono);letter-spacing:.04em;text-decoration:none;cursor:pointer}
+.cv-btn.primary{background:var(--deep);color:#fff;border-color:var(--deep)}
+body.dark-mode .cv-btn.primary{color:#101915}
+.cv-btn:hover{transform:translateY(-1px)}
+.cv-contact{display:flex;flex-wrap:wrap;gap:6px 20px;margin:14px 0 0;font:11px var(--mono);color:var(--muted)}
+.cv-contact a{color:var(--ink)}
+.cv-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:18px;align-items:start}
+.cv-main>.cp-card,.cv-side>.cp-card{margin-bottom:18px}
+.cv-p{margin:0 0 12px;font-size:13px;line-height:1.85;color:var(--muted)}
+.cv-p:last-child{margin-bottom:0}
+.cv-item{padding:0 0 16px;margin:0 0 16px;border-bottom:1px solid var(--line)}
+.cv-item:last-child{border:0;margin:0;padding:0}
+.cv-item h3{margin:0;font:600 16px var(--display);letter-spacing:-.02em}
+.cv-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;margin:4px 0 10px;font:10px var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.cv-list{margin:0;padding-left:18px;font-size:12px;line-height:1.85;color:var(--muted)}
+.cv-list b{color:var(--ink)}
+.cv-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.cv-tags li{font:10px var(--mono);padding:6px 8px;border-radius:3px;background:var(--soft);color:var(--ink)}
+.cv-side dl{margin:0;display:grid;gap:10px;font-size:12px}
+.cv-side dt{font:9px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cv-side dd{margin:2px 0 0;color:var(--ink);line-height:1.6}
+.cv-print-only{display:none}
+@media(max-width:900px){.cv-grid{grid-template-columns:1fr}}
+@media print{
+  @page{size:A4;margin:14mm}
+  .cv-actions,.cp-back,.cp-top,.cp-foot,.cp-flow{display:none!important}
+  .cv-print-only{display:block;font:11px/1.5 sans-serif;color:#000}
+  .cp-hero{padding:0!important;border:0!important}
+  .cp-hero h1{font-size:28px!important;margin:0!important}
+  .cp-lead{font-size:11px!important;margin:2px 0!important}
+  .cv-grid{grid-template-columns:1fr 62mm;gap:10px}
+  .cp-card{border:0!important;box-shadow:none!important;padding:0 0 6px!important;margin:0!important;background:#fff!important}
+  .cp-h{font-size:11px!important;letter-spacing:.08em;border-bottom:1px solid #999;padding-bottom:3px;margin-bottom:6px!important}
+  .cv-p,.cv-list,.cv-side dd{font-size:9.5pt!important;line-height:1.45!important;color:#000!important}
+  .cv-item{padding-bottom:6px;margin-bottom:6px;break-inside:avoid}
+  .cv-item h3{font-size:11pt}
+  .cv-meta{font-size:8pt;color:#333!important;margin:2px 0 4px}
+  .cv-tags li{background:#eee!important;color:#000!important;font-size:8pt}
+  a[href]::after{content:""!important}
+}
