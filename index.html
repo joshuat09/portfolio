@@ -40,6 +40,7 @@
       </nav>
       <div class="side-label side-label-2">EXPLORE</div>
       <nav>
+        <a class="nav-link" href="case-studies.html"><span>≡</span> Case studies</a>
         <a class="nav-link" href="complaints.html"><span>⌬</span> Complaint demo</a>
         <a class="nav-link" href="jobfinder.html"><span>⌖</span> Job finder demo</a>
         <a class="nav-link" href="readiness.html"><span>◐</span> Readiness scorecard</a>
@@ -80,7 +81,7 @@
           </article>
           <article class="project-card" data-category="software" tabindex="0" data-project="guessed">
             <div class="card-top"><span class="project-number">02 / WEB APP</span><span class="status status-live">PUBLISHED</span></div><div class="project-visual visual-game"><div class="game-title">GUESSED<span>_</span></div><div class="game-sub">A DAILY KNOWLEDGE GAME</div><div class="game-tiles"><i>?</i><i>?</i><i>?</i><i>?</i><i>?</i></div><div class="game-meta">DAILY CHALLENGE · #001</div></div>
-            <div class="card-content"><div class="tags"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div><h3>GUESSED — Daily Guessing Game</h3><p>A lightweight browser game inspired by daily puzzle formats, built with vanilla web technologies and designed for GitHub Pages.</p><div class="card-bottom"><span>125 questions · Five categories</span><span class="card-actions"><a class="card-demo-link" href="#play-guessed" aria-label="Play GUESSED on this page">PLAY ↘</a></span></div></div>
+            <div class="card-content"><div class="tags"><span>HTML</span><span>CSS</span><span>JAVASCRIPT</span></div><h3>GUESSED — Daily Guessing Game</h3><p>A lightweight browser game inspired by daily puzzle formats, built with vanilla web technologies and designed for GitHub Pages.</p><div class="card-bottom"><span>117 sourced questions · Five categories</span><span class="card-actions"><a class="card-demo-link" href="#play-guessed" aria-label="Play GUESSED on this page">PLAY ↘</a></span></div></div>
           </article>
           <article class="project-card" data-category="ai" tabindex="0" data-project="evaluation">
             <div class="card-top"><span class="project-number">03 / GOVERNANCE</span><span class="status status-progress">ITERATIVE</span></div><div class="project-visual visual-eval"><div class="eval-head">AGENT EVALUATION <span>● LIVE TEST SUITE</span></div><div class="eval-line"><span>Supported decisions</span><b>✓</b></div><div class="eval-line"><span>Blocked actions</span><b>✓</b></div><div class="eval-line"><span>Unresolved cases</span><b>↗</b></div><div class="eval-footer">TEST · TRACE · RECONCILE</div></div>
@@ -115,15 +116,26 @@
       </section>
       <section class="about section" id="about">
         <div><div class="eyebrow">A LITTLE ABOUT ME</div><h2>Curious about what<br>technology can <em>actually do.</em></h2></div>
-        <div class="about-copy"><p>I'm a Business Studies student at the University of Strathclyde with a particular interest in the practical application of AI in organisations. I enjoy taking a business problem, breaking it down and building or testing a technical solution.</p><p>This portfolio brings together independent builds, technical experiments and academic research. Projects are labelled by status so that prototypes and work in progress are not presented as finished products.</p><div class="about-actions"><a class="primary-btn" href="mailto:joshuatait09@gmail.com">Contact me <span>↗</span></a><a class="ghost-btn" href="https://github.com/joshuat09" target="_blank" rel="noopener"><span>↗</span> GitHub profile</a></div></div>
+        <div class="about-copy"><p>I'm a Business Studies student at the University of Strathclyde with a particular interest in the practical application of AI in organisations. I enjoy taking a business problem, breaking it down and building or testing a technical solution.</p><p>This portfolio brings together independent builds, technical experiments and academic research. Projects are labelled by status so that prototypes and work in progress are not presented as finished products.</p><div class="about-actions"><a class="primary-btn" href="mailto:joshuatait09@gmail.com">Contact me <span>↗</span></a><a class="ghost-btn" href="https://github.com/joshuat09" target="_blank" rel="noopener"><span>↗</span> GitHub profile</a></div><form class="contact-form" id="contact-form" hidden>
+          <h3>Send a message</h3>
+          <label>Name<input name="name" required maxlength="80" autocomplete="name"></label>
+          <label>Email<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
+          <label>Message<textarea name="message" required maxlength="2000" rows="4"></textarea></label>
+          <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="primary-btn">Send message <span>↗</span></button>
+          <p class="form-status" role="status" aria-live="polite"></p>
+          <p class="form-note">Sent through Web3Forms to my inbox. I only use your details to reply.</p>
+        </form></div>
       </section>
       <footer><span>© 2026 JOSHUA TAIT</span><span>BUILT TO SHOW THE WORK, NOT JUST TALK ABOUT IT.</span><span class="footer-links"><a href="https://github.com/joshuat09" target="_blank" rel="noopener">GITHUB ↗</a><a href="#home">BACK TO TOP ↑</a></span></footer>
     </main>
   </div>
   <dialog id="project-dialog" class="project-dialog">
-    <button class="dialog-close" aria-label="Close details">×</button><div class="eyebrow" id="dialog-kicker">PROJECT DETAILS</div><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-section"><h3>What it demonstrates</h3><ul id="dialog-points"></ul></div><div class="dialog-section"><h3>Technology / focus</h3><div class="chips" id="dialog-tech"></div></div><div class="dialog-section dialog-diagram" id="dialog-diagram" hidden><h3>Infrastructure diagram</h3><iframe id="dialog-diagram-frame" title="Local AI infrastructure diagram"></iframe><a class="dialog-demo-link" id="dialog-diagram-link" target="_blank" rel="noopener" href="diagrams/local-ai-infrastructure.html">Open full size ↗</a></div><a class="dialog-demo-link" id="dialog-code-link" href="https://github.com/joshuat09" target="_blank" rel="noopener" hidden>View the code on GitHub ↗</a><a class="dialog-demo-link" id="dialog-demo-link" href="complaints.html" hidden>Try the interactive demo ↘</a><p class="dialog-note">Project status and descriptions are intentionally conservative; update this panel as the work develops.</p>
+    <button class="dialog-close" aria-label="Close details">×</button><div class="eyebrow" id="dialog-kicker">PROJECT DETAILS</div><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-section"><h3>What it demonstrates</h3><ul id="dialog-points"></ul></div><div class="dialog-section"><h3>Technology / focus</h3><div class="chips" id="dialog-tech"></div></div><div class="dialog-section dialog-diagram" id="dialog-diagram" hidden><h3>Infrastructure diagram</h3><iframe id="dialog-diagram-frame" title="Local AI infrastructure diagram"></iframe><a class="dialog-demo-link" id="dialog-diagram-link" target="_blank" rel="noopener" href="diagrams/local-ai-infrastructure.html">Open full size ↗</a></div><a class="dialog-demo-link" id="dialog-case-link" href="case-studies.html">Read the case study ↘</a><a class="dialog-demo-link" id="dialog-code-link" href="https://github.com/joshuat09" target="_blank" rel="noopener" hidden>View the code on GitHub ↗</a><a class="dialog-demo-link" id="dialog-demo-link" href="complaints.html" hidden>Try the interactive demo ↘</a><p class="dialog-note">Project status and descriptions are intentionally conservative; update this panel as the work develops.</p>
   </dialog>
+  <script src="site-config.js"></script>
   <script src="script.js"></script>
+  <script src="contact.js"></script>
   <script src="demo/complaint-data.js"></script>
   <script src="demo/jobfinder-data.js"></script>
   <script src="cursor.js"></script>

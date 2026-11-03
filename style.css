@@ -273,3 +273,23 @@ body.dark-mode .ghost-btn span{color:var(--green)}
 
 /* Elements with the hidden attribute stay hidden even when a class sets display */
 [hidden]{display:none !important}
+
+/* ===== Smooth page transitions (Chrome, Edge, Safari 18.2+; other browsers navigate normally) ===== */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; }
+@media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
+
+/* ===== Contact form (shown only when a Web3Forms key is set) ===== */
+.contact-form{margin-top:26px;padding:20px;border:1px solid var(--line);border-radius:8px;background:var(--paper);display:grid;gap:12px}
+.contact-form h3{margin:0;font:600 15px var(--display)}
+.contact-form label{display:grid;gap:6px;font:10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.contact-form input,.contact-form textarea{font:13px var(--sans);color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:5px;padding:10px 11px;text-transform:none;letter-spacing:0}
+.contact-form textarea{resize:vertical}
+.contact-form input:focus,.contact-form textarea:focus{outline:2px solid #8da77b;outline-offset:1px}
+.contact-form .primary-btn{justify-self:start;border:0;cursor:pointer;font-family:inherit}
+.contact-form .primary-btn:disabled{opacity:.6;cursor:wait}
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.form-status{margin:0;font-size:12px;min-height:1em}
+.form-status[data-kind="ok"]{color:#3c7960}
+.form-status[data-kind="error"]{color:#b4532f}
+.form-note{margin:0!important;font:9px var(--mono)!important;color:#98a39a!important}

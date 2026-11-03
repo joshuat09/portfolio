@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Short case studies of Joshua Tait's projects: the problem, the approach, the result and what he would change next.">
+  <link rel="canonical" href="https://joshuat09.github.io/portfolio/case-studies.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-64.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Joshua Tait — Portfolio">
+  <meta property="og:title" content="Case Studies — Joshua Tait">
+  <meta property="og:description" content="Short case studies of Joshua Tait's projects: the problem, the approach, the result and what he would change next.">
+  <meta property="og:url" content="https://joshuat09.github.io/portfolio/case-studies.html">
+  <meta property="og:image" content="https://joshuat09.github.io/portfolio/og/case-studies.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Joshua Tait project case studies">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Case Studies — Joshua Tait">
+  <meta name="twitter:description" content="Short case studies of Joshua Tait's projects: the problem, the approach, the result and what he would change next.">
+  <meta name="twitter:image" content="https://joshuat09.github.io/portfolio/og/case-studies.png">
+  <title>Case Studies — Joshua Tait</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="demo/complaint-demo.css">
+  <link rel="stylesheet" href="demo/case-studies.css">
+</head>
+<body>
+  <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
+  <div class="cp" role="main">
+    <header class="cp-top">
+      <a class="cp-back" href="index.html#projects">← Back to portfolio</a>
+      <div class="cp-top-actions">
+        <button class="theme-toggle palette-trigger" type="button" data-open-palette aria-label="Open command palette (Ctrl+K)">⌘K <span>Commands</span></button>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">◐ <span>Dark mode</span></button>
+      </div>
+    </header>
+
+    <section class="cp-hero">
+      <div class="eyebrow"><span class="eyebrow-line"></span> HOW I WORK</div>
+      <h1>Case studies<span>.</span></h1>
+      <p class="cp-lead">Each project in one page: the problem, what I built, what happened, and what I would do differently. Where something did not work the first time, I have said so.</p>
+      <nav class="cs-index" aria-label="Case studies">
+        <a href="#complaints">Complaint agent</a><a href="#evaluation">Evaluation &amp; governance</a><a href="#localai">Local AI</a><a href="#jobfinder">Job finder</a><a href="#guessed">GUESSED</a><a href="#research">Dissertation</a>
+      </nav>
+    </section>
+
+    <article class="cp-card cs" id="complaints">
+      <div class="cs-head"><span class="cs-num">01 / FLAGSHIP</span><span class="cs-status">IN DEVELOPMENT</span></div>
+      <h2>Agentic customer complaint system</h2>
+      <div class="cs-tags"><span>Python 3.13</span><span>Ollama</span><span>qwen3:4b</span><span>pytest</span><span>Human oversight</span></div>
+      <div class="cs-grid">
+        <section><h3>Problem</h3><p>Customer-service teams want AI to handle routine complaints, but an agent that can act freely can make costly mistakes that are hard to undo. The question I set myself: how much can an agent safely do on its own, and exactly where must a person step in?</p></section>
+        <section><h3>Approach</h3><ul>
+          <li>A provider-independent agent loop in Python using only the standard library, with a defined contract for any model adapter.</li>
+          <li>A deterministic safety screen runs <em>before</em> the model: high-value requests (£100+), money-transfer wording, suspicious phrases, out-of-policy requests and ambiguous cases go straight to human review.</li>
+          <li>The model (local <code>qwen3:4b</code> through Ollama, loopback only, no API keys) can call just four read-only lookups. Every tool name and argument is validated, and anything unexpected ends the run.</li>
+          <li>A hard limit of eight model calls. Every failure path (provider error, malformed output, invalid tool call, iteration limit) escalates to a person.</li>
+          <li>The escalation record separates verified facts from successful lookups, with where each came from, from what the customer claimed.</li>
+        </ul></section>
+        <section><h3>Result</h3><p>A working prototype with a full audit trace for every case, a pytest suite that runs without a model by using a fake transport, and a ten-case evaluation harness that runs against the local model. A browser port of the control flow runs on this site.</p></section>
+        <section><h3>What I'd change</h3><p>Running the harness against the small local model showed that the model's output format, not the safety logic, was the weak point: malformed responses were escalated safely, but more often than I'd like. Next I would enforce a stricter structured output schema, compare larger local models against the same cases, and track the escalation rate as a headline metric.</p></section>
+      </div>
+      <div class="cs-links"><a href="complaints.html">Try the browser demo ↘</a><span class="cs-muted">Code: private repository</span></div>
+    </article>
+
+    <article class="cp-card cs" id="evaluation">
+      <div class="cs-head"><span class="cs-num">02 / GOVERNANCE</span><span class="cs-status">ITERATIVE</span></div>
+      <h2>AI evaluation, safety &amp; governance</h2>
+      <div class="cs-tags"><span>Python</span><span>pytest</span><span>JSON contracts</span><span>Scenario testing</span></div>
+      <div class="cs-grid">
+        <section><h3>Problem</h3><p>"The tests pass" is not the same as "the agent behaves safely". I wanted to write down what each kind of decision is allowed to rely on, and then check whether the controls actually enforce it.</p></section>
+        <section><h3>Approach</h3><ul>
+          <li>A taxonomy of five decision intents, from reporting an order's status to escalating for human review.</li>
+          <li>A workflow contract that lists the evidence each decision needs (verified records, applicable policy, review requirements) and the states that evidence can be in: verified, missing, failed, not found or unknown.</li>
+          <li>Nineteen hand-written synthetic scenarios, each with an expected classification, run through a deterministic gate that answers allow, block or unknown.</li>
+          <li>A reconciliation report comparing expected with actual, validated by pytest.</li>
+        </ul></section>
+        <section><h3>Result</h3><p>Eleven scenarios classified correctly and none incorrectly. Eight are deliberately left unresolved because the contract cannot decide them yet, and the report says so rather than guessing. It also flagged five inconsistencies between my own taxonomy and contract, which is exactly the kind of gap the exercise was meant to expose.</p></section>
+        <section><h3>What I'd change</h3><p>Resolve those five inconsistencies, map individual claims in a response to the exact record fields that support them, and run the scenario matrix automatically on every change.</p></section>
+      </div>
+      <div class="cs-links"><span class="cs-muted">Code: private repository</span></div>
+    </article>
+
+    <article class="cp-card cs" id="localai">
+      <div class="cs-head"><span class="cs-num">03 / INFRASTRUCTURE</span><span class="cs-status">EXPLORATION</span></div>
+      <h2>Local AI infrastructure</h2>
+      <div class="cs-tags"><span>Ollama 0.40</span><span>qwen3:4b</span><span>Windows 11</span><span>RTX 3060 Ti</span></div>
+      <div class="cs-grid">
+        <section><h3>Problem</h3><p>I wanted to experiment with language models without paying per request or sending data to a third party, on hardware I already own.</p></section>
+        <section><h3>Approach</h3><ul>
+          <li>Ollama serving <code>qwen3:4b</code> on <code>127.0.0.1:11434</code>, on a Ryzen 5 5600X with 32 GB of RAM and an RTX 3060 Ti.</li>
+          <li>The agent's adapter only accepts loopback addresses and has no API-key setting, so nothing leaves the machine by accident.</li>
+          <li>Explored Open WebUI as an interface, and kept an optional authenticated provider in the code for comparison.</li>
+        </ul></section>
+        <section><h3>Result</h3><p>The complaint agent and its evaluation harness run entirely on my own computer. The architecture diagram on this site was generated from the real code and machine setup, not drawn from memory.</p></section>
+        <section><h3>What I'd change</h3><p>Benchmark several model sizes against the same evaluation cases, measuring accuracy, escalation rate and response time, so the choice of model is based on evidence rather than what happened to be installed.</p></section>
+      </div>
+      <div class="cs-links"><a href="diagrams/local-ai-infrastructure.html">Open the architecture diagram ↗</a></div>
+    </article>
+
+    <article class="cp-card cs" id="jobfinder">
+      <div class="cs-head"><span class="cs-num">04 / PRODUCTIVITY TOOL</span><span class="cs-status">PROTOTYPE</span></div>
+      <h2>AI graduate job finder</h2>
+      <div class="cs-tags"><span>Transparent scoring</span><span>JavaScript</span><span>node:test</span></div>
+      <div class="cs-grid">
+        <section><h3>Problem</h3><p>Job recommenders rarely explain why a role was suggested, so a graduate cannot tell what would make them a better fit. I wanted a match score where every point can be traced.</p></section>
+        <section><h3>Approach</h3><ul>
+          <li>A weighted score out of 100 from five components: skills, location and work mode, salary, sector and level. Each comes with a plain-English reason.</li>
+          <li>Weights are adjustable, missing skills are listed, and each role links to a live search for similar real jobs.</li>
+          <li>The idea started as a Python scoring prototype; the version on this site is an interactive browser demo using fictional roles.</li>
+        </ul></section>
+        <section><h3>Result</h3><p>A live demo with 22 fictional roles, 35 skills and seven job boards, backed by automated tests for the scoring rules and data.</p></section>
+        <section><h3>What I'd change</h3><p>Use real listings through a job-board API, which needs a small server to keep keys private; let people mark good and bad matches to tune the weights; and read skills from a CV inside the browser.</p></section>
+      </div>
+      <div class="cs-links"><a href="jobfinder.html">Try the demo ↘</a></div>
+    </article>
+
+    <article class="cp-card cs" id="guessed">
+      <div class="cs-head"><span class="cs-num">05 / WEB APP</span><span class="cs-status cs-live">PUBLISHED</span></div>
+      <h2>GUESSED, a daily guessing game</h2>
+      <div class="cs-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>GitHub Pages</span></div>
+      <div class="cs-grid">
+        <section><h3>Problem</h3><p>Build a daily game that everyone plays and shares, with the same questions for everyone, but with no server, accounts or database.</p></section>
+        <section><h3>Approach</h3><ul>
+          <li>The date in UK time is hashed to pick one question per category from a 117-question bank, so everyone gets the same five questions without a server.</li>
+          <li>Five question types with their own input: a price, a slider for size and distance, a percentage, a multiple-choice crowd prediction and a year.</li>
+          <li>Each answer scores 0 to 100 from how far off it was. Every question links to its source, and the crowd answers come from real YouGov polls.</li>
+          <li>Daily streaks, personal stats and a shareable result image, all saved on the player's device.</li>
+        </ul></section>
+        <section><h3>Result</h3><p>Published and playable, including inside this portfolio. A later code review found a bug where a variable named <code>performance</code> hid the browser's own timer, so every result showed a score of zero, plus some emoji corrupted by a text-encoding mistake. Both are fixed, and the script is now structured so that class of bug cannot recur.</p></section>
+        <section><h3>What I'd change</h3><p>The crowd questions began as simulated placeholder data; they now use real YouGov polls, with each figure checked against the original article. Some of those polls date from 2011 to 2016, so next I would refresh them with newer data and add an archive so players can catch up on missed days.</p></section>
+      </div>
+      <div class="cs-links"><a href="index.html#play-guessed">Play it here ↘</a><a href="https://github.com/joshuat09/guessed" target="_blank" rel="noopener">View the code ↗</a></div>
+    </article>
+
+    <article class="cp-card cs" id="research">
+      <div class="cs-head"><span class="cs-num">06 / DISSERTATION</span><span class="cs-status cs-research">RESEARCH</span></div>
+      <h2>Agentic AI &amp; autonomous business processes</h2>
+      <div class="cs-tags"><span>Resource-based view</span><span>Socio-technical systems</span><span>Agency theory</span></div>
+      <div class="cs-grid">
+        <section><h3>Problem</h3><p>Organisations hear a lot about agentic AI, but have little to help them decide where autonomy is appropriate, and what capabilities they need before handing work to an agent.</p></section>
+        <section><h3>Approach</h3><ul>
+          <li>Dissertation research on how agentic AI could change business processes, using the resource-based view, socio-technical systems and agency theory.</li>
+          <li>Connected to practice through the complaint-agent prototype, which tests bounded autonomy and human oversight in a real workflow.</li>
+          <li>Turned those lenses into an interactive readiness scorecard: ten answers, four scores, two safety gates and a "least autonomy that does the job" rule.</li>
+        </ul></section>
+        <section><h3>Result</h3><p>A working decision aid on this site. Its complaint-triage example recommends a bounded agent with human oversight, the same design choice the prototype makes.</p></section>
+        <section><h3>What I'd change</h3><p>Calibrate the scorecard's thresholds against the dissertation's findings and real organisational examples, and test it with people who make these decisions at work.</p></section>
+      </div>
+      <div class="cs-links"><a href="readiness.html">Try the readiness scorecard ↘</a></div>
+    </article>
+
+    <footer class="cp-foot"><span>These write-ups are kept deliberately factual. Prototypes are labelled as prototypes, and simulated data is labelled as simulated.</span></footer>
+  </div>
+
+  <script src="site-config.js"></script>
+  <script src="demo/theme.js"></script>
+  <script src="cursor.js"></script>
+  <script src="palette.js"></script>
+</body>
+</html>

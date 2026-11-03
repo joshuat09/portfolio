@@ -204,6 +204,8 @@
     #thin{position:fixed;left:0;bottom:0;height:3px;width:0;background:var(--acc);z-index:119}
     @media(max-width:640px){#tm{display:none}#ctl button{min-width:0;padding:8px}}
     @media(prefers-reduced-motion:reduce){.on .w,.on .r,.on .p,.on .sl{animation-duration:.01s}.rings i{animation:none!important}}
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
   </style>
 </head>
 <body data-cursor="dark">
@@ -284,7 +286,7 @@
         <h2 class="r" style="--d:1">A daily guessing game, <em>shipped.</em></h2>
         <div class="tiles" id="tiles"></div>
         <div class="cats"><span class="chip p" style="--d:6">PRICE</span><span class="chip p" style="--d:6.3">SCALE</span><span class="chip p" style="--d:6.6">HUMAN</span><span class="chip p" style="--d:6.9">CROWD</span><span class="chip p" style="--d:7.2">TIME</span></div>
-        <div class="meta r" style="--d:7.5">125 QUESTIONS · VANILLA HTML, CSS, JS · GITHUB PAGES</div>
+        <div class="meta r" style="--d:7.5">117 SOURCED QUESTIONS · VANILLA JS · GITHUB PAGES</div>
       </section>
 
       <section class="scene s8" data-chapter="07 · DETAILS">
@@ -681,5 +683,6 @@
 })();
 </script>
 <script src="cursor.js"></script>
+<script src="site-config.js"></script>
 </body>
 </html>

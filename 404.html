@@ -35,6 +35,8 @@
     .links a{display:inline-block;font:12px ui-monospace,Menlo,Consolas,monospace;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:4px;padding:8px 10px}
     .links a:hover,.links a:focus-visible{background:var(--acc);border-color:var(--acc);color:#17372e}
     a:focus-visible{outline:2px solid #6b8d52;outline-offset:2px}
+    @view-transition { navigation: auto; }
+    @media (prefers-reduced-motion: reduce) { @view-transition { navigation: none; } }
   </style>
   <script>try{var t=localStorage.getItem('portfolio-theme');if(t)document.documentElement.classList.add(t);}catch(e){}</script>
 </head>

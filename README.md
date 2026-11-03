@@ -61,3 +61,8 @@ The sub pages share page styling from `demo/complaint-demo.css`.
 - `favicon.svg`, `favicon-64.png` and `apple-touch-icon.png` (iPad and iPhone home screen).
 - `404.html` is a friendly "page not found" page. It fixes wrong capitalisation automatically (for example `/portfolio/Readiness.html`) and links to the main pages. The bare `joshuat09.github.io` address needs a separate `joshuat09.github.io` repository to redirect.
 
+## Case studies, transitions, analytics and contact form
+- `case-studies.html` has a problem / approach / result / "what I'd change" write-up for each project, linked from every project dialog.
+- Moving between pages uses cross-document view transitions (`@view-transition`) in Chrome, Edge and Safari 18.2+; other browsers navigate normally.
+- `site-config.js` holds the GoatCounter site code (analytics) and the Web3Forms access key (contact form). Both are empty, so neither service runs until a value is added. With no key, the contact form stays hidden and the email link remains.
+
