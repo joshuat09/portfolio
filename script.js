@@ -56,6 +56,9 @@ function openProject(key){
   const tech = document.querySelector("#dialog-tech"); tech.replaceChildren();
   p.tech.forEach(item => { const tag=document.createElement("i"); tag.textContent=item; tech.append(tag); });
   const demoLink = document.querySelector("#dialog-demo-link");
+  const codeLinks = { guessed:"https://github.com/joshuat09/guessed" };
+  const codeLink = document.querySelector("#dialog-code-link");
+  if(codeLink){ codeLink.hidden = !codeLinks[key]; if(codeLinks[key]) codeLink.href = codeLinks[key]; }
   const demoPages = { complaints:"complaints.html", jobfinder:"jobfinder.html", research:"readiness.html" };
   if(demoLink){ demoLink.hidden = !demoPages[key]; if(demoPages[key]) demoLink.href = demoPages[key]; }
   const diagrams = { localai:"diagrams/local-ai-infrastructure.html" };

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Page not found — Joshua Tait</title>
+  <link rel="icon" href="/portfolio/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/portfolio/apple-touch-icon.png">
+  <script>
+    // Fix wrong capitalisation (common when typing on a phone or iPad), e.g. /portfolio/Readiness.html
+    (function () {
+      var pages = ['', 'index.html', 'complaints.html', 'jobfinder.html', 'readiness.html', 'showreel.html', 'diagrams/local-ai-infrastructure.html'];
+      var path = location.pathname, lower = path.toLowerCase(), prefix = '/portfolio/';
+      if (lower.indexOf(prefix) === 0 && lower !== path && pages.indexOf(lower.slice(prefix.length)) !== -1) {
+        location.replace(lower + location.search + location.hash);
+      }
+    })();
+  </script>
+  <style>
+    :root{--bg:#f4f5f2;--paper:#fff;--ink:#17211f;--muted:#5f6d65;--line:#dfe5df;--acc:#c8f169;--deep:#193d35;color-scheme:light}
+    @media (prefers-color-scheme: dark){:root:not(.light){--bg:#111a17;--paper:#1b2822;--ink:#edf3ec;--muted:#a6b3a9;--line:#34443a;color-scheme:dark}}
+    :root.dark{--bg:#111a17;--paper:#1b2822;--ink:#edf3ec;--muted:#a6b3a9;--line:#34443a;color-scheme:dark}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+    main{width:min(560px,100%);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:36px 32px}
+    .brand{display:flex;align-items:center;gap:12px;font:600 12px ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;color:var(--muted)}
+    .brand b{display:grid;place-items:center;width:36px;height:36px;border-radius:9px;background:var(--acc);color:#17372e;font:700 13px system-ui,sans-serif;letter-spacing:0}
+    .code{margin:34px 0 6px;font:600 12px ui-monospace,Menlo,Consolas,monospace;letter-spacing:.2em;color:#6b8d52}
+    h1{margin:0 0 12px;font-size:34px;line-height:1.1;letter-spacing:-.04em}
+    p{margin:0 0 24px;line-height:1.7;color:var(--muted)}
+    .primary{display:inline-block;background:var(--deep);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:13px 18px;border-radius:6px}
+    .primary:hover{filter:brightness(1.15)}
+    .links{margin:26px 0 0;padding:18px 0 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;list-style:none}
+    .links a{display:inline-block;font:12px ui-monospace,Menlo,Consolas,monospace;color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:4px;padding:8px 10px}
+    .links a:hover,.links a:focus-visible{background:var(--acc);border-color:var(--acc);color:#17372e}
+    a:focus-visible{outline:2px solid #6b8d52;outline-offset:2px}
+  </style>
+  <script>try{var t=localStorage.getItem('portfolio-theme');if(t)document.documentElement.classList.add(t);}catch(e){}</script>
+</head>
+<body>
+  <main>
+    <div class="brand"><b>JT</b>JOSHUA TAIT</div>
+    <div class="code">404 · PAGE NOT FOUND</div>
+    <h1>That page isn’t here.</h1>
+    <p>The address may have a typo, or the page has moved. The portfolio lives at <strong>joshuat09.github.io/portfolio/</strong>.</p>
+    <a class="primary" href="/portfolio/">Go to the portfolio →</a>
+    <ul class="links" aria-label="Popular pages">
+      <li><a href="/portfolio/complaints.html">Complaint demo</a></li>
+      <li><a href="/portfolio/jobfinder.html">Job finder</a></li>
+      <li><a href="/portfolio/readiness.html">Readiness scorecard</a></li>
+      <li><a href="/portfolio/showreel.html">Showreel</a></li>
+      <li><a href="/guessed/">Play GUESSED</a></li>
+    </ul>
+  </main>
+</body>
+</html>

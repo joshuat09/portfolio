@@ -55,3 +55,9 @@ The sub pages share page styling from `demo/complaint-demo.css`.
 - `demo/readiness-engine.js` - scoring, gates and recommendation
 - `demo/readiness-ui.js` / `demo/readiness.css` - form and results
 - `demo/readiness.test.js` - tests; run with `node --test demo/readiness.test.js`
+
+## Sharing, icons and 404
+- Every page has Open Graph and Twitter tags with a 1200x630 preview image in `og/` (rendered from a template with headless Chrome), plus a canonical URL.
+- `favicon.svg`, `favicon-64.png` and `apple-touch-icon.png` (iPad and iPhone home screen).
+- `404.html` is a friendly "page not found" page. It fixes wrong capitalisation automatically (for example `/portfolio/Readiness.html`) and links to the main pages. The bare `joshuat09.github.io` address needs a separate `joshuat09.github.io` repository to redirect.
+

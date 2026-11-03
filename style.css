@@ -263,3 +263,13 @@ body.dark-mode .ghost-btn span{color:var(--green)}
   #projects .surprise-btn{margin-left:auto}
   #projects .search-status{margin:12px 0 0}
 }
+
+/* ===== Profile links ===== */
+.sidebar-bottom .text-link{display:inline-block;margin-right:14px}
+.about-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:9px}
+.about-copy .about-actions .primary-btn{margin-top:0}
+.footer-links{display:flex;gap:22px}
+.dialog-demo-link+.dialog-demo-link{margin-left:18px}
+
+/* Elements with the hidden attribute stay hidden even when a class sets display */
+[hidden]{display:none !important}
