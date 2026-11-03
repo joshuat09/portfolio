@@ -57,6 +57,17 @@
     else timer = setInterval(tick, 60);
   }
 
+  /* Other ways in: tap the JT logo five times (works on touch), or run "Matrix mode" from the command palette. */
+  window.Easter = { open: open };
+  let taps = 0, tapTimer = null;
+  document.addEventListener('click', e => {
+    if (!e.target.closest || !e.target.closest('.brand-mark')) return;
+    taps++;
+    clearTimeout(tapTimer);
+    tapTimer = setTimeout(() => { taps = 0; }, 1500);
+    if (taps >= 5) { taps = 0; e.preventDefault(); open(); }
+  });
+
   addEventListener('keydown', e => {
     if (e.key === 'Escape') { close(); return; }
     const tag = (e.target && e.target.tagName) || '';
