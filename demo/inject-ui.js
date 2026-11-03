@@ -86,6 +86,7 @@
       tr.append(li);
     });
     $('ij-trace-card').hidden = false;
+    if (window.SFX) window.SFX.play(bad ? 'bad' : 'good');
   }
 
   /* ---------- coverage matrix ---------- */

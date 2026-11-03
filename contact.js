@@ -3,7 +3,7 @@
   "use strict";
   const copy = document.getElementById("copy-email");
   if (copy) copy.addEventListener("click", async () => {
-    const done = text => { copy.textContent = text; setTimeout(() => { copy.textContent = "Copy email"; }, 2000); };
+    const done = text => { if (window.SFX) window.SFX.play("tick"); copy.textContent = text; setTimeout(() => { copy.textContent = "Copy email"; }, 2000); };
     try { await navigator.clipboard.writeText("joshuatait09@gmail.com"); done("Copied ✓"); }
     catch (e) { done("joshuatait09@gmail.com"); }
   });

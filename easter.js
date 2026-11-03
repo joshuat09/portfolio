@@ -13,6 +13,7 @@
 
   function open() {
     if (layer) return;
+    if (window.SFX) window.SFX.play('secret');
     const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     layer = document.createElement('div');
     layer.setAttribute('role', 'dialog');
