@@ -309,3 +309,9 @@ body.dark-mode a:focus-visible,body.dark-mode button:focus-visible,body.dark-mod
   a{color:#000;text-decoration:underline}
   a[href^="http"]::after{content:" (" attr(href) ")";font-size:9px;color:#444}
 }
+
+.now-line{display:flex;align-items:center;gap:10px;max-width:480px;margin:14px 0 0;font:10px/1.6 var(--mono);letter-spacing:.04em;color:#68756e}
+.now-line i{flex:none;width:7px;height:7px;border-radius:50%;background:#83a55e;box-shadow:0 0 0 4px #83a55e26}
+.now-line b{color:var(--ink);margin-right:6px}
+body.dark-mode .now-line{color:#a6b3a9}
+.card-actions{flex-wrap:wrap;justify-content:flex-end}
