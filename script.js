@@ -61,7 +61,7 @@ function openProject(key){
   const codeLinks = { guessed:"https://github.com/joshuat09/guessed" };
   const codeLink = document.querySelector("#dialog-code-link");
   if(codeLink){ codeLink.hidden = !codeLinks[key]; if(codeLinks[key]) codeLink.href = codeLinks[key]; }
-  const demoPages = { complaints:"complaints.html", jobfinder:"jobfinder.html", research:"readiness.html" };
+  const demoPages = { complaints:"complaints.html", jobfinder:"jobfinder.html", research:"readiness.html", localai:"leaderboard.html" };
   if(demoLink){ demoLink.hidden = !demoPages[key]; if(demoPages[key]) demoLink.href = demoPages[key]; }
   const diagrams = { localai:"diagrams/local-ai-infrastructure.html" };
   const diagramBox = document.querySelector("#dialog-diagram");

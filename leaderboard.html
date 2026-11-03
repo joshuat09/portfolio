@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Which small local language model is good enough to run a tool-using complaint agent? Measured accuracy, malformed responses, speed and size on my own PC.">
+  <link rel="canonical" href="https://joshuat09.github.io/portfolio/leaderboard.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-64.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Joshua Tait — Portfolio">
+  <meta property="og:title" content="Local Model Leaderboard — Joshua Tait">
+  <meta property="og:description" content="Which small local language model is good enough to run a tool-using complaint agent? Measured accuracy, malformed responses, speed and size on my own PC.">
+  <meta property="og:url" content="https://joshuat09.github.io/portfolio/leaderboard.html">
+  <meta property="og:image" content="https://joshuat09.github.io/portfolio/og/leaderboard.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Local model leaderboard: accuracy, speed and size of small models on one PC">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Local Model Leaderboard — Joshua Tait">
+  <meta name="twitter:description" content="Which small local language model is good enough to run a tool-using complaint agent? Measured accuracy, malformed responses, speed and size on my own PC.">
+  <meta name="twitter:image" content="https://joshuat09.github.io/portfolio/og/leaderboard.png">
+  <title>Local Model Leaderboard — Joshua Tait</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="demo/complaint-demo.css">
+  <link rel="stylesheet" href="demo/leaderboard.css">
+</head>
+<body>
+  <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
+  <div class="cp" role="main">
+    <header class="cp-top">
+      <a class="cp-back" href="index.html#projects">← Back to portfolio</a>
+      <div class="cp-top-actions">
+        <button class="theme-toggle palette-trigger" type="button" data-open-palette aria-label="Open command palette (Ctrl+K)">⌘K <span>Commands</span></button>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">◐ <span>Dark mode</span></button>
+      </div>
+    </header>
+
+    <section class="cp-hero">
+      <div class="eyebrow"><span class="eyebrow-line"></span> LOCAL AI · BENCHMARK</div>
+      <h1>Local model leaderboard<span>.</span></h1>
+      <p class="cp-lead">Which small language model is good enough to run a tool-using complaint agent on an ordinary gaming PC? I ran the same ten evaluation cases through my agent with each model and measured accuracy, malformed responses, speed and size.</p>
+      <ol class="cp-flow" aria-label="How the benchmark works">
+        <li>10 synthetic cases</li><li>Each local model</li><li>Real agent loop</li><li>Measure</li><li>Leaderboard</li>
+      </ol>
+      <p class="cp-sim"><strong>Real measurements, from one machine.</strong> Everything runs locally through Ollama on my own computer, with no paid APIs. The cases are synthetic and the results apply to this agent, this prompt and this hardware, so read them as one data point, not a universal ranking.</p>
+    </section>
+
+    <div id="lb-banner" class="lb-banner" role="status" hidden></div>
+
+    <div id="lb-content" hidden>
+      <section class="lb-host" id="lb-host" aria-label="Test machine"></section>
+      <section class="ev-tiles lb-tiles" id="lb-tiles" aria-label="Summary"></section>
+
+      <section class="cp-card lb-block">
+        <h2 class="cp-h">What the data says</h2>
+        <ul class="lb-insights" id="lb-insights"></ul>
+      </section>
+
+      <section class="lb-split">
+        <div class="cp-card">
+          <div class="cp-trace-head"><h2 class="cp-h">Speed versus accuracy</h2><div class="lb-chips" id="lb-ykeys" role="group" aria-label="Accuracy measure"></div></div>
+          <div id="lb-scatter" class="lb-chart"></div>
+          <p class="lb-sub">Further up is more accurate, further left is faster, bigger bubbles are larger models. Highlighted models are on the frontier: nothing beats them on both.</p>
+          <div id="lb-detail" class="lb-detail" aria-live="polite"></div>
+        </div>
+        <div class="cp-card">
+          <div class="cp-trace-head"><h2 class="cp-h">Rankings</h2></div>
+          <div class="lb-chips" id="lb-metrics" role="group" aria-label="Ranking measure"></div>
+          <div id="lb-bars" class="lb-bars"></div>
+        </div>
+      </section>
+
+      <section class="cp-card lb-block">
+        <h2 class="cp-h">All the numbers</h2>
+        <div class="cp-table-wrap"><table class="lb-table" id="lb-table"></table></div>
+      </section>
+
+      <section class="cp-card lb-block">
+        <h2 class="cp-h">Case by case</h2>
+        <p class="lb-sub">Each cell is how many runs of that case passed every check. Dotted cells were decided by the deterministic safety screen before any model ran, so they say nothing about the model.</p>
+        <div class="cp-table-wrap"><table class="lb-heat" id="lb-heat"></table></div>
+        <p class="lb-case-note" id="lb-case-note" aria-live="polite">Select a cell for details.</p>
+        <ul class="lb-legend" id="lb-legend"></ul>
+      </section>
+
+      <section class="cp-card lb-block" id="lb-skipped-card" hidden>
+        <h2 class="cp-h">Models I could not run</h2>
+        <ul class="lb-bullets" id="lb-skipped"></ul>
+      </section>
+    </div>
+
+    <section class="cp-card lb-block" id="lb-method">
+      <h2 class="cp-h">How it was measured</h2>
+      <ul class="lb-bullets">
+        <li><b>The cases.</b> The ten synthetic cases from my agent's evaluation set: a damaged item, a missing order number, a status enquiry, a nonexistent order, a high-value refund, a bank-transfer request, a prompt-injection attempt, a wrong item, a claim that conflicts with the record, and a multi-issue complaint.</li>
+        <li><b>Pass.</b> A case passes only if all nine checks hold: the expected outcome, required tools used, no disallowed tools, the right safety flags, no tool-validation failures, no provider errors, no tool exceptions, the iteration limit respected and a complete trace.</li>
+        <li><b>Cases the model handled.</b> The deterministic safety screen escalates some cases before any model is called, so every model passes those. The headline pass rate counts only the cases where the model actually ran.</li>
+        <li><b>Format errors.</b> The model's reply could not be turned into a tool call, a final answer or an escalation. The agent treats that as a failure and escalates to a person, so these are safe but unhelpful.</li>
+        <li><b>Speed.</b> Wall-clock seconds for a whole case, which includes several model calls. Each model is loaded into memory first, so loading time is not charged to the first case.</li>
+        <li><b>Skipped models.</b> A model must support tool calling in Ollama to run the agent loop. Those that do not are listed rather than hidden.</li>
+        <li><b>Limits.</b> One prompt, default sampling settings, one machine, ten cases. Small differences are noise, and other prompts, quantisations or hardware could change the order.</li>
+      </ul>
+    </section>
+
+    <footer class="cp-foot">
+      <span>Design principle: choose the model with evidence from your own workload, on your own hardware, rather than from someone else's benchmark.</span>
+    </footer>
+  </div>
+
+  <script src="site-config.js"></script>
+  <script src="demo/theme.js"></script>
+  <script src="demo/leaderboard-engine.js"></script>
+  <script src="demo/leaderboard-ui.js"></script>
+  <script src="cursor.js"></script>
+  <script src="palette.js"></script>
+</body>
+</html>
