@@ -6,8 +6,8 @@
  *   should receive messages. The key is designed to be public, so it is safe to put here.
  */
 window.SITE_CONFIG = {
-  GOATCOUNTER_CODE: "",
-  WEB3FORMS_KEY: ""
+  GOATCOUNTER_CODE: "joshuat",
+  WEB3FORMS_KEY: "04645f46-6d28-4563-9e7a-ee14585ac852"
 };
 
 /* Analytics: loads GoatCounter only when a code is set. It ignores localhost automatically. */
