@@ -15,7 +15,6 @@
 
   function play(name) {
     if (!on || !SOUNDS[name]) return;
-    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     try {
       ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
       if (ctx.state === 'suspended') ctx.resume();
@@ -25,7 +24,7 @@
         osc.type = n[3] || 'sine';
         osc.frequency.value = n[0];
         gain.gain.setValueAtTime(0.0001, t0 + n[1]);
-        gain.gain.exponentialRampToValueAtTime(0.12, t0 + n[1] + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.3, t0 + n[1] + 0.01);
         gain.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + n[2]);
         osc.connect(gain).connect(ctx.destination);
         osc.start(t0 + n[1]);
