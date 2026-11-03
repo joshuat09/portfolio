@@ -302,7 +302,7 @@ body.dark-mode a:focus-visible,body.dark-mode button:focus-visible,body.dark-mod
 .footer-links a+a{margin-left:14px}
 .cp-foot a{color:inherit;margin-left:10px}
 @media print{
-  .sidebar,.skip-link,.theme-toggle,.palette-trigger,.cp-top-actions,.hero-graphic,.filters,.project-search,.cursor-trail,#cursor-canvas,dialog,.cp-back{display:none!important}
+  .sidebar,.skip-link,.theme-toggle,.palette-trigger,.cp-top-actions,.hero-graphic,.filters,.project-search,.cursor-trail,#cursor-fx,canvas[aria-hidden="true"],dialog,.cp-back{display:none!important}
   body,body.dark-mode{background:#fff!important;color:#000!important}
   main,.cp{margin:0!important;padding:0!important;max-width:none!important}
   .project-card,.cp-card,.capability{break-inside:avoid;border:1px solid #bbb!important;background:#fff!important}
