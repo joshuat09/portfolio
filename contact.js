@@ -1,6 +1,12 @@
 /* Contact form via Web3Forms. Stays hidden (the email link remains) until SITE_CONFIG.WEB3FORMS_KEY is set. */
 (function () {
   "use strict";
+  const copy = document.getElementById("copy-email");
+  if (copy) copy.addEventListener("click", async () => {
+    const done = text => { copy.textContent = text; setTimeout(() => { copy.textContent = "Copy email"; }, 2000); };
+    try { await navigator.clipboard.writeText("joshuatait09@gmail.com"); done("Copied ✓"); }
+    catch (e) { done("joshuatait09@gmail.com"); }
+  });
   const form = document.getElementById("contact-form");
   const key = ((window.SITE_CONFIG && window.SITE_CONFIG.WEB3FORMS_KEY) || "").trim();
   if (!form || !key) return;
