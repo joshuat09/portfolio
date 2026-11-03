@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Which small local language model is good enough to run a tool-using complaint agent? Measured accuracy, malformed responses, speed and size on my own PC.">
+  <meta name="theme-color" content="#f4f5f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111a17" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="canonical" href="https://joshuat09.github.io/portfolio/leaderboard.html">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-64.png" type="image/png" sizes="64x64">
@@ -30,8 +33,10 @@
   <link rel="stylesheet" href="demo/leaderboard.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <noscript><p style="margin:0;padding:12px 18px;background:#fff4d6;color:#4a3b10;font:13px sans-serif">This page needs JavaScript for its interactive parts. The written content is still readable.</p></noscript>
   <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
-  <div class="cp" role="main">
+  <div class="cp" role="main" id="main-content" tabindex="-1">
     <header class="cp-top">
       <a class="cp-back" href="index.html#projects">← Back to portfolio</a>
       <div class="cp-top-actions">
@@ -109,7 +114,7 @@
 
     <footer class="cp-foot">
       <span>Design principle: choose the model with evidence from your own workload, on your own hardware, rather than from someone else's benchmark.</span>
-    </footer>
+    <a href="privacy.html">Privacy</a></footer>
   </div>
 
   <script src="site-config.js"></script>

@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Short case studies of Joshua Tait's projects: the problem, the approach, the result and what he would change next.">
+  <meta name="theme-color" content="#f4f5f2" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111a17" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
   <link rel="canonical" href="https://joshuat09.github.io/portfolio/case-studies.html">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-64.png" type="image/png" sizes="64x64">
@@ -30,8 +33,10 @@
   <link rel="stylesheet" href="demo/case-studies.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <noscript><p style="margin:0;padding:12px 18px;background:#fff4d6;color:#4a3b10;font:13px sans-serif">This page needs JavaScript for its interactive parts. The written content is still readable.</p></noscript>
   <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
-  <div class="cp" role="main">
+  <div class="cp" role="main" id="main-content" tabindex="-1">
     <header class="cp-top">
       <a class="cp-back" href="index.html#projects">← Back to portfolio</a>
       <div class="cp-top-actions">
@@ -155,7 +160,7 @@
       <div class="cs-links"><a href="readiness.html">Try the readiness scorecard ↘</a></div>
     </article>
 
-    <footer class="cp-foot"><span>These write-ups are kept deliberately factual. Prototypes are labelled as prototypes, and simulated data is labelled as simulated.</span></footer>
+    <footer class="cp-foot"><span>These write-ups are kept deliberately factual. Prototypes are labelled as prototypes, and simulated data is labelled as simulated.</span><a href="privacy.html">Privacy</a></footer>
   </div>
 
   <script src="site-config.js"></script>

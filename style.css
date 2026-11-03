@@ -293,3 +293,19 @@ body.dark-mode .ghost-btn span{color:var(--green)}
 .form-status[data-kind="ok"]{color:#3c7960}
 .form-status[data-kind="error"]{color:#b4532f}
 .form-note{margin:0!important;font:9px var(--mono)!important;color:#98a39a!important}
+
+/* Accessibility and print */
+.skip-link{position:absolute;left:12px;top:-60px;z-index:100;background:#172d28;color:#fff;padding:10px 14px;border-radius:6px;font:600 12px var(--sans);text-decoration:none;transition:top .15s}
+.skip-link:focus{top:12px;outline:2px solid #a9e86c;outline-offset:2px}
+a:focus-visible,button:focus-visible,summary:focus-visible,.project-card:focus-visible,.filter:focus-visible{outline:2px solid #6b8d52;outline-offset:2px}
+body.dark-mode a:focus-visible,body.dark-mode button:focus-visible,body.dark-mode .project-card:focus-visible{outline-color:#a9e86c}
+.footer-links a+a{margin-left:14px}
+.cp-foot a{color:inherit;margin-left:10px}
+@media print{
+  .sidebar,.skip-link,.theme-toggle,.palette-trigger,.cp-top-actions,.hero-graphic,.filters,.project-search,.cursor-trail,#cursor-canvas,dialog,.cp-back{display:none!important}
+  body,body.dark-mode{background:#fff!important;color:#000!important}
+  main,.cp{margin:0!important;padding:0!important;max-width:none!important}
+  .project-card,.cp-card,.capability{break-inside:avoid;border:1px solid #bbb!important;background:#fff!important}
+  a{color:#000;text-decoration:underline}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:9px;color:#444}
+}
