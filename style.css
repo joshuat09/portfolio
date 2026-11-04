@@ -315,3 +315,12 @@ body.dark-mode a:focus-visible,body.dark-mode button:focus-visible,body.dark-mod
 .now-line b{color:var(--ink);margin-right:6px}
 body.dark-mode .now-line{color:#a6b3a9}
 .card-actions{flex-wrap:wrap;justify-content:flex-end}
+
+/* Shared sidebar on the subpages: same component as the home page, content shifted to make room */
+body.has-sidebar{padding-left:230px}
+.has-sidebar .site-sidebar{left:0}
+@media(max-width:1050px){body.has-sidebar{padding-left:200px}}
+@media(max-width:760px){body.has-sidebar{padding-left:0}}
+@media print{body.has-sidebar{padding-left:0}}
+.sidebar{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2b4a40 transparent}
+@media(max-width:760px){.sidebar{overflow:visible}}
