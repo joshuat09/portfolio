@@ -49,6 +49,8 @@
     return { g, w: r.width, h: r.height };
   }
 
+  window.FX = { loop: loop, sizeCanvas: sizeCanvas, reduce: reduce, finePointer: finePointer };
+
   /* ---------- 1. Isometric agent pipeline ---------- */
   const graphic = document.querySelector('.hero-graphic');
   if (graphic && graphic.getContext === undefined) {
@@ -361,6 +363,30 @@
       el.style.transitionDelay = (i % 4) * 70 + 'ms';
       io.observe(el);
     });
+  }
+
+  /* ---------- 6b. Magnetic buttons ---------- */
+  // Main buttons drift towards the pointer when it comes near, and spring back when it leaves.
+  if (finePointer && !reduce) {
+    const mags = Array.from(document.querySelectorAll('.hero-actions a, .about-actions a, .about-actions button, .card-demo-link, .view-btn'));
+    mags.forEach(m => m.classList.add('fx-magnet'));
+    let last = null;
+    const update = () => {
+      if (!last) return;
+      mags.forEach(m => {
+        const r = m.getBoundingClientRect();
+        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        const dx = last.x - cx, dy = last.y - cy;
+        const reach = Math.max(r.width, r.height) / 2 + 50;
+        const d = Math.hypot(dx, dy);
+        if (d < reach) {
+          const k = (1 - d / reach) * 0.35;
+          m.style.translate = (dx * k).toFixed(1) + 'px ' + (dy * k).toFixed(1) + 'px';
+        } else if (m.style.translate) m.style.translate = '';
+      });
+    };
+    addEventListener('pointermove', e => { last = { x: e.clientX, y: e.clientY }; update(); }, { passive: true });
+    document.addEventListener('pointerleave', () => mags.forEach(m => { m.style.translate = ''; }));
   }
 
   /* ---------- 7. Tilting cards with a spotlight ---------- */

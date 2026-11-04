@@ -82,3 +82,14 @@ body.dark-mode .fx-torus{color:#c8f169}
 /* Liquid blobs behind the isometric diagram */
 .fx-liquid{position:absolute;inset:-8% -6%;width:112%;height:116%;pointer-events:none;filter:blur(1.5px) saturate(1.1);opacity:.85}
 @media print{.fx-liquid{display:none!important}}
+
+/* Isometric project-card scenes */
+.fx .project-visual.fx-scene{display:block;padding:0;height:210px}
+@media(max-width:760px){.fx .project-visual.fx-scene{height:190px}}
+.fx-scene canvas{position:absolute;inset:0;width:100%;height:100%}
+.fx-scene-cap{position:absolute;left:0;right:0;bottom:10px;text-align:center;font:7px var(--mono);letter-spacing:.12em;opacity:.75}
+.visual-agent .fx-scene-cap,.visual-eval .fx-scene-cap,.visual-research .fx-scene-cap{color:#a5b9a8}
+.visual-game .fx-scene-cap,.visual-local .fx-scene-cap,.visual-jobs .fx-scene-cap{color:#7f8f82}
+
+/* Magnetic buttons (fx.js sets translate; this makes it spring) */
+.fx-magnet{transition:translate .35s cubic-bezier(.2,.9,.3,1.4),transform .2s,background .2s,box-shadow .3s,border-color .2s}
