@@ -183,6 +183,65 @@
     }, 30);
   }
 
+  /* ---------- 1b. Liquid blobs behind the diagram ---------- */
+  // Three soft shapes whose outlines wobble like liquid; they lean towards the pointer and blend where they overlap.
+  if (graphic) {
+    const liquid = document.createElement('canvas');
+    liquid.className = 'fx-liquid';
+    liquid.setAttribute('aria-hidden', 'true');
+    graphic.prepend(liquid);
+    let lv = sizeCanvas(liquid);
+    addEventListener('resize', () => { lv = sizeCanvas(liquid); });
+    let pull = { x: 0.5, y: 0.5 }, aim = { x: 0.5, y: 0.5 };
+    hero.addEventListener('pointermove', e => {
+      const r = liquid.getBoundingClientRect();
+      aim = { x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)), y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height)) };
+    });
+    hero.addEventListener('pointerleave', () => { aim = { x: 0.5, y: 0.5 }; });
+    const blobs = [
+      { x: 0.5, y: 0.52, r: 0.34, hue: ['#c8f169', '#8fbf4d'], speed: 0.6, seed: 0, orbit: 0.05 },
+      { x: 0.36, y: 0.42, r: 0.22, hue: ['#9fe0c0', '#4f9b7e'], speed: 0.9, seed: 2.1, orbit: 0.09 },
+      { x: 0.66, y: 0.62, r: 0.2, hue: ['#e6f9a8', '#a9d36a'], speed: 0.75, seed: 4.3, orbit: 0.08 }
+    ];
+    loop(graphic, t => {
+      const { g, w, h } = lv;
+      g.clearRect(0, 0, w, h);
+      pull.x += (aim.x - pull.x) * 0.06;
+      pull.y += (aim.y - pull.y) * 0.06;
+      g.globalCompositeOperation = colours.dark ? 'lighter' : 'multiply';
+      const size = Math.min(w, h);
+      blobs.forEach((b, k) => {
+        const cx = (b.x + Math.cos(t * b.speed + b.seed) * b.orbit + (pull.x - 0.5) * (0.12 + k * 0.05)) * w;
+        const cy = (b.y + Math.sin(t * b.speed * 1.3 + b.seed) * b.orbit + (pull.y - 0.5) * (0.12 + k * 0.05)) * h;
+        const R = b.r * size;
+        const pts = 64;
+        g.beginPath();
+        for (let i = 0; i <= pts; i++) {
+          const a = i / pts * Math.PI * 2;
+          const wob = Math.sin(a * 3 + t * 1.4 + b.seed) * 0.08 + Math.sin(a * 5 - t * 1.1 + b.seed * 2) * 0.05 + Math.sin(a * 2 + t * 0.7) * 0.06;
+          const rr = R * (1 + wob);
+          const x = cx + Math.cos(a) * rr, y = cy + Math.sin(a) * rr;
+          i ? g.lineTo(x, y) : g.moveTo(x, y);
+        }
+        const grad = g.createRadialGradient(cx - R * 0.35, cy - R * 0.4, R * 0.05, cx, cy, R * 1.15);
+        grad.addColorStop(0, b.hue[0] + (colours.dark ? 'aa' : 'cc'));
+        grad.addColorStop(0.7, b.hue[1] + (colours.dark ? '66' : '88'));
+        grad.addColorStop(1, b.hue[1] + '22');
+        g.fillStyle = grad;
+        g.fill();
+        // A glossy highlight so it reads as liquid rather than a glow.
+        g.globalCompositeOperation = 'source-over';
+        const hl = g.createRadialGradient(cx - R * 0.4, cy - R * 0.45, 0, cx - R * 0.4, cy - R * 0.45, R * 0.45);
+        hl.addColorStop(0, '#ffffff' + (colours.dark ? '40' : '99'));
+        hl.addColorStop(1, '#ffffff00');
+        g.fillStyle = hl;
+        g.fill();
+        g.globalCompositeOperation = colours.dark ? 'lighter' : 'multiply';
+      });
+      g.globalCompositeOperation = 'source-over';
+    }, 30);
+  }
+
   /* ---------- 2. ASCII field behind the hero ---------- */
   const field = document.createElement('canvas');
   field.className = 'fx-ascii';

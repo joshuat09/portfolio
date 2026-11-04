@@ -78,3 +78,7 @@ body.dark-mode.fx .hero-graphic .graphic-caption{background:var(--bg)}
 body.dark-mode .fx-torus{color:#c8f169}
 @media(max-width:760px){.fx-torus{font-size:9px}}
 @media print{.fx-torus{display:none}}
+
+/* Liquid blobs behind the isometric diagram */
+.fx-liquid{position:absolute;inset:-8% -6%;width:112%;height:116%;pointer-events:none;filter:blur(1.5px) saturate(1.1);opacity:.85}
+@media print{.fx-liquid{display:none!important}}
