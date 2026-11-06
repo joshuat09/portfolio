@@ -31,14 +31,16 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="demo/complaint-demo.css">
   <link rel="stylesheet" href="demo/leaderboard.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Local Model Leaderboard — Joshua Tait", "url": "https://joshuat09.github.io/portfolio/leaderboard.html", "description": "Which small local language model is good enough to run a tool-using complaint agent? Measured accuracy, malformed responses, speed and size on my own PC.", "inLanguage": "en-GB", "author": {"@type": "Person", "@id": "https://joshuat09.github.io/portfolio/#person", "name": "Joshua Tait", "url": "https://joshuat09.github.io/portfolio/"}, "isPartOf": {"@id": "https://joshuat09.github.io/portfolio/#site"}}</script>
 </head>
 <body class="has-sidebar">
   <script src="transition.js"></script>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <noscript><p style="margin:0;padding:12px 18px;background:#fff4d6;color:#4a3b10;font:13px sans-serif">This page needs JavaScript for its interactive parts. The written content is still readable.</p></noscript>
   <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
-  <aside class="sidebar site-sidebar">
+  <aside class="sidebar site-sidebar" id="site-nav">
       <a class="brand" href="index.html"><span class="brand-mark">JT</span><span>JOSHUA TAIT<small>PROJECT PORTFOLIO</small></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><i aria-hidden="true"></i><span>Menu</span></button>
       <div class="side-label">OVERVIEW</div>
       <nav aria-label="Portfolio">
         <a class="nav-link" href="index.html"><span>⌂</span> Dashboard</a>
@@ -151,6 +153,7 @@
   <script src="demo/leaderboard-ui.js"></script>
   <script src="cursor.js"></script>
   <script src="sfx.js"></script>
+  <script src="menu.js"></script>
   <script src="palette.js"></script>
   <script src="easter.js"></script>
 </body>

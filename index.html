@@ -43,8 +43,9 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <noscript><p style="margin:0;padding:12px 18px;background:#fff4d6;color:#4a3b10;font:13px sans-serif">This page needs JavaScript for its interactive parts. The written content is still readable.</p></noscript>
   <div class="shell">
-    <aside class="sidebar">
+    <aside class="sidebar" id="site-nav">
       <a class="brand" href="#home"><span class="brand-mark">JT</span><span>JOSHUA TAIT<small>PROJECT PORTFOLIO</small></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><i aria-hidden="true"></i><span>Menu</span></button>
       <div class="side-label">OVERVIEW</div>
       <nav>
         <a class="nav-link active" href="#home"><span>⌂</span> Dashboard</a>
@@ -76,9 +77,9 @@
         <div class="hero-copy">
           <div class="eyebrow"><span class="eyebrow-line"></span> BUSINESS MEETS TECHNOLOGY</div>
           <h1>Building at the<br><em>intersection</em> of AI<br>and business.</h1>
-          <p class="intro">I'm Joshua, a Business Studies student at the University of Strathclyde exploring how artificial intelligence, software and digital thinking can solve real organisational problems.</p>
+          <p class="intro">I'm Joshua, a Business Analytics student at the University of Strathclyde, graduating in 2027 and looking for graduate roles where AI, analytics and business strategy meet. I build working prototypes, then test them honestly.</p>
           <p class="now-line"><i></i><span><b>NOW</b> Benchmarking small local models on my complaint agent · updated November 2026</span></p>
-          <div class="hero-actions"><a class="primary-btn" href="#projects">Explore my work <span>↘</span></a><a class="ghost-btn" href="showreel.html"><span>▶</span> Watch showreel</a><a class="secondary-link" href="#about">More about me <span>→</span></a></div>
+          <div class="hero-actions"><a class="primary-btn" href="#projects">Explore my work <span>↘</span></a><a class="ghost-btn" href="cv.html"><span>☰</span> View my CV</a><a class="secondary-link" href="#contact">Get in touch <span>→</span></a><a class="secondary-link" href="showreel.html"><span>▶</span> Watch showreel</a></div>
         </div>
         <div class="hero-graphic" aria-label="Abstract network illustration">
           <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
@@ -95,7 +96,7 @@
         <div class="project-grid" id="project-grid">
           <article class="project-card featured" data-category="ai" tabindex="0" data-project="complaints">
             <div class="card-top"><span class="project-number">01 / FLAGSHIP</span><span class="status status-progress">IN DEVELOPMENT</span></div><div class="project-visual visual-agent"><div class="workflow"><span>COMPLAINT</span><b>→</b><span>AI AGENT</span><b>→</b><span>DECISION</span></div><div class="decision-row"><i>RESOLVE</i><i>MORE INFO</i><i>HUMAN REVIEW</i></div><div class="visual-foot">CONTROLLED AUTONOMY / HUMAN OVERSIGHT</div></div>
-            <div class="card-content"><div class="tags"><span>AGENTIC AI</span><span>PYTHON</span><span>LLM EVALUATION</span></div><h3>Agentic Customer Complaint System</h3><p>A prototype exploring how an AI agent can interpret complaints, use defined tools and make bounded decisions — while escalating complex or high-risk cases to a human.</p><div class="card-bottom"><span>Decision workflows · Safety · Testing</span><span class="card-actions"><a class="card-demo-link" href="complaints.html">TRY DEMO ↘</a><a class="card-demo-link" href="injection.html">BREAK IT ↘</a><button class="view-btn" aria-label="View project details">↗</button></span></div></div>
+            <div class="card-content"><div class="tags"><span>AGENTIC AI</span><span>PYTHON</span><span>LLM EVALUATION</span></div><h3>Agentic Customer Complaint System</h3><p>A prototype exploring how an AI agent can interpret complaints, use defined tools and make bounded decisions — while escalating complex or high-risk cases to a human.</p><div class="card-bottom"><span>10 test cases · 4 read-only tools · Human review</span><span class="card-actions"><a class="card-demo-link" href="complaints.html">TRY DEMO ↘</a><a class="card-demo-link" href="injection.html">BREAK IT ↘</a><button class="view-btn" aria-label="View project details">↗</button></span></div></div>
           </article>
           <article class="project-card" data-category="software" tabindex="0" data-project="guessed">
             <div class="card-top"><span class="project-number">02 / WEB APP</span><span class="status status-live">PUBLISHED</span></div><div class="project-visual visual-game"><div class="game-title">GUESSED<span>_</span></div><div class="game-sub">A DAILY KNOWLEDGE GAME</div><div class="game-tiles"><i>?</i><i>?</i><i>?</i><i>?</i><i>?</i></div><div class="game-meta">DAILY CHALLENGE · #001</div></div>
@@ -111,11 +112,11 @@
           </article>
           <article class="project-card" data-category="software" tabindex="0" data-project="jobfinder">
             <div class="card-top"><span class="project-number">05 / PRODUCTIVITY TOOL</span><span class="status status-progress">PROTOTYPE</span></div><div class="project-visual visual-jobs"><div class="job-score"><strong>84</strong><small>/ 100</small></div><div class="job-lines"><i></i><i></i><i></i></div><div class="job-caption">ROLE MATCH ANALYSIS</div><div class="job-pill">SKILLS + PREFERENCES</div></div>
-            <div class="card-content"><div class="tags"><span>PYTHON</span><span>SCORING</span><span>TESTING</span></div><h3>AI Graduate Job Finder</h3><p>A prototype concept for assessing graduate roles against an editable candidate profile, using transparent match scoring rather than opaque recommendations.</p><div class="card-bottom"><span>0–100 scoring · Editable profile</span><span class="card-actions"><a class="card-demo-link" href="jobfinder.html">TRY DEMO ↘</a><button class="view-btn" aria-label="View project details">↗</button></span></div></div>
+            <div class="card-content"><div class="tags"><span>PYTHON</span><span>SCORING</span><span>TESTING</span></div><h3>AI Graduate Job Finder</h3><p>A prototype concept for assessing graduate roles against an editable candidate profile, using transparent match scoring rather than opaque recommendations.</p><div class="card-bottom"><span>0–100 scoring · 22 sample roles</span><span class="card-actions"><a class="card-demo-link" href="jobfinder.html">TRY DEMO ↘</a><button class="view-btn" aria-label="View project details">↗</button></span></div></div>
           </article>
           <article class="project-card" data-category="research" tabindex="0" data-project="research">
             <div class="card-top"><span class="project-number">06 / DISSERTATION</span><span class="status status-research">RESEARCH</span></div><div class="project-visual visual-research"><div class="research-quote">“</div><div class="research-title">THE FUTURE OF<br><em>AUTONOMOUS</em><br>BUSINESS PROCESSES</div><div class="research-rule"></div><div class="research-foot">AGENTIC AI / ORGANISATIONAL CAPABILITY</div></div>
-            <div class="card-content"><div class="tags"><span>BUSINESS RESEARCH</span><span>AGENTIC AI</span><span>STRATEGY</span></div><h3>Agentic AI & Autonomous Business</h3><p>Research into how agentic AI may transform business processes, and the organisational capabilities, governance and human oversight needed for effective implementation.</p><div class="card-bottom"><span>Business strategy · Socio-technical systems</span><span class="card-actions"><a class="card-demo-link" href="readiness.html">TRY TOOL ↘</a><button class="view-btn" aria-label="View project details">↗</button></span></div></div>
+            <div class="card-content"><div class="tags"><span>BUSINESS RESEARCH</span><span>AGENTIC AI</span><span>STRATEGY</span></div><h3>Agentic AI & Autonomous Business</h3><p>Research into how agentic AI may transform business processes, and the organisational capabilities, governance and human oversight needed for effective implementation.</p><div class="card-bottom"><span>Socio-technical systems · 10-question scorecard</span><span class="card-actions"><a class="card-demo-link" href="readiness.html">TRY TOOL ↘</a><button class="view-btn" aria-label="View project details">↗</button></span></div></div>
           </article>
         </div>
       </section>
@@ -134,8 +135,8 @@
       </section>
       <section class="about section" id="about">
         <div><div class="eyebrow">A LITTLE ABOUT ME</div><h2>Curious about what<br>technology can <em>actually do.</em></h2></div>
-        <div class="about-copy"><p>I'm a Business Studies student at the University of Strathclyde with a particular interest in the practical application of AI in organisations. I enjoy taking a business problem, breaking it down and building or testing a technical solution.</p><p>This portfolio brings together independent builds, technical experiments and academic research. Projects are labelled by status so that prototypes and work in progress are not presented as finished products.</p><div class="about-actions"><a class="primary-btn" href="mailto:joshuatait09@gmail.com">Contact me <span>↗</span></a><button class="ghost-btn" type="button" id="copy-email" aria-live="polite">Copy email</button><a class="ghost-btn" href="cv.html">View my CV</a><a class="ghost-btn" href="https://github.com/joshuat09" target="_blank" rel="noopener"><span>↗</span> GitHub profile</a></div><form class="contact-form" id="contact-form" hidden>
-          <h3>Send a message</h3>
+        <div class="about-copy"><p>I'm a Business Analytics student at the University of Strathclyde with a particular interest in the practical application of AI in organisations. I enjoy taking a business problem, breaking it down and building or testing a technical solution.</p><p>This portfolio brings together independent builds, technical experiments and academic research. Projects are labelled by status so that prototypes and work in progress are not presented as finished products.</p><div class="about-actions"><a class="primary-btn" href="mailto:joshuatait09@gmail.com">Contact me <span>↗</span></a><button class="ghost-btn" type="button" id="copy-email" aria-live="polite">Copy email</button><a class="ghost-btn" href="cv.html">View my CV</a><a class="ghost-btn" href="https://github.com/joshuat09" target="_blank" rel="noopener"><span>↗</span> GitHub profile</a></div><form class="contact-form" id="contact-form" hidden>
+          <h3 id="contact">Send a message</h3>
           <label>Name<input name="name" required maxlength="80" autocomplete="name"></label>
           <label>Email<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
           <label>Message<textarea name="message" required maxlength="2000" rows="4"></textarea></label>
@@ -149,7 +150,7 @@
     </main>
   </div>
   <dialog id="project-dialog" class="project-dialog">
-    <button class="dialog-close" aria-label="Close details">×</button><div class="eyebrow" id="dialog-kicker">PROJECT DETAILS</div><h2 id="dialog-title"></h2><p id="dialog-description"></p><div class="dialog-section"><h3>What it demonstrates</h3><ul id="dialog-points"></ul></div><div class="dialog-section"><h3>Technology / focus</h3><div class="chips" id="dialog-tech"></div></div><div class="dialog-section dialog-diagram" id="dialog-diagram" hidden><h3>Infrastructure diagram</h3><iframe id="dialog-diagram-frame" title="Local AI infrastructure diagram"></iframe><a class="dialog-demo-link" id="dialog-diagram-link" target="_blank" rel="noopener" href="diagrams/local-ai-infrastructure.html">Open full size ↗</a></div><a class="dialog-demo-link" id="dialog-case-link" href="case-studies.html">Read the case study ↘</a><a class="dialog-demo-link" id="dialog-code-link" href="https://github.com/joshuat09" target="_blank" rel="noopener" hidden>View the code on GitHub ↗</a><a class="dialog-demo-link" id="dialog-demo-link" href="complaints.html" hidden>Try the interactive demo ↘</a><p class="dialog-note">Project status and descriptions are intentionally conservative; update this panel as the work develops.</p>
+    <button class="dialog-close" aria-label="Close details">×</button><div class="eyebrow" id="dialog-kicker">PROJECT DETAILS</div><h2 id="dialog-title">Project details</h2><p id="dialog-description"></p><div class="dialog-section"><h3>What it demonstrates</h3><ul id="dialog-points"></ul></div><div class="dialog-section"><h3>Technology / focus</h3><div class="chips" id="dialog-tech"></div></div><div class="dialog-section dialog-diagram" id="dialog-diagram" hidden><h3>Infrastructure diagram</h3><iframe id="dialog-diagram-frame" title="Local AI infrastructure diagram"></iframe><a class="dialog-demo-link" id="dialog-diagram-link" target="_blank" rel="noopener" href="diagrams/local-ai-infrastructure.html">Open full size ↗</a></div><a class="dialog-demo-link" id="dialog-case-link" href="case-studies.html">Read the case study ↘</a><a class="dialog-demo-link" id="dialog-code-link" href="https://github.com/joshuat09" target="_blank" rel="noopener" hidden>View the code on GitHub ↗</a><a class="dialog-demo-link" id="dialog-demo-link" href="complaints.html" hidden>Try the interactive demo ↘</a><p class="dialog-note">Project status and descriptions are intentionally conservative; update this panel as the work develops.</p>
   </dialog>
   <script src="site-config.js"></script>
   <script src="script.js"></script>
@@ -160,6 +161,7 @@
   <script src="demo/jobfinder-data.js"></script>
   <script src="cursor.js"></script>
   <script src="sfx.js"></script>
+  <script src="menu.js"></script>
   <script src="palette.js"></script>
   <script src="easter.js"></script>
 </body>

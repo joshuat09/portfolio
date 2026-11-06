@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="CV of Joshua Tait: business analytics student with a focus on AI, marketing and business strategy, building agentic AI prototypes and local language model experiments.">
+  <meta name="description" content="CV of Joshua Tait, Business Analytics student graduating 2027: AI, marketing and strategy, with agentic AI prototypes and local LLM experiments.">
   <meta name="theme-color" content="#f4f5f2" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#111a17" media="(prefers-color-scheme: dark)">
   <link rel="manifest" href="manifest.webmanifest">
@@ -28,13 +28,15 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="demo/complaint-demo.css">
   <link rel="stylesheet" href="demo/cv.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfilePage", "name": "CV — Joshua Tait", "url": "https://joshuat09.github.io/portfolio/cv.html", "description": "CV of Joshua Tait, Business Analytics student graduating 2027: AI, marketing and strategy, with agentic AI prototypes and local LLM experiments.", "inLanguage": "en-GB", "isPartOf": {"@id": "https://joshuat09.github.io/portfolio/#site"}, "mainEntity": {"@type": "Person", "@id": "https://joshuat09.github.io/portfolio/#person", "name": "Joshua Tait", "url": "https://joshuat09.github.io/portfolio/", "jobTitle": "Business Analytics student", "homeLocation": {"@type": "Place", "name": "Glasgow"}, "alumniOf": {"@type": "CollegeOrUniversity", "name": "University of Strathclyde"}, "sameAs": ["https://github.com/joshuat09"]}}</script>
 </head>
 <body class="has-sidebar">
   <script src="transition.js"></script>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
-  <aside class="sidebar site-sidebar">
+  <aside class="sidebar site-sidebar" id="site-nav">
       <a class="brand" href="index.html"><span class="brand-mark">JT</span><span>JOSHUA TAIT<small>PROJECT PORTFOLIO</small></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><i aria-hidden="true"></i><span>Menu</span></button>
       <div class="side-label">OVERVIEW</div>
       <nav aria-label="Portfolio">
         <a class="nav-link" href="index.html"><span>⌂</span> Dashboard</a>
@@ -168,6 +170,7 @@
   <script>document.getElementById("cv-print").addEventListener("click",function(){window.print()})</script>
   <script src="cursor.js"></script>
   <script src="sfx.js"></script>
+  <script src="menu.js"></script>
   <script src="palette.js"></script>
   <script src="easter.js"></script>
 </body>

@@ -31,14 +31,16 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="demo/complaint-demo.css">
   <link rel="stylesheet" href="demo/jobfinder.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Graduate job finder", "url": "https://joshuat09.github.io/portfolio/jobfinder.html", "description": "Interactive prototype of a transparent graduate job-matching score: edit a profile and see exactly why each role scores the way it does.", "applicationCategory": "BusinessApplication", "operatingSystem": "Any (runs in the browser)", "isAccessibleForFree": true, "inLanguage": "en-GB", "author": {"@type": "Person", "@id": "https://joshuat09.github.io/portfolio/#person", "name": "Joshua Tait", "url": "https://joshuat09.github.io/portfolio/"}, "isPartOf": {"@id": "https://joshuat09.github.io/portfolio/#site"}}</script>
 </head>
 <body class="has-sidebar">
   <script src="transition.js"></script>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <noscript><p style="margin:0;padding:12px 18px;background:#fff4d6;color:#4a3b10;font:13px sans-serif">This page needs JavaScript for its interactive parts. The written content is still readable.</p></noscript>
   <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
-  <aside class="sidebar site-sidebar">
+  <aside class="sidebar site-sidebar" id="site-nav">
       <a class="brand" href="index.html"><span class="brand-mark">JT</span><span>JOSHUA TAIT<small>PROJECT PORTFOLIO</small></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><i aria-hidden="true"></i><span>Menu</span></button>
       <div class="side-label">OVERVIEW</div>
       <nav aria-label="Portfolio">
         <a class="nav-link" href="index.html"><span>⌂</span> Dashboard</a>
@@ -129,6 +131,16 @@
       </div>
     </section>
 
+    <section class="cp-card cp-explain" aria-labelledby="explain-title">
+      <h2 class="cp-h" id="explain-title">How the scoring works</h2>
+      <div class="cp-explain-body">
+        <div><h3>What it is</h3><p>A prototype that ranks graduate roles against a candidate profile you can edit, and shows exactly why each role scored the way it did. It is a reaction to job sites that recommend roles without explaining them.</p></div>
+        <div><h3>How a score is built</h3><p>Each role gets a score out of 100 from five weighted parts: skills (40% by default), location and work mode (20%), salary (15%), sector interest (15%) and experience level (10%). You can change the weights; they are rescaled to add up to 100. Remote roles match any location, and a hybrid role partly matches someone who wants to work fully in the office or fully remote.</p></div>
+        <div><h3>What you can check</h3><p>Every part shows its points and a plain-English reason, such as how many of the required skills you have and which ones are missing. Nothing is hidden in a model.</p></div>
+        <div><h3>Limits</h3><p>The 22 roles and their companies are fictional, and the scoring uses fixed rules rather than AI. It runs entirely in your browser and sends nothing anywhere. The links further down point to real job boards for actual applications.</p></div>
+      </div>
+    </section>
+
     <footer class="cp-foot">
       <span>Design principle: a recommendation should come with its reasons. Each score is a weighted sum of five simple, inspectable components, with nothing hidden.</span>
     <a href="privacy.html">Privacy</a></footer>
@@ -140,6 +152,7 @@
   <script src="demo/jobfinder-engine.js"></script>
   <script src="demo/jobfinder-ui.js"></script>
   <script src="cursor.js"></script>
+  <script src="menu.js"></script>
   <script src="palette.js"></script>
 </body>
 </html>

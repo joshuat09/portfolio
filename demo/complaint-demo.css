@@ -78,3 +78,10 @@ body.dark-mode .cp{--ok-bg:#34452d;--ok-fg:#c8ed83;--warn-bg:#463e1f;--warn-fg:#
 .cp-field input,.cp-field select{width:100%;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:6px;padding:8px 10px;font:12px var(--sans)}
 .cp-field select{background:var(--paper)}
 .cp-field .cp-label{margin-bottom:5px}
+
+/* Plain-text explainer at the foot of each demo page */
+.cp-explain{margin-top:18px}
+.cp-explain-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 28px}
+.cp-explain h3{font:600 14px var(--display);letter-spacing:-.01em;margin:10px 0 4px;color:var(--ink)}
+.cp-explain p{font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px}
+@media(max-width:760px){.cp-explain-body{grid-template-columns:1fr}}

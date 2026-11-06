@@ -30,14 +30,16 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="demo/complaint-demo.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Complaint-handling agent demo", "url": "https://joshuat09.github.io/portfolio/complaints.html", "description": "Interactive browser port of a bounded-autonomy AI complaint-handling agent: deterministic safety screen, validated read-only tools and human escalation.", "applicationCategory": "BusinessApplication", "operatingSystem": "Any (runs in the browser)", "isAccessibleForFree": true, "inLanguage": "en-GB", "author": {"@type": "Person", "@id": "https://joshuat09.github.io/portfolio/#person", "name": "Joshua Tait", "url": "https://joshuat09.github.io/portfolio/"}, "isPartOf": {"@id": "https://joshuat09.github.io/portfolio/#site"}}</script>
 </head>
 <body class="has-sidebar">
   <script src="transition.js"></script>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <noscript><p style="margin:0;padding:12px 18px;background:#fff4d6;color:#4a3b10;font:13px sans-serif">This page needs JavaScript for its interactive parts. The written content is still readable.</p></noscript>
   <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
-  <aside class="sidebar site-sidebar">
+  <aside class="sidebar site-sidebar" id="site-nav">
       <a class="brand" href="index.html"><span class="brand-mark">JT</span><span>JOSHUA TAIT<small>PROJECT PORTFOLIO</small></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><i aria-hidden="true"></i><span>Menu</span></button>
       <div class="side-label">OVERVIEW</div>
       <nav aria-label="Portfolio">
         <a class="nav-link" href="index.html"><span>⌂</span> Dashboard</a>
@@ -130,6 +132,16 @@
       </div>
     </section>
 
+    <section class="cp-card cp-explain" aria-labelledby="explain-title">
+      <h2 class="cp-h" id="explain-title">How the agent works</h2>
+      <div class="cp-explain-body">
+        <div><h3>What it is</h3><p>A customer-complaints agent I built in Python with bounded autonomy: it can look things up and draft a reply, but anything risky goes to a person. This page is a browser port of its control flow, so you can watch every decision it makes.</p></div>
+        <div><h3>How it decides</h3><p>Every complaint first passes a deterministic safety screen. Refunds of £100 or more, requests to move money, suspicious phrases and out-of-policy demands are escalated before any model is called. If the screen is clear, the model may only use four read-only tools (look up a customer, an order, one policy or the policy list), and every call is checked against an exact list of allowed arguments. The loop stops after eight model calls.</p></div>
+        <div><h3>Why it is safe by design</h3><p>The agent cannot issue a refund because it has no tool that does. A malformed reply, an unknown tool or a loop that runs out all end the same way: an escalation record with the evidence attached, waiting for human review. Safety comes from the structure, not from trusting the model.</p></div>
+        <div><h3>How it is tested</h3><p>Ten synthetic evaluation cases cover damaged items, missing order numbers, a nonexistent order, a high-value refund, a bank-transfer request, a prompt-injection attempt, a wrong item, a claim that conflicts with the record and a multi-issue complaint.</p></div>
+      </div>
+    </section>
+
     <footer class="cp-foot">
       <span>Design principle: the model suggests, deterministic code decides. The tools are read-only, there is no refund or payment tool, and every failure path ends in human review.</span>
     <a href="injection.html">Try to break it: injection lab</a><a href="privacy.html">Privacy</a></footer>
@@ -141,6 +153,7 @@
   <script src="demo/complaint-engine.js"></script>
   <script src="demo/complaint-ui.js"></script>
   <script src="cursor.js"></script>
+  <script src="menu.js"></script>
   <script src="palette.js"></script>
 </body>
 </html>

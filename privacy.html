@@ -36,8 +36,9 @@
   <script src="transition.js"></script>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <script>try{if(localStorage.getItem("portfolio-theme")==="dark")document.body.classList.add("dark-mode")}catch(e){}</script>
-  <aside class="sidebar site-sidebar">
+  <aside class="sidebar site-sidebar" id="site-nav">
       <a class="brand" href="index.html"><span class="brand-mark">JT</span><span>JOSHUA TAIT<small>PROJECT PORTFOLIO</small></span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><i aria-hidden="true"></i><span>Menu</span></button>
       <div class="side-label">OVERVIEW</div>
       <nav aria-label="Portfolio">
         <a class="nav-link" href="index.html"><span>⌂</span> Dashboard</a>
@@ -103,6 +104,7 @@
   <script src="site-config.js"></script>
   <script src="demo/theme.js"></script>
   <script src="cursor.js"></script>
+  <script src="menu.js"></script>
   <script src="palette.js"></script>
 </body>
 </html>

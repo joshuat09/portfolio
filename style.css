@@ -324,3 +324,21 @@ body.has-sidebar{padding-left:230px}
 @media print{body.has-sidebar{padding-left:0}}
 .sidebar{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2b4a40 transparent}
 @media(max-width:760px){.sidebar{overflow:visible}}
+
+/* Phone menu */
+.menu-toggle{display:none}
+@media(max-width:760px){
+  .menu-toggle{display:inline-flex;align-items:center;gap:8px;position:absolute;right:18px;top:16px;padding:9px 12px;border:1px solid #3c5a50;border-radius:6px;background:transparent;color:#f5f7f1;font:600 11px var(--mono);letter-spacing:.08em;cursor:pointer}
+  .menu-toggle i{position:relative;width:14px;height:2px;background:currentColor;transition:background .2s}
+  .menu-toggle i::before,.menu-toggle i::after{content:"";position:absolute;left:0;width:14px;height:2px;background:currentColor;transition:transform .25s}
+  .menu-toggle i::before{top:-5px}.menu-toggle i::after{top:5px}
+  .sidebar.open .menu-toggle i{background:transparent}
+  .sidebar.open .menu-toggle i::before{transform:translateY(5px) rotate(45deg)}
+  .sidebar.open .menu-toggle i::after{transform:translateY(-5px) rotate(-45deg)}
+  .sidebar.open{padding-bottom:22px}
+  .sidebar.open .side-label{display:block;margin:22px 0 10px 8px}
+  .sidebar.open nav{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+  .sidebar.open .nav-link{padding:10px 10px}
+  .sidebar.open .sidebar-bottom{display:block;margin-top:20px}
+}
+@media print{.menu-toggle{display:none!important}}
