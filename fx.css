@@ -87,7 +87,7 @@ body.dark-mode .fx-torus{color:#c8f169}
 .fx .project-visual.fx-scene{display:block;padding:0;height:210px}
 @media(max-width:760px){.fx .project-visual.fx-scene{height:190px}}
 .fx-scene canvas{position:absolute;inset:0;width:100%;height:100%}
-.fx-scene-cap{position:absolute;left:0;right:0;bottom:10px;text-align:center;font:7px var(--mono);letter-spacing:.12em;opacity:.75}
+.fx-scene-cap{position:absolute;left:0;right:0;bottom:10px;text-align:center;font:8px var(--mono);letter-spacing:.12em;opacity:.75}
 .visual-agent .fx-scene-cap,.visual-eval .fx-scene-cap,.visual-research .fx-scene-cap{color:#a5b9a8}
 .visual-game .fx-scene-cap,.visual-local .fx-scene-cap,.visual-jobs .fx-scene-cap{color:#7f8f82}
 

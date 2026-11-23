@@ -330,7 +330,8 @@
     const io = new IntersectionObserver(es => {
       if (!es[0].isIntersecting) return;
       io.disconnect();
-      const id = setInterval(() => { n++; el.textContent = String(n).padStart(pad, '0'); if (n >= end) clearInterval(id); }, 90);
+      const step = Math.max(1, Math.ceil(end / 14));
+      const id = setInterval(() => { n = Math.min(end, n + step); el.textContent = String(n).padStart(pad, '0'); if (n >= end) clearInterval(id); }, 70);
     });
     io.observe(el);
   });

@@ -85,3 +85,9 @@ body.dark-mode .cp{--ok-bg:#34452d;--ok-fg:#c8ed83;--warn-bg:#463e1f;--warn-fg:#
 .cp-explain h3{font:600 14px var(--display);letter-spacing:-.01em;margin:10px 0 4px;color:var(--ink)}
 .cp-explain p{font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 6px}
 @media(max-width:760px){.cp-explain-body{grid-template-columns:1fr}}
+
+/* Footer: principle on the left, links kept together on the right (they used to wrap mid-phrase) */
+.cp-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:10px 28px}
+.cp-foot > span{flex:1 1 420px;max-width:760px}
+.cp-foot-links{display:flex;flex-wrap:wrap;gap:6px 18px}
+.cp-foot-links a{margin:0;white-space:nowrap}

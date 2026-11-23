@@ -29,3 +29,10 @@ body.dark-mode .cs-grid h3{color:var(--green)}
 
 .read-progress{position:fixed;left:0;top:0;height:3px;width:100%;background:#83a55e;transform:scaleX(0);transform-origin:left;z-index:50;pointer-events:none}
 @media print{.read-progress{display:none}}
+
+/* Two independent columns: problem and result on the left, approach and changes on the right */
+.cs-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+@media(max-width:760px){
+  .cs-col{display:contents}
+  .cs-problem{order:1}.cs-approach{order:2}.cs-result{order:3}.cs-change{order:4}
+}
